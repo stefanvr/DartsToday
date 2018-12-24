@@ -35,6 +35,11 @@ describe('AppComponent', () => {
 
   it('should render game type', () => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.game').textContent).toContain('DartsToday');
+    expect(compiled.querySelector('#header').textContent).toContain('DartsToday');
+  });
+
+  it('should render turn tracker', () => {
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-turn-tracker')).toBeTruthy();
   });
 });
