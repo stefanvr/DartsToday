@@ -6,14 +6,21 @@
   }
   
   /* Screen-sizes */
+  $element-heigth: 40px;
   
   /* Typography */
   body {
     font-family: 'Droid Serif', serif;
     font-size: 26px;
-    line-height: 40px;
+    line-height: $element-heigth;
   }
   
   /* colors */
   
   /* Generic components */
+  %element-shared {
+    /*border-right: 1px solid grey; */
+    height: 100%;
+    float: left;
+    text-align: center;
+  }

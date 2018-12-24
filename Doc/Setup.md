@@ -29,3 +29,9 @@ _Note: need to make this work with local installed package_
 ```
   npm install bootstrap --save
 ```
+
+### Angulare quick notes
+
+```
+  ng generate component <name>
+```

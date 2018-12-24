@@ -1,0 +1,6 @@
+@import '../../styles';
+
+.dart {
+  @extend %element-shared;
+  width: 10%;
+}
