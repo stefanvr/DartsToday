@@ -5,22 +5,25 @@
     box-sizing: border-box;
   }
   
-  /* Screen-sizes */
-  $element-heigth: 40px;
+/* Screen-sizes */
+$element-heigth: 40px;
+
+/* Typography */
+body {
+  font-family: 'Droid Serif', serif;
+  font-size: 26px;
+  line-height: $element-heigth;
+}
+
+.icon-dart-turn:before{content:'\0045';}
+.icon-dart-turn-done:before{content:'\004c';}
   
-  /* Typography */
-  body {
-    font-family: 'Droid Serif', serif;
-    font-size: 26px;
-    line-height: $element-heigth;
-  }
-  
-  /* colors */
-  
-  /* Generic components */
-  %element-shared {
-    /*border-right: 1px solid grey; */
-    height: 100%;
-    float: left;
-    text-align: center;
-  }
+/* colors */
+
+/* Generic components */
+%element-shared {
+  /*border-right: 1px solid grey; */
+  height: 100%;
+  float: left;
+  text-align: center;
+}

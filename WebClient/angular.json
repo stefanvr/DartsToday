@@ -28,7 +28,8 @@
             ],
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/glyphter-font/css/dartstoday.css"
             ],
             "scripts": []
           },
