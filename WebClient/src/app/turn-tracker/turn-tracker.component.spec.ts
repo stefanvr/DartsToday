@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TurnTrackerComponent } from './turn-tracker.component';
-import { TurnState, DartState } from '../DartsToday/TurnState';
+import { TurnState, DartState } from '../DartsToday/GameState';
 
 describe('TurnTrackerComponent', () => {
   let component: TurnTrackerComponent;

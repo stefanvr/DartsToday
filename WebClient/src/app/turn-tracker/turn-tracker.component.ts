@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TurnState, DartState } from '../DartsToday/TurnState';
+import { TurnState, DartState } from '../DartsToday/GameState';
 
 @Component({
   selector: 'app-turn-tracker',
