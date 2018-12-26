@@ -1,0 +1,36 @@
+@import '../../styles';
+
+.button, .indicator{
+    @extend %element-shared;
+    width: 10%;
+}
+
+.actions {
+   width: 100%;
+   height: $element-heigth;
+   .button, .indicator{
+     width: 12.5%;
+     font-family: $font-monospace;
+   }
+}
+
+.barbutton {
+    @extend %element-shared;
+    width: 80%;
+    overflow: none;
+}
+
+.single
+{
+    background-color: lightgrey;
+}
+
+.dubble
+{
+    background-color: darkgray;
+}
+
+.triple
+{
+    background-color: lightgrey;
+}

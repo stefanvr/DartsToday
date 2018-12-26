@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
+import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TurnTrackerComponent
+    TurnTrackerComponent,
+    TurnControlCricketComponent
   ],
   imports: [
     BrowserModule,
