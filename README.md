@@ -27,3 +27,13 @@ ng server
 cd WebClient
 ng test
 ```
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
+## Built With
+
+```
+ng build --prod --aot
+```
