@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { TurnState, DartState } from '../DartsToday/TurnState';
 
 @Component({
   selector: 'app-turn-tracker',
   templateUrl: './turn-tracker.component.html',
   styleUrls: ['./turn-tracker.component.scss']
 })
-export class TurnTrackerComponent implements OnInit {
+export class TurnTrackerComponent {
+  @Input() state: TurnState; 
 
-  constructor() { }
+  get turn() {
+    if (!this.state)  return "";
 
-  ngOnInit() {
+    return this.state.turn;
   }
 
+  dartState(dart : number) {
+    if (!this.state)  return "";
+
+    return  this.state.dart[dart] == DartState.noscore ? "turn-attempt" : "turn-done";
+  }
 }
