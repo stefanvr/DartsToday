@@ -18,6 +18,8 @@ export class CricketState
     get activePlayer() {
         return  this.players[(this.turn-1) % this.players.length];
     }
+
+    activeturn : TurnState;
 }
 
 export class PlayerState
@@ -25,6 +27,13 @@ export class PlayerState
     constructor(private player) {}
 
     get name() : string { return this.player.name; }
+}
+
+export class TurnState
+{
+    get dartsremaining() : number{
+      return 3;
+    }  
 }
 
 export class Cricket implements ActionObject {
@@ -63,5 +72,6 @@ export class Cricket implements ActionObject {
     {
         this.gameState.startedAt = event.startedAt;
         this.enabledActions = [ActionsCricket.score];
+        this.gameState.activeturn = new TurnState();
     }
 }

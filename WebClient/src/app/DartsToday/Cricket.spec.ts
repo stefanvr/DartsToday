@@ -73,6 +73,10 @@ describe('Cricket', () => {
                 expect(game.enabledActions).toContain(ActionsCricket.score); 
                 expect(game.enabledActions.length).toBe(1); 
             });
+
+            it('Turn state, DartsRemaining 3', () => {
+                expect(game.state().activeturn.dartsremaining).toBe(3); 
+            });
         });
 
     });
