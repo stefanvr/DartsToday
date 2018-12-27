@@ -55,7 +55,7 @@ export class Aggregate {
     {
        if(!this.enabledActions.includes(command.action))
        {
-         console.log("Skipping disabled command :" + command);
+         console.log("Skipping disabled command :" + JSON.stringify(command));
          return;
        }
 
