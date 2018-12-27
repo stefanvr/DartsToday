@@ -1,4 +1,4 @@
-import { ActionsCricket, Cricket } from "./Cricket";
+import { ActionsCricket, Cricket, MAX_PLAYERS } from "./Cricket";
 
 import { Aggregate } from '../lib/Aggregate';
 
@@ -43,6 +43,13 @@ describe('Cricket', () => {
                 expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
                 expect(game.enabledActions).toContain(ActionsCricket.startGame); 
                 expect(game.enabledActions.length).toBe(2); 
+            });
+
+            it('After max (' + MAX_PLAYERS + ') players added, Possible action(s): addPlayer', () => {
+                game.execute({action: ActionsCricket.addPlayer, player: player1});
+                game.execute({action: ActionsCricket.addPlayer, player: player1});
+                expect(game.enabledActions).toContain(ActionsCricket.startGame); 
+                expect(game.enabledActions.length).toBe(1); 
             });
         });
     });

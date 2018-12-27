@@ -1,6 +1,7 @@
 import { ActionObject } from '../lib/Aggregate';
 
 export enum ActionsCricket { addPlayer, startGame }
+export const MAX_PLAYERS = 3;
 
 class CricketState
 {
@@ -16,6 +17,8 @@ class PlayerState
 }
 
 export class Cricket implements ActionObject {
+    
+
     public enabledActions: any[] = [];
     public gameState: CricketState = new CricketState();
     
@@ -31,6 +34,19 @@ export class Cricket implements ActionObject {
     addPlayer(event)
     {
         this.gameState.players.push(new PlayerState(event.player));
-        this.enabledActions = [ActionsCricket.addPlayer, ActionsCricket.startGame];
+        
+        if (this.isMaxPLayer())
+        {
+          this.enabledActions = [ActionsCricket.startGame];
+        }
+        else
+        { 
+          this.enabledActions = [ActionsCricket.addPlayer, ActionsCricket.startGame];
+        }
+    }
+
+    private isMaxPLayer()
+    {
+       return this.gameState.players.length === MAX_PLAYERS; 
     }
 }
