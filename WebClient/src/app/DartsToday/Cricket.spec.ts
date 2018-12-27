@@ -31,6 +31,19 @@ describe('Cricket', () => {
             it(' addPossible action(s): addPlayer', () => {
                 expect(game.state().players[0].name).toBe(player1.name);
             });
+
+            it('Possible action(s): addPlayer', () => {
+                expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
+                expect(game.enabledActions).toContain(ActionsCricket.startGame); 
+                expect(game.enabledActions.length).toBe(2); 
+            });
+
+            it('After multiple players added, Possible action(s): addPlayer, startGame', () => {
+                game.execute({action: ActionsCricket.addPlayer, player: player1});
+                expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
+                expect(game.enabledActions).toContain(ActionsCricket.startGame); 
+                expect(game.enabledActions.length).toBe(2); 
+            });
         });
     });
 });
