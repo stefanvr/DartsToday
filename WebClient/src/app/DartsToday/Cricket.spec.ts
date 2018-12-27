@@ -20,5 +20,17 @@ describe('Cricket', () => {
             expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
             expect(game.enabledActions.length).toBe(1); 
         });
+
+        describe('When adding a player:', () => {
+            let player1 = { name: 'player 1'};
+
+            beforeEach(() => {
+                game.execute({action: ActionsCricket.addPlayer, player: player1});
+            });
+
+            it(' addPossible action(s): addPlayer', () => {
+                expect(game.state().players[0].name).toBe(player1.name);
+            });
+        });
     });
 });

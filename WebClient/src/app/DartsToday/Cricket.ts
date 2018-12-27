@@ -5,6 +5,14 @@ export enum ActionsCricket { addPlayer }
 class CricketState
 {
     createAt : Date;
+    players : PlayerState[] = [];
+}
+
+class PlayerState
+{
+    constructor(private player) {}
+
+    get name() : string { return this.player.name; }
 }
 
 export class Cricket implements ActionObject {
@@ -18,5 +26,10 @@ export class Cricket implements ActionObject {
     initialized(event) {  
         this.gameState.createAt = event.createdAt;
         this.enabledActions = [ActionsCricket.addPlayer];
+    }
+
+    addPlayer(event)
+    {
+        this.gameState.players.push(new PlayerState(event.player));
     }
 }
