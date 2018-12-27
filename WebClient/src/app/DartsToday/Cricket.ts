@@ -3,16 +3,20 @@ import { ActionObject } from '../lib/Aggregate';
 export enum ActionsCricket { addPlayer, startGame }
 export const MAX_PLAYERS = 3;
 
-class CricketState
+export class CricketState
 {
     createdAt : Date;
     startedAt : Date;
     players : PlayerState[] = [];
 
     turn : number = 1;
+
+    get round() {
+        return Math.ceil(this.turn / this.players.length);
+    }
 }
 
-class PlayerState
+export class PlayerState
 {
     constructor(private player) {}
 
