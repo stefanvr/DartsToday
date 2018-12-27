@@ -16,14 +16,14 @@ export class TurnTrackerComponent {
   }
 
   get turn() {
-    if (!this.gameState.s || !this.gameState.s.turnState)  return "";
+    if (!this.gameState.s)  return "";
 
-    return this.gameState.s.turnState.turn;
+    return this.gameState.s.round;
   }
 
   dartState(dart : number) {
-    if (!this.gameState.s || !this.gameState.s.turnState)  return "";
+    if (!this.gameState.s || !this.gameState.s.activeturn)  return "";
 
-    return  this.gameState.s.turnState.dart[dart] == DartState.noscore ? "turn-attempt" : "turn-done";
+    return  dart >= this.gameState.s.activeturn.dartsThrown  ? "turn-attempt" : "turn-done";
   }
 }
