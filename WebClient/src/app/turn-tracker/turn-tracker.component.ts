@@ -1,28 +1,29 @@
-import { Component, Input } from '@angular/core';
-import { TurnState, DartState } from '../DartsToday/GameState';
+import { Component } from '@angular/core';
 import { GameService, ServiceState } from '../services/game.service'
+import { DartState } from '../DartsToday/GameState';
 
 @Component({
   selector: 'app-turn-tracker',
   templateUrl: './turn-tracker.component.html',
   styleUrls: ['./turn-tracker.component.scss']
 })
+
 export class TurnTrackerComponent {
-  @Input() state: TurnState; 
+  gameState: ServiceState; 
 
   constructor(private gameService: GameService) {
     this.gameState = gameService.state;
   }
 
   get turn() {
-    if (!this.state)  return "";
+    if (!this.gameState.s || !this.gameState.s.turnState)  return "";
 
-    return this.state.turn;
+    return this.gameState.s.turnState.turn;
   }
 
   dartState(dart : number) {
-    if (!this.state)  return "";
+    if (!this.gameState.s || !this.gameState.s.turnState)  return "";
 
-    return  this.state.dart[dart] == DartState.noscore ? "turn-attempt" : "turn-done";
+    return  this.gameState.s.turnState.dart[dart] == DartState.noscore ? "turn-attempt" : "turn-done";
   }
 }

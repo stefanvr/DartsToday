@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TurnTrackerComponent } from './turn-tracker.component';
-import { TurnState, DartState } from '../DartsToday/GameState';
-
 import { GameService } from '../services/game.service'
+import { TurnTrackerComponent } from './turn-tracker.component';
+import { GameState, TurnState, DartState } from '../DartsToday/GameState';
 
 describe('TurnTrackerComponent', () => {
   let component: TurnTrackerComponent;
@@ -39,7 +38,9 @@ describe('TurnTrackerComponent', () => {
 
   describe('TurnState set', () => {
     beforeEach(() => {
-      component.state = new TurnState(4, [DartState.noscore, DartState.score, DartState.score]);
+      let gs = new GameState();
+      gs.turnState = new TurnState(4, [DartState.noscore, DartState.score, DartState.score]);
+      component.gameState.s = gs;
       fixture.detectChanges();
     });
     
@@ -56,5 +57,4 @@ describe('TurnTrackerComponent', () => {
       expect(compiled.querySelector('#dart3').getAttribute("class")).toContain("icon-dart-turn-done");
     });
   });
-
 });
