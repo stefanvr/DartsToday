@@ -1,6 +1,6 @@
 import { ActionObject } from '../lib/Aggregate';
 
-export enum ActionsCricket { addPlayer, startGame }
+export enum ActionsCricket { addPlayer, startGame, score }
 export const MAX_PLAYERS = 3;
 
 export class CricketState
@@ -28,8 +28,6 @@ export class PlayerState
 }
 
 export class Cricket implements ActionObject {
-    
-
     public enabledActions: any[] = [];
     public gameState: CricketState = new CricketState();
     
@@ -64,5 +62,6 @@ export class Cricket implements ActionObject {
     startGame(event)
     {
         this.gameState.startedAt = event.startedAt;
+        this.enabledActions = [ActionsCricket.score];
     }
 }

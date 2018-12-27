@@ -27,7 +27,7 @@ describe('Cricket', () => {
                 game.execute({action: ActionsCricket.addPlayer, player: player1});
             });
 
-            it(' addPossible action(s): addPlayer', () => {
+            it('First player is player 1', () => {
                 expect(game.state().players[0].name).toBe(player1.name);
             });
 
@@ -67,6 +67,11 @@ describe('Cricket', () => {
 
             it('The game state, turn is 1', () => {
                 expect(game.state().turn).toBe(1);
+            });
+
+            it('Possible action(s): score', () => {
+                expect(game.enabledActions).toContain(ActionsCricket.score); 
+                expect(game.enabledActions.length).toBe(1); 
             });
         });
 
