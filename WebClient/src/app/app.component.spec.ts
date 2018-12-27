@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
 
+import { GameService } from './services/game.service'
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -20,6 +21,7 @@ describe('AppComponent', () => {
         TurnTrackerComponent,
         TurnControlCricketComponent
       ],
+      providers: [GameService],
     }).compileComponents();
   }));
 

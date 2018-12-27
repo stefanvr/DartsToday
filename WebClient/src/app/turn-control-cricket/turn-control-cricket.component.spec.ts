@@ -2,13 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
 
+import { GameService } from '../services/game.service'
+
 describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;
   let fixture: ComponentFixture<TurnControlCricketComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TurnControlCricketComponent ]
+      declarations: [ TurnControlCricketComponent ],
+      providers: [GameService]
     })
     .compileComponents();
   }));

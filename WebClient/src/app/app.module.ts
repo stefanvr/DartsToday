@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
 
+import { GameService } from './services/game.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +18,7 @@ import { TurnControlCricketComponent } from './turn-control-cricket/turn-control
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [GameService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

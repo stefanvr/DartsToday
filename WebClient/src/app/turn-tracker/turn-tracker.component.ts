@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TurnState, DartState } from '../DartsToday/GameState';
+import { GameService, ServiceState } from '../services/game.service'
 
 @Component({
   selector: 'app-turn-tracker',
@@ -8,6 +9,10 @@ import { TurnState, DartState } from '../DartsToday/GameState';
 })
 export class TurnTrackerComponent {
   @Input() state: TurnState; 
+
+  constructor(private gameService: GameService) {
+    this.gameState = gameService.state;
+  }
 
   get turn() {
     if (!this.state)  return "";

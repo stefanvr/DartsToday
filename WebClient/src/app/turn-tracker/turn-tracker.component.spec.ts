@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnTrackerComponent } from './turn-tracker.component';
 import { TurnState, DartState } from '../DartsToday/GameState';
 
+import { GameService } from '../services/game.service'
+
 describe('TurnTrackerComponent', () => {
   let component: TurnTrackerComponent;
   let fixture: ComponentFixture<TurnTrackerComponent>;
@@ -10,7 +12,8 @@ describe('TurnTrackerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TurnTrackerComponent ]
+      declarations: [ TurnTrackerComponent ],
+      providers: [GameService]
     })
     .compileComponents();
   }));
