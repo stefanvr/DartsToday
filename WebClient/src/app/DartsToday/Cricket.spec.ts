@@ -71,7 +71,8 @@ describe('Cricket', () => {
 
             it('Possible action(s): score', () => {
                 expect(game.enabledActions).toContain(ActionsCricket.score); 
-                expect(game.enabledActions.length).toBe(1); 
+                expect(game.enabledActions).toContain(ActionsCricket.endTurn); 
+                expect(game.enabledActions.length).toBe(2); 
             });
 
             it('Turn state, DartsRemaining 3', () => {
@@ -83,6 +84,13 @@ describe('Cricket', () => {
                 game.execute({action: ActionsCricket.score, score: 0 });
                 expect(game.state().activeturn.dartsremaining).toBe(2); 
                 expect(game.state().activeturn.dartsThrown).toBe(1); 
+            });
+
+            it('Turn state, after score, DartsRemaining 2', () => {
+                game.execute({action: ActionsCricket.score, score: 0 });
+                game.execute({action: ActionsCricket.endTurn });
+                expect(game.state().activeturn.dartsremaining).toBe(3);
+                expect(game.state().activeturn.dartsThrown).toBe(0); 
             });
         });
 

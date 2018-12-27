@@ -74,12 +74,18 @@ export class Cricket implements ActionObject {
     startGame(event)
     {
         this.gameState.startedAt = event.startedAt;
-        this.enabledActions = [ActionsCricket.score];
+        this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
         this.gameState.activeturn = new TurnState();
     }
 
     score(event)
     {
         this.gameState.activeturn.dartsThrown += 1;
+    }
+
+    endTurn(event)
+    {
+        this.gameState.activeturn = new TurnState();
+        this.gameState.turn += 1;
     }
 }
