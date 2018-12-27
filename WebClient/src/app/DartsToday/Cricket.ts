@@ -5,7 +5,7 @@ export const MAX_PLAYERS = 3;
 
 class CricketState
 {
-    createAt : Date;
+    createdAt : Date;
     players : PlayerState[] = [];
 }
 
@@ -27,7 +27,7 @@ export class Cricket implements ActionObject {
     }
 
     initialized(event) {  
-        this.gameState.createAt = event.createdAt;
+        this.gameState.createdAt = event.createdAt;
         this.enabledActions = [ActionsCricket.addPlayer];
     }
 

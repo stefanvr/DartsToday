@@ -13,7 +13,7 @@ describe('Cricket', () => {
   
     describe('For a new game:', () => {
         it('The game state, createAt is set', () => {
-            expect(game.state().createAt).toBe(createDate);
+            expect(game.state().createdAt).toBe(createDate);
         });
 
         it('Possible action(s): addPlayer', () => {
