@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service'
-import { Actions } from '../DartsToday/GameCricket'
+import { ActionsCricket } from '../DartsToday/Cricket'
 
 @Component({
   selector: 'app-turn-control-cricket',
@@ -17,7 +17,7 @@ export class TurnControlCricketComponent {
 
   endTurn() {
     console.log('endTurn');
-    this.gameService.execute({action: Actions.EndTurn});
+    this.gameService.execute({action: ActionsCricket.endTurn});
   }
 
   hitSingle(value) {
@@ -34,5 +34,6 @@ export class TurnControlCricketComponent {
 
   mis() {
     console.log('mis');
+    this.gameService.execute({action: ActionsCricket.score});
   }
 }
