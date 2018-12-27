@@ -14,6 +14,10 @@ export class CricketState
     get round() {
         return Math.ceil(this.turn / this.players.length);
     }
+
+    get activePlayer() {
+        return  this.players[(this.turn-1) % this.players.length];
+    }
 }
 
 export class PlayerState
