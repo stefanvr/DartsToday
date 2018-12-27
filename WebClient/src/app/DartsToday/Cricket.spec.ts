@@ -6,7 +6,6 @@ describe('Cricket', () => {
     let game: Aggregate;
     let createDate = new Date(Date.now()).toISOString();
     
-  
     beforeEach(() => {
         game = Aggregate.CreateNew(createDate, Cricket);
     });
@@ -52,5 +51,20 @@ describe('Cricket', () => {
                 expect(game.enabledActions.length).toBe(1); 
             });
         });
+
+        describe('When game started:', () => {
+            let startDate = new Date(Date.now()).toISOString();
+            let player1 = { name: 'player 1'};
+
+            beforeEach(() => {
+                game.execute({action: ActionsCricket.addPlayer, player: player1});
+                game.execute({action: ActionsCricket.startGame, startedAt: startDate });
+            });
+
+            it('The game state, createAt is set', () => {
+                expect(game.state().startedAt).toBe(startDate);
+            });
+        });
+
     });
 });

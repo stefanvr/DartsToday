@@ -6,6 +6,7 @@ export const MAX_PLAYERS = 3;
 class CricketState
 {
     createdAt : Date;
+    startedAt : Date;
     players : PlayerState[] = [];
 }
 
@@ -48,5 +49,10 @@ export class Cricket implements ActionObject {
     private isMaxPLayer()
     {
        return this.gameState.players.length === MAX_PLAYERS; 
+    }
+
+    startGame(event)
+    {
+        this.gameState.startedAt = event.startedAt;
     }
 }
