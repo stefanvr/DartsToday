@@ -14,17 +14,22 @@ These instructions will get you a copy of the project up and running on your loc
 
 See Doc\Setup for more information on setup used
 
+## Prepare
+```
+checkout archive
+cd WebClient
+npm install
+```
+
 ## Running the Application
 
 ```
-cd WebClient
 ng server
 ```
 
 ## Running the tests
 
 ```
-cd WebClient
 ng test
 ```
 
