@@ -1,7 +1,8 @@
 import { ActionObject } from '../lib/Aggregate';
 
-export enum ActionsCricket { addPlayer, startGame, score }
+export enum ActionsCricket { addPlayer, startGame, score, endTurn }
 export const MAX_PLAYERS = 3;
+export const DARTS_IN_TURN = 3;
 
 export class CricketState
 {
@@ -31,7 +32,11 @@ export class PlayerState
 
 export class TurnState
 {
-    dartsremaining : number = 3;
+    dartsThrown = 0;
+
+    get dartsremaining() : number  {
+        return DARTS_IN_TURN - this.dartsThrown; 
+    }
 }
 
 export class Cricket implements ActionObject {
@@ -75,6 +80,6 @@ export class Cricket implements ActionObject {
 
     score(event)
     {
-        this.gameState.activeturn.dartsremaining -= 1;
+        this.gameState.activeturn.dartsThrown += 1;
     }
 }
