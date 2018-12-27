@@ -31,9 +31,7 @@ export class PlayerState
 
 export class TurnState
 {
-    get dartsremaining() : number{
-      return 3;
-    }  
+    dartsremaining : number = 3;
 }
 
 export class Cricket implements ActionObject {
@@ -73,5 +71,10 @@ export class Cricket implements ActionObject {
         this.gameState.startedAt = event.startedAt;
         this.enabledActions = [ActionsCricket.score];
         this.gameState.activeturn = new TurnState();
+    }
+
+    score(event)
+    {
+        this.gameState.activeturn.dartsremaining -= 1;
     }
 }
