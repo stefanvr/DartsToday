@@ -64,6 +64,10 @@ describe('Cricket', () => {
             it('The game state, createAt is set', () => {
                 expect(game.state().startedAt).toBe(startDate);
             });
+
+            it('The game state, turn is 1', () => {
+                expect(game.state().turn).toBe(1);
+            });
         });
 
     });

@@ -8,6 +8,8 @@ class CricketState
     createdAt : Date;
     startedAt : Date;
     players : PlayerState[] = [];
+
+    turn : number = 1;
 }
 
 class PlayerState
