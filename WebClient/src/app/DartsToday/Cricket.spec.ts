@@ -15,5 +15,10 @@ describe('Cricket', () => {
         it('The game state, createAt is set', () => {
             expect(game.state().createAt).toBe(createDate);
         });
+
+        it('Possible action(s): addPlayer', () => {
+            expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
+            expect(game.enabledActions.length).toBe(1); 
+        });
     });
 });

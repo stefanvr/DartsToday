@@ -17,6 +17,6 @@ export class Cricket implements ActionObject {
 
     initialized(event) {  
         this.gameState.createAt = event.createdAt;
-
+        this.enabledActions = [ActionsCricket.addPlayer];
     }
 }
