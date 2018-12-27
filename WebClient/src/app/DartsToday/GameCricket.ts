@@ -1,5 +1,5 @@
 import * as gs from './GameState';
-import { ActionObject } from './Aggregate';
+import { ActionObject } from '../lib/Aggregate';
 
 export enum Actions { AddPlayers, StartGame, EndTurn, Score }
 

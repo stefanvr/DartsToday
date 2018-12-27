@@ -1,5 +1,5 @@
 import { Actions,Cricket } from "./GameCricket";
-import { Aggregate } from './Aggregate';
+import { Aggregate } from '../lib/Aggregate';
 
 describe('CricketGame', () => {
     let game: Aggregate;
@@ -14,15 +14,15 @@ describe('CricketGame', () => {
   
     describe('For a new game:', () => {
         it('There is no turn state', () => {
-            expect(game.state.turnState).toBe(null);
+            expect(game.state().turnState).toBe(null);
         });
 
         it('The game state, createAt is set', () => {
-            expect(game.state.createAt).toBe(createDate);
+            expect(game.state().createAt).toBe(createDate);
         });
 
         it('The game state, startedAt is not set', () => {
-            expect(game.state.startedAt).toBe(undefined);
+            expect(game.state().startedAt).toBe(undefined);
         });
 
         it('Actions possible are: AddPlayers', () => {
@@ -37,7 +37,7 @@ describe('CricketGame', () => {
 
     describe('For prepared game:', () => {
         beforeEach(() => {
-            game.Execute({action: Actions.AddPlayers, players:[player1, player2]});
+            game.execute({action: Actions.AddPlayers, players:[player1, player2]});
         });
 
         it('Actions possible are: StartGame', () => {
@@ -50,8 +50,8 @@ describe('CricketGame', () => {
     describe('For a started game:', () => {
         beforeEach(() => {
             console.log("set:" +  startedDate);
-            game.Execute({action: Actions.AddPlayers, players:[player1, player2]});
-            game.Execute({action: Actions.StartGame, startedAt: startedDate});
+            game.execute({action: Actions.AddPlayers, players:[player1, player2]});
+            game.execute({action: Actions.StartGame, startedAt: startedDate});
         });
 
         it('Actions possible: endturn, score', () => {
@@ -61,22 +61,22 @@ describe('CricketGame', () => {
         });
 
         it('The game state, startedAt is set', () => {
-            expect(game.state.startedAt).toBe(startedDate);
+            expect(game.state().startedAt).toBe(startedDate);
         });
 
         it('start command to be skipped', () => {
-            let first = game.state.startedAt;
-            game.Execute({action: Actions.StartGame});
-            expect(game.state.startedAt).toBe(first);
+            let first = game.state().startedAt;
+            game.execute({action: Actions.StartGame});
+            expect(game.state().startedAt).toBe(first);
         });
 
         it('The current turn is 1', () => {
-            expect(game.state.turnState.turn).toBe(1);
+            expect(game.state().turnState.turn).toBe(1);
         });
 
         it('After the endTurn, the current turn is 2', () => {
-            game.Execute({action: Actions.EndTurn});
-            expect(game.state.turnState.turn).toBe(2);
+            game.execute({action: Actions.EndTurn});
+            expect(game.state().turnState.turn).toBe(2);
 
             console.log("ES = " + JSON.stringify(game.eventSource()));
         });

@@ -41,7 +41,7 @@ export class Aggregate {
         return this.actionObject.enabledActions;
     }
 
-    get state()
+    state()
     {
         return this.actionObject.gameState;
     }
@@ -51,7 +51,7 @@ export class Aggregate {
         return { events: this.events };
     }
 
-    Execute(command:any)
+    execute(command:any)
     {
        if(!this.enabledActions.includes(command.action))
        {
