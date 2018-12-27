@@ -24,7 +24,7 @@ npm install
 ## Running the Application
 
 ```
-ng server
+ng serve
 ```
 
 ## Running the tests
