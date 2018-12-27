@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GameState, TurnState } from '../DartsToday/GameState'
-import { Cricket, Actions } from '../DartsToday/GameCricket'
+import { Cricket, ActionsCricket } from '../DartsToday/Cricket'
 import { Aggregate } from '../lib/Aggregate'
 
 @Injectable({
@@ -42,7 +41,8 @@ export class GameService {
 
       let player1 = { name: 'player 1'};
       let player2 = { name: 'player 2'};
-      this.game.execute({action: Actions.AddPlayers, players:[player1, player2]});
+      this.game.execute({action: ActionsCricket.addPlayer, player: player1});
+      this.game.execute({action: ActionsCricket.addPlayer, player: player2});
     }
   }
 }
