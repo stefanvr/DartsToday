@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from './services/game.service'
+import { Actions } from './DartsToday/GameCricket'
 
 @Component({
   selector: 'app-root',
@@ -8,5 +9,9 @@ import { GameService } from './services/game.service'
 })
 export class AppComponent {
   title = 'DartsToday';
-}
+ 
   constructor(private gameService: GameService) {  }
+  start() {
+    this.gameService.execute({action: Actions.StartGame, startedAt: new Date(Date.now()).toISOString()});
+  }
+}
