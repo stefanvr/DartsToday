@@ -11,7 +11,10 @@ export class AppComponent {
   title = 'DartsToday';
  
   constructor(private gameService: GameService) {  }
+
+  display = ""
   start() {
     this.gameService.execute({action: ActionsCricket.startGame, startedAt: new Date(Date.now()).toISOString()});
+    this.display = "hide";
   }
 }
