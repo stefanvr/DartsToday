@@ -3,28 +3,28 @@ import { Aggregate, ActionObject } from '../lib/Aggregate';
 class TestGame implements  ActionObject
 {
     enabledActions: any[];
-    gameState: any = { createdAt: null, customData: null, payload: null }
+    state: any = { createdAt: null, customData: null, payload: null }
     
     convertAction(command) {
        return command === 0 ? "convertedCommand" : command; 
     }
 
     initialized(event) {  
-        this.gameState.createdAt = event.createdAt;
+        this.state.createdAt = event.createdAt;
         this.enabledActions = [ "enabledCommand", 0 ]
     }
     
     disabledCommand(event) {  
-        this.gameState.customData = "disabled";
+        this.state.customData = "disabled";
     }
 
     enabledCommand(event) {  
-        this.gameState.customData = "enabled";
-        this.gameState.payload = event.payload;
+        this.state.customData = "enabled";
+        this.state.payload = event.payload;
     }
 
     convertedCommand(event) { 
-        this.gameState.customData = "converted";
+        this.state.customData = "converted";
     }
 }
 

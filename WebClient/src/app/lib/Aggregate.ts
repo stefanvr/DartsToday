@@ -1,6 +1,6 @@
 export interface ActionObject {
     enabledActions: any[];
-    gameState: any;
+    state: any;
     convertAction(command);
 }
 
@@ -43,7 +43,7 @@ export class Aggregate {
 
     state()
     {
-        return this.actionObject.gameState;
+        return this.actionObject.state;
     }
 
     eventSource()

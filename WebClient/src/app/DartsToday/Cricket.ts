@@ -41,20 +41,20 @@ export class TurnState
 
 export class Cricket implements ActionObject {
     public enabledActions: any[] = [];
-    public gameState: CricketState = new CricketState();
+    public state: CricketState = new CricketState();
     
     convertAction(command) {
         return ActionsCricket[command];
     }
 
     initialized(event) {  
-        this.gameState.createdAt = event.createdAt;
+        this.state.createdAt = event.createdAt;
         this.enabledActions = [ActionsCricket.addPlayer];
     }
 
     addPlayer(event)
     {
-        this.gameState.players.push(new PlayerState(event.player));
+        this.state.players.push(new PlayerState(event.player));
         
         if (this.isMaxPLayer())
         {
@@ -68,24 +68,24 @@ export class Cricket implements ActionObject {
 
     private isMaxPLayer()
     {
-       return this.gameState.players.length === MAX_PLAYERS; 
+       return this.state.players.length === MAX_PLAYERS; 
     }
 
     startGame(event)
     {
-        this.gameState.startedAt = event.startedAt;
+        this.state.startedAt = event.startedAt;
         this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
-        this.gameState.activeturn = new TurnState();
+        this.state.activeturn = new TurnState();
     }
 
     score(event)
     {
-        this.gameState.activeturn.dartsThrown += 1;
+        this.state.activeturn.dartsThrown += 1;
     }
 
     endTurn(event)
     {
-        this.gameState.activeturn = new TurnState();
-        this.gameState.turn += 1;
+        this.state.activeturn = new TurnState();
+        this.state.turn += 1;
     }
 }
