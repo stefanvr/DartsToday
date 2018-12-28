@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from './services/game.service'
-import { Actions } from './DartsToday/GameCricket'
+import { ActionsCricket } from './DartsToday/Cricket'
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,6 @@ export class AppComponent {
  
   constructor(private gameService: GameService) {  }
   start() {
-    this.gameService.execute({action: Actions.StartGame, startedAt: new Date(Date.now()).toISOString()});
+    this.gameService.execute({action: ActionsCricket.startGame, startedAt: new Date(Date.now()).toISOString()});
   }
 }
