@@ -11,7 +11,7 @@ class TestGame implements  ActionObject
 
     initialized(event) {  
         this.state.createdAt = event.createdAt;
-        this.enabledActions = [ "enabledCommand", 0 ]
+        this.enabledActions = [ "enabledCommand", 0, "unkownHandler" ]
     }
     
     disabledCommand(event) {  
@@ -56,6 +56,12 @@ describe('Aggregate newly created', () => {
         let payload = "my payload";
         root.execute({action: "enabledCommand", payload: payload});
         expect(root.state().payload).toBe(payload);
+    });
+
+    it('Unkown handler, does not throw', () => {
+        // Currently trust test suite as this would indicate bug.
+        // Error is logged for troubleshooting.
+        expect(root.execute({action: "unkownHandler"})).not.toThrow;
     });
 
     
