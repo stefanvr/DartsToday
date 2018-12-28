@@ -33,7 +33,7 @@ export class PlayerState
 export class TurnState
 {
     dartsThrown = 0;
-
+    
     get dartsremaining() : number  {
         return DARTS_IN_TURN - this.dartsThrown; 
     }
@@ -74,18 +74,26 @@ export class Cricket implements ActionObject {
     startGame(event)
     {
         this.state.startedAt = event.startedAt;
-        this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
         this.state.activeturn = new TurnState();
+
+        this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
     }
 
     score(event)
     {
         this.state.activeturn.dartsThrown += 1;
+
+        if (this.state.activeturn.dartsremaining === 0)
+        {
+            this.enabledActions = [ActionsCricket.endTurn];
+        }
     }
 
     endTurn(event)
     {
         this.state.activeturn = new TurnState();
         this.state.turn += 1;
+
+        this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
     }
 }

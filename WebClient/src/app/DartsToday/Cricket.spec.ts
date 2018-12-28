@@ -16,8 +16,8 @@ describe('Cricket', () => {
         });
 
         it('Possible action(s): addPlayer', () => {
-            expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
-            expect(game.enabledActions.length).toBe(1); 
+            expect(game.enabledActions()).toContain(ActionsCricket.addPlayer); 
+            expect(game.enabledActions().length).toBe(1); 
         });
 
         describe('When adding a player:', () => {
@@ -32,23 +32,23 @@ describe('Cricket', () => {
             });
 
             it('Possible action(s): addPlayer', () => {
-                expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
-                expect(game.enabledActions).toContain(ActionsCricket.startGame); 
-                expect(game.enabledActions.length).toBe(2); 
+                expect(game.enabledActions()).toContain(ActionsCricket.addPlayer); 
+                expect(game.enabledActions()).toContain(ActionsCricket.startGame); 
+                expect(game.enabledActions().length).toBe(2); 
             });
 
             it('After multiple players added, Possible action(s): addPlayer, startGame', () => {
                 game.execute({action: ActionsCricket.addPlayer, player: player1});
-                expect(game.enabledActions).toContain(ActionsCricket.addPlayer); 
-                expect(game.enabledActions).toContain(ActionsCricket.startGame); 
-                expect(game.enabledActions.length).toBe(2); 
+                expect(game.enabledActions()).toContain(ActionsCricket.addPlayer); 
+                expect(game.enabledActions()).toContain(ActionsCricket.startGame); 
+                expect(game.enabledActions().length).toBe(2); 
             });
 
             it('After max (' + MAX_PLAYERS + ') players added, Possible action(s): addPlayer', () => {
                 game.execute({action: ActionsCricket.addPlayer, player: player1});
                 game.execute({action: ActionsCricket.addPlayer, player: player1});
-                expect(game.enabledActions).toContain(ActionsCricket.startGame); 
-                expect(game.enabledActions.length).toBe(1); 
+                expect(game.enabledActions()).toContain(ActionsCricket.startGame); 
+                expect(game.enabledActions().length).toBe(1); 
             });
         });
 
@@ -69,10 +69,10 @@ describe('Cricket', () => {
                 expect(game.state().turn).toBe(1);
             });
 
-            it('Possible action(s): score', () => {
-                expect(game.enabledActions).toContain(ActionsCricket.score); 
-                expect(game.enabledActions).toContain(ActionsCricket.endTurn); 
-                expect(game.enabledActions.length).toBe(2); 
+            it('Possible action(s): score and endTurn', () => {
+                expect(game.enabledActions()).toContain(ActionsCricket.score); 
+                expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
+                expect(game.enabledActions().length).toBe(2); 
             });
 
             it('Turn state, DartsRemaining 3', () => {
@@ -91,6 +91,26 @@ describe('Cricket', () => {
                 game.execute({action: ActionsCricket.endTurn });
                 expect(game.state().activeturn.dartsremaining).toBe(3);
                 expect(game.state().activeturn.dartsThrown).toBe(0); 
+            });
+
+            it('Possible action(s): score', () => {
+                game.execute({action: ActionsCricket.score, score: 0 });
+                game.execute({action: ActionsCricket.score, score: 0 });
+                game.execute({action: ActionsCricket.score, score: 0 });
+
+                expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
+                expect(game.enabledActions().length).toBe(1);
+            });
+
+            it('Possible action(s): score, endTurn', () => {
+                game.execute({action: ActionsCricket.score, score: 0 });
+                game.execute({action: ActionsCricket.score, score: 0 });
+                game.execute({action: ActionsCricket.score, score: 0 });
+                game.execute({action: ActionsCricket.endTurn });
+
+                expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
+                expect(game.enabledActions()).toContain(ActionsCricket.score); 
+                expect(game.enabledActions().length).toBe(2);
             });
         });
 
