@@ -5,14 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
+import { GameScoreComponent } from './component/game-score/game-score.component'
 
-import { GameService } from './services/game.service'
+import { GameService } from './services/game.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     TurnTrackerComponent,
-    TurnControlCricketComponent
+    TurnControlCricketComponent,
+    GameScoreComponent
   ],
   imports: [
     BrowserModule,

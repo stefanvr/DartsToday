@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
+import { GameScoreComponent } from './component/game-score/game-score.component'
 
 import { GameService } from './services/game.service'
 
@@ -19,7 +20,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         TurnTrackerComponent,
-        TurnControlCricketComponent
+        TurnControlCricketComponent,
+        GameScoreComponent
       ],
       providers: [GameService],
     }).compileComponents();

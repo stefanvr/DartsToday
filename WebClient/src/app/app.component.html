@@ -3,10 +3,13 @@
   <app-turn-tracker class="split"></app-turn-tracker>
 </section>
 
-<button (click)="start()" [class]="display">Start</button>
+<section class="gamescore">
+  <app-game-score></app-game-score>
+</section>
 
 <section class="gamecontrols">
   <app-turn-control-cricket></app-turn-control-cricket>
 </section>
 
+<button (click)="start()" [class]="display">Start</button>
 <router-outlet></router-outlet>
