@@ -11,29 +11,27 @@ export class TurnControlCricketComponent {
 
   constructor(private gameService: GameService) {}
 
-  reset() {
-    console.log('reset');
+  back() {
+    this.gameService.execute({action: "back"});
   }
 
   endTurn() {
-    console.log('endTurn');
     this.gameService.execute({action: ActionsCricket.endTurn});
   }
 
   hitSingle(value) {
-    console.log('single: ' + value);
+    this.gameService.execute({action: ActionsCricket.score, score:value, muliplier:1});
   }
 
   hitDubble(value) {
-    console.log('dubble: ' + value);
+    this.gameService.execute({action: ActionsCricket.score, score:value, muliplier:2});
   }
 
   hitTriple(value) {
-    console.log('triple: ' + value);
+   this.gameService.execute({action: ActionsCricket.score, score:value, muliplier:3});
   }
 
   mis() {
-    console.log('mis');
-    this.gameService.execute({action: ActionsCricket.score});
+    this.gameService.execute({action: ActionsCricket.score, score:0});
   }
 }
