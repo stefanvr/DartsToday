@@ -3,6 +3,10 @@ import { ActionObject } from '../lib/Aggregate';
 export enum ActionsCricket { addPlayer, startGame, score, endTurn }
 export const MAX_PLAYERS = 3;
 export const DARTS_IN_TURN = 3;
+export const BULL = 25; 
+
+export enum DartScore { miss, single, double, triple };
+export enum CricketScore { noHit, one, two, closed };
 
 export class CricketState
 {
@@ -28,6 +32,16 @@ export class PlayerState
     constructor(private player) {}
 
     get name() : string { return this.player.name; }
+
+    score = {
+        25 /*BULL*/: CricketScore.noHit,
+        20: CricketScore.noHit,
+        19: CricketScore.noHit,
+        18: CricketScore.noHit,
+        17: CricketScore.noHit,
+        16: CricketScore.noHit,
+        15: CricketScore.noHit 
+    }
 }
 
 export class TurnState
@@ -82,6 +96,11 @@ export class Cricket implements ActionObject {
     score(event)
     {
         this.state.activeturn.dartsThrown += 1;
+
+        if (event.score > DartScore.miss)
+        {
+          this.state.players[0].score[event.score] += event.multiplier;
+        }
 
         if (this.state.activeturn.dartsremaining === 0)
         {

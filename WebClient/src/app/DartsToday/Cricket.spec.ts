@@ -1,4 +1,4 @@
-import { ActionsCricket, Cricket, MAX_PLAYERS } from "./Cricket";
+import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL } from "./Cricket";
 
 import { Aggregate } from '../lib/Aggregate';
 
@@ -112,7 +112,27 @@ describe('Cricket', () => {
                 expect(game.enabledActions()).toContain(ActionsCricket.score); 
                 expect(game.enabledActions().length).toBe(2);
             });
-        });
 
+            [BULL,20,19,18,17,16,15].forEach(score => {
+                it('Player 1, at start, no score for: ' + score, () => {
+                    expect(game.state().players[0].score[score]).toEqual(0);//DartScore.noHit);
+                });
+
+                it('Player 1, after single, no score for: ' + score, () => {
+                    game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.single  });
+                    expect(game.state().players[0].score[score]).toEqual(CricketScore.one);
+                });
+
+                it('Player 1, after dubble, no score for: ' + score, () => {
+                    game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                    expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
+                });
+
+                it('Player 1, after dubble, no score for: ' + score, () => {
+                    game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                    expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+                });
+            });
+        });
     });
 });
