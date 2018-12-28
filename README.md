@@ -33,6 +33,12 @@ ng serve
 ng test
 ```
 
+generating code coverage report
+
+```
+ng test --no-watch --code-coverage
+```
+
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
