@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
 import { GameService } from '../services/game.service'
-import { ActionsCricket } from '../DartsToday/Cricket'
+import { ActionsCricket, DartScore, BULL } from '../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;
@@ -25,8 +25,6 @@ describe('TurnControlCricketComponent', () => {
     
     fixture.detectChanges();
   });
-
-  
 
   describe('Initial state', () => {
     beforeEach(() => {
@@ -72,7 +70,7 @@ describe('TurnControlCricketComponent', () => {
     });
 
     it('Button missed', () => {
-      assertButtonToCommand("#btnMis", {action: ActionsCricket.score, score:0});
+      assertButtonToCommand("#btnMis", {action: ActionsCricket.score, score: DartScore.miss});
     });
 
     it('Button back', () => {
@@ -81,24 +79,24 @@ describe('TurnControlCricketComponent', () => {
     
     [20,19,18,17,16,15].forEach(element => {
       it('Buttons Single:' + element, () => {
-        assertButtonToCommand("#btnSingle" + element, {action: ActionsCricket.score, score:element, muliplier:1});
+        assertButtonToCommand("#btnSingle" + element, {action: ActionsCricket.score, score:element, multiplier: DartScore.single});
       });
 
-      it('Buttons Dubble:' + element, () => {
-        assertButtonToCommand("#btnDubble" + element, {action: ActionsCricket.score, score:element, muliplier:2});
+      it('Buttons double:' + element, () => {
+        assertButtonToCommand("#btnDouble" + element, {action: ActionsCricket.score, score:element, multiplier: DartScore.double});
       });
 
       it('Buttons Triple:' + element, () => {
-        assertButtonToCommand("#btnTriple" + element, {action: ActionsCricket.score, score:element, muliplier:3});
+        assertButtonToCommand("#btnTriple" + element, {action: ActionsCricket.score, score:element, multiplier: DartScore.triple});
       });
     });
 
     it('Buttons Single: bull', () => {
-      assertButtonToCommand("#btnSingleBull", {action: ActionsCricket.score, score:25, muliplier:1});
+      assertButtonToCommand("#btnSingleBull", {action: ActionsCricket.score, score: BULL, multiplier: DartScore.single});
     });
 
-    it('Buttons Dubble: bull', () => {
-      assertButtonToCommand("#btnDubbleBull", {action: ActionsCricket.score, score:25, muliplier:2});
+    it('Buttons Double: bull', () => {
+      assertButtonToCommand("#btnDoubleBull", {action: ActionsCricket.score, score: BULL, multiplier:2});
     });
   });
 
@@ -107,7 +105,7 @@ describe('TurnControlCricketComponent', () => {
       component.gameState = { s: null };
       fixture.detectChanges();
 
-      assertButtonNoCommand("#btnDubbleBull")
+      assertButtonNoCommand("#btnDoubleBull")
     });
 
     it('When score command is not enabled, disable all score buttons', () => {
@@ -115,7 +113,7 @@ describe('TurnControlCricketComponent', () => {
       spyOn(gameService, 'commandEnabled').and.returnValue(false);
       fixture.detectChanges();
       
-      assertButtonNoCommand("#btnDubbleBull")
+      assertButtonNoCommand("#btnDoubleBull")
     });
   });
 });

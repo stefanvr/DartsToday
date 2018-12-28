@@ -123,12 +123,12 @@ describe('Cricket', () => {
                     expect(game.state().players[0].score[score]).toEqual(CricketScore.one);
                 });
 
-                it('Player 1, after dubble, no score for: ' + score, () => {
+                it('Player 1, after double, no score for: ' + score, () => {
                     game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
                     expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
                 });
 
-                it('Player 1, after dubble, no score for: ' + score, () => {
+                it('Player 1, after double, no score for: ' + score, () => {
                     game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
                     expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
                 });

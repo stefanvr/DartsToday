@@ -31,15 +31,15 @@ export class TurnControlCricketComponent {
   }
 
   hitSingle(value) {
-    this.gameService.execute({action: ActionsCricket.score, score:value, muliplier:1});
+    this.gameService.execute({action: ActionsCricket.score, score:value, multiplier:1});
   }
 
-  hitDubble(value) {
-    this.gameService.execute({action: ActionsCricket.score, score:value, muliplier:2});
+  hitDouble(value) {
+    this.gameService.execute({action: ActionsCricket.score, score:value, multiplier:2});
   }
 
   hitTriple(value) {
-   this.gameService.execute({action: ActionsCricket.score, score:value, muliplier:3});
+   this.gameService.execute({action: ActionsCricket.score, score:value, multiplier:3});
   }
 
   mis() {
