@@ -22,10 +22,18 @@ describe('TurnControlCricketComponent', () => {
     fixture = TestBed.createComponent(TurnControlCricketComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;  
+    
     fixture.detectChanges();
   });
 
+  
+
   describe('Initial state', () => {
+    beforeEach(() => {
+      component.gameState = { s: { } };
+      spyOn(gameService, 'commandEnabled').and.returnValue(true);
+      fixture.detectChanges();
+    });
 
     it('should create', () => {
       expect(component).toBeTruthy();
@@ -44,7 +52,20 @@ describe('TurnControlCricketComponent', () => {
         .toEqual(command);
   }
 
+  function assertButtonNoCommand(buttonId : string)
+  {
+    spyOn(gameService, 'execute');
+    let button = fixture.debugElement.nativeElement.querySelector(buttonId);
+    button.click();
+    expect(gameService.execute).not.toHaveBeenCalled();
+  }
+
   describe('Button wiring', () => {
+    beforeEach(() => {
+      component.gameState = { s: { } };
+      spyOn(gameService, 'commandEnabled').and.returnValue(true);
+      fixture.detectChanges();
+    });
 
     it('Button endTurn', () => {
       assertButtonToCommand("#btnDone", {action: ActionsCricket.endTurn});
@@ -79,7 +100,23 @@ describe('TurnControlCricketComponent', () => {
     it('Buttons Dubble: bull', () => {
       assertButtonToCommand("#btnDubbleBull", {action: ActionsCricket.score, score:25, muliplier:2});
     });
-    
+  });
+
+  describe('Button control state', () => {
+    it('When there is no game state, disable all buttons', () => {
+      component.gameState = { s: null };
+      fixture.detectChanges();
+
+      assertButtonNoCommand("#btnDubbleBull")
+    });
+
+    it('When score command is not enabled, disable all score buttons', () => {
+      component.gameState = { s: {} };
+      spyOn(gameService, 'commandEnabled').and.returnValue(false);
+      fixture.detectChanges();
+      
+      assertButtonNoCommand("#btnDubbleBull")
+    });
   });
 });
 
