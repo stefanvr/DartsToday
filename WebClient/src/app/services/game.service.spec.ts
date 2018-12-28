@@ -20,7 +20,7 @@ describe('GameService', () => {
   
     beforeEach(() => {
       service = TestBed.get(GameService);
-      aggregateSpy = jasmine.createSpyObj('Aggregate', ['execute', 'state']);
+      aggregateSpy = jasmine.createSpyObj('Aggregate', ['execute', 'state', 'enabledActions']);
       service.testSet(aggregateSpy);
     });
 
@@ -39,6 +39,18 @@ describe('GameService', () => {
       service.execute( testCmd );
   
       expect(service.state.s).toBe(testState);
+    });
+
+    it('Command enabled to be true', () => {
+      aggregateSpy.enabledActions.and.returnValue(['tstEnabledCommand']);
+  
+      expect(service.commandEnabled("tstEnabledCommand")).toBe(true);
+    });
+
+    it('Command enabled to be false', () => {
+      aggregateSpy.enabledActions.and.returnValue([]);
+  
+      expect(service.commandEnabled("tstDisabledCommand")).toBe(false);
     });
   });
 });

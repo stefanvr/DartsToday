@@ -26,6 +26,10 @@ export class GameService {
     this._state.s = this.game.state();
   }
 
+  commandEnabled(command){
+    return this.game.enabledActions().includes(command);
+  }
+
   // Future - create game creation options
   testSet(game)
   {

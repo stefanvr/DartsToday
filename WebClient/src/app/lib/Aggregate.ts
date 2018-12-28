@@ -37,7 +37,7 @@ export class Aggregate {
     private constructor() { 
     }
     
-    get enabledActions(){
+    enabledActions() {
         return this.actionObject.enabledActions;
     }
 
@@ -53,7 +53,7 @@ export class Aggregate {
 
     execute(command:any)
     {
-       if(!this.enabledActions.includes(command.action))
+       if(!this.enabledActions().includes(command.action))
        {
          console.log("Skipping disabled command :" + JSON.stringify(command));
          return;
