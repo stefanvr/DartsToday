@@ -99,7 +99,7 @@ export class Cricket implements ActionObject {
 
         if (event.score > DartScore.miss)
         {
-          this.state.players[0].score[event.score] += event.multiplier;
+          this.state.activePlayer.score[event.score] += event.multiplier;
         }
 
         if (this.state.activeturn.dartsremaining === 0)

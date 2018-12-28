@@ -13,6 +13,9 @@ export class GameScoreComponent  {
   constructor(private gameService: GameService) {
     this.gameState = gameService.state;
   }
-  }
 
+  get players() {
+    if (!this.gameState.s)  return [];
+    return this.gameState.s.players;
+  }
 }
