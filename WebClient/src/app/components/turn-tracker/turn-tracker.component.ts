@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GameService, ServiceState } from '../services/game.service'
+import { GameService, ServiceState } from '../../services/game.service'
 
 @Component({
   selector: 'app-turn-tracker',

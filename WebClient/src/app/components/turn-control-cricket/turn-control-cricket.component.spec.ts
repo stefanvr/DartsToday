@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
-import { GameService } from '../services/game.service'
-import { ActionsCricket, DartScore, BULL } from '../DartsToday/Cricket'
+import { GameService } from '../../services/game.service'
+import { ActionsCricket, DartScore, BULL } from '../../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;

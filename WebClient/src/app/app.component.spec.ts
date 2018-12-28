@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
-import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
-import { GameScoreComponent } from './component/game-score/game-score.component'
+import { TurnTrackerComponent } from './components/turn-tracker/turn-tracker.component';
+import { TurnControlCricketComponent } from './components/turn-control-cricket/turn-control-cricket.component';
+import { GameScoreComponent } from './components/game-score/game-score.component'
 
 import { GameService } from './services/game.service'
 

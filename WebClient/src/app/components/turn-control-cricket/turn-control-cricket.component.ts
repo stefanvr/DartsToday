@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService, ServiceState } from '../services/game.service'
-import { ActionsCricket } from '../DartsToday/Cricket'
+import { GameService, ServiceState } from '../../services/game.service'
+import { ActionsCricket } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-turn-control-cricket',
