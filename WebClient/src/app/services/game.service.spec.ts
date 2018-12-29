@@ -3,11 +3,21 @@ import { TestBed } from '@angular/core/testing';
 import { GameService } from './game.service';
 
 describe('GameService', () => {
-  beforeEach(() => TestBed.configureTestingModule({providers: [GameService]}));
+  let service: GameService;
 
-  it('Can be created for injection', () => {
-    const service: GameService = TestBed.get(GameService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({providers: [GameService]});
+    service = TestBed.get(GameService);
+  });
+
+  it('Command enabled to be false', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('Without active game:', () => {
+    it('Command enabled to be false', () => {
+      expect(service.commandEnabled("tstDisabledCommand")).toBe(false);
+    });
   });
 
   describe('Execute', () => {
@@ -15,11 +25,8 @@ describe('GameService', () => {
     let testCmd ={ command: "command" };
 
     let aggregateSpy;
-    
-    let service: GameService;
   
     beforeEach(() => {
-      service = TestBed.get(GameService);
       aggregateSpy = jasmine.createSpyObj('Aggregate', ['execute', 'state', 'enabledActions']);
       service.testSet(aggregateSpy);
     });

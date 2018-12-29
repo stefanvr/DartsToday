@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
 import { GameService } from '../../services/game.service'
-import { ActionsCricket, DartScore, BULL } from '../../DartsToday/Cricket'
+import { ActionsCricket, CricketState, DartScore, BULL } from '../../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;
@@ -23,12 +23,15 @@ describe('TurnControlCricketComponent', () => {
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;  
     
+    let gs = new CricketState();
+    component.gameState.s = gs;
+
     fixture.detectChanges();
   });
 
   describe('Initial state', () => {
     beforeEach(() => {
-      component.gameState = { s: { } };
+      component.gameState = { s: new CricketState() };
       spyOn(gameService, 'commandEnabled').and.returnValue(true);
       fixture.detectChanges();
     });
@@ -60,7 +63,7 @@ describe('TurnControlCricketComponent', () => {
 
   describe('Button wiring', () => {
     beforeEach(() => {
-      component.gameState = { s: { } };
+      component.gameState = { s: new CricketState() };
       spyOn(gameService, 'commandEnabled').and.returnValue(true);
       fixture.detectChanges();
     });
@@ -109,7 +112,7 @@ describe('TurnControlCricketComponent', () => {
     });
 
     it('When score command is not enabled, disable all score buttons', () => {
-      component.gameState = { s: {} };
+      component.gameState = { s: new CricketState() };
       spyOn(gameService, 'commandEnabled').and.returnValue(false);
       fixture.detectChanges();
       

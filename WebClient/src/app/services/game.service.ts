@@ -27,7 +27,7 @@ export class GameService {
   }
 
   commandEnabled(command){
-    return this.game.enabledActions().includes(command);
+    return this.game ? this.game.enabledActions().includes(command) : false;
   }
 
   // Future - create game creation options
