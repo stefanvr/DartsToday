@@ -55,9 +55,12 @@ describe('Cricket', () => {
         describe('When game started:', () => {
             let startDate = new Date(Date.now()).toISOString();
             let player1 = { name: 'player 1'};
+            let player2 = { name: 'player 2'};
+            let score = 20;
 
             beforeEach(() => {
                 game.execute({action: ActionsCricket.addPlayer, player: player1});
+                game.execute({action: ActionsCricket.addPlayer, player: player2});
                 game.execute({action: ActionsCricket.startGame, startedAt: startDate });
             });
 
@@ -134,7 +137,7 @@ describe('Cricket', () => {
                 });
             });
 
-            let score = 20;
+            
             it('Player 1, with score closed, stays close', () => {
                 
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
@@ -157,6 +160,30 @@ describe('Cricket', () => {
             it('Player 1, with score double and score double, bonus score equals single score', () => {
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                expect(game.state().players[0].bonus).toEqual(score);
+            });
+
+            it('After Player 1 doesnot close score, Player 2 gets bonus', () => {
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                game.execute({action: ActionsCricket.endTurn});
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                expect(game.state().players[1].bonus).toEqual(score);
+            });
+
+            it('After Player 1 closes score, Player 2 get no bonus', () => {
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                game.execute({action: ActionsCricket.endTurn});
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                expect(game.state().players[1].bonus).toEqual(0);
+            });
+
+            it('After Player 1 closes score, in next turn Player 1 gets additional bonus', () => {
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                game.execute({action: ActionsCricket.endTurn});
+                game.execute({action: ActionsCricket.endTurn});
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.single });
                 expect(game.state().players[0].bonus).toEqual(score);
             });
         });

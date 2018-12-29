@@ -7,6 +7,7 @@ export const BULL = 25;
 
 export enum DartScore { miss, single, double, triple };
 export enum CricketScore { noHit, one, two, closed };
+export enum GameScore { open, playerToScore, closed };
 
 export class CricketState
 {
@@ -22,6 +23,22 @@ export class CricketState
 
     get activePlayer() {
         return  this.players[(this.turn-1) % this.players.length];
+    }
+
+    gameScore(score: number) {
+        let closed = 0;
+    
+        function testClosed(value, index, array) {
+            closed += (value.score[score] == CricketScore.closed) ? 1 : 0;
+        }
+
+        this.players.forEach(testClosed);
+
+        switch(closed) {
+            case 0: { return GameScore.open; }
+            case this.players.length: { return GameScore.closed; }
+            default: { return GameScore.playerToScore; }
+        }
     }
 
     activeturn : TurnState;
@@ -105,13 +122,16 @@ export class Cricket implements ActionObject {
         // calc state
         if (event.score > DartScore.miss && currentScore != CricketScore.closed)
         {
-          this.state.activePlayer.score[event.score] = Math.min(hits, CricketScore.closed);
+          this.state.activePlayer.score[event.score] =Math.min(hits, CricketScore.closed);
         }
 
-        //console.log()
         // calc bonus
-        let bonusHits = Math.max(0, hits-CricketScore.closed);
-        this.state.activePlayer.bonus += (bonusHits * event.score);
+        if ((this.state.gameScore(event.score) != GameScore.closed) ||
+           (this.state.gameScore(event.score) === GameScore.playerToScore && this.state.activePlayer.score[event.score] === CricketScore.closed))
+        {
+          let bonusHits = Math.max(0, hits-CricketScore.closed);
+          this.state.activePlayer.bonus += (bonusHits * event.score);
+        }
 
 
         if (this.state.activeturn.dartsremaining === 0)

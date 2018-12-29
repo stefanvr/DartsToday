@@ -1,4 +1,4 @@
-import { CricketState, PlayerState } from "./Cricket";
+import { CricketState, PlayerState,GameScore, BULL, CricketScore } from "./Cricket";
 
 describe('CricketState', () => {
     let cricketState: CricketState;
@@ -61,5 +61,30 @@ describe('CricketState', () => {
             cricketState.turn = 6
             expect(cricketState.activePlayer.name).toBe(player3.name);
         });
+    });
+
+    describe('With 3 players:', () => {
+
+        beforeEach(() => {
+            cricketState.players.push(player1);
+            cricketState.players.push(player2);
+        });
+
+      [BULL,20,19,18,17,16,15].forEach(score => {
+        it('Score ' + score + 'open', () => {
+            expect(cricketState.gameScore(score)).toBe(GameScore.open);
+        });
+
+        it('With single player closed ' + score + 'open for scoring', () => {
+            cricketState.players[0].score[score] = CricketScore.closed;
+            expect(cricketState.gameScore(score)).toBe(GameScore.playerToScore);
+        });
+
+        it('With all player closed ' + score + ' closed for scoring', () => {
+            cricketState.players[0].score[score] = CricketScore.closed;
+            cricketState.players[1].score[score] = CricketScore.closed;
+            expect(cricketState.gameScore(score)).toBe(GameScore.closed);
+        });
+      });
     });
 });
