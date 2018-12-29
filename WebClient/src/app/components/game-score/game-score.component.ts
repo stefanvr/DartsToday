@@ -13,4 +13,8 @@ export class GameScoreComponent {
   constructor(private gameService: GameService) {
     this.gameState = gameService.state;
   }
+
+  scoreState() {
+    return "x";
+  }
 }
