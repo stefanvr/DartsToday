@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { GameService, ServiceState } from '../../services/game.service'
 
 @Component({
   selector: 'app-game-score',
   templateUrl: './game-score.component.html',
   styleUrls: ['./game-score.component.scss']
 })
-export class GameScoreComponent implements OnInit {
+export class GameScoreComponent {
 
-  constructor() { }
+  gameState: ServiceState; 
 
-  ngOnInit() {
-    
+  constructor(private gameService: GameService) {
+    this.gameState = gameService.state;
   }
 }
