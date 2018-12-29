@@ -42,6 +42,8 @@ export class PlayerState
         16: CricketScore.noHit,
         15: CricketScore.noHit 
     }
+
+    bonus = 0;
 }
 
 export class TurnState
@@ -98,10 +100,19 @@ export class Cricket implements ActionObject {
         this.state.activeturn.dartsThrown += 1;
 
         let currentScore = this.state.activePlayer.score[event.score];
+        let hits = currentScore + event.multiplier;
+        
+        // calc state
         if (event.score > DartScore.miss && currentScore != CricketScore.closed)
         {
-          this.state.activePlayer.score[event.score] = Math.min(currentScore + event.multiplier, CricketScore.closed);
+          this.state.activePlayer.score[event.score] = Math.min(hits, CricketScore.closed);
         }
+
+        //console.log()
+        // calc bonus
+        let bonusHits = Math.max(0, hits-CricketScore.closed);
+        this.state.activePlayer.bonus += (bonusHits * event.score);
+
 
         if (this.state.activeturn.dartsremaining === 0)
         {

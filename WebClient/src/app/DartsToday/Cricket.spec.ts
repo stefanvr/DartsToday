@@ -134,8 +134,9 @@ describe('Cricket', () => {
                 });
             });
 
+            let score = 20;
             it('Player 1, with score closed, stays close', () => {
-                let score = 20;
+                
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
                 expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
@@ -143,11 +144,20 @@ describe('Cricket', () => {
             });
 
             it('Player 1, with score double and score double, is closed', () => {
-                let score = 20;
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
                 expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
                 expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+            });
+
+            it('Player 1, with no score, bonus score is zero', () => {
+                expect(game.state().players[0].bonus).toEqual(0);
+            });
+
+            it('Player 1, with score double and score double, bonus score equals single score', () => {
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                expect(game.state().players[0].bonus).toEqual(score);
             });
         });
     });

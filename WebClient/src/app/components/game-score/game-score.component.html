@@ -1,6 +1,6 @@
 <div class="player" *ngFor="let player of players">
   <div class="playername">{{player.name}}</div> 
-  <div class="score">-</div> 
+  <div class="score">{{player.bonus}}</div> 
   <div class="score icon-dart-{{scoreState(player.score[20])}}"></div> 
   <div class="score icon-dart-{{scoreState(player.score[19])}}"></div> 
   <div class="score icon-dart-{{scoreState(player.score[18])}}"></div>   
