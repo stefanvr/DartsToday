@@ -115,23 +115,39 @@ describe('Cricket', () => {
 
             [BULL,20,19,18,17,16,15].forEach(score => {
                 it('Player 1, at start, no score for: ' + score, () => {
-                    expect(game.state().players[0].score[score]).toEqual(0);//DartScore.noHit);
+                    expect(game.state().players[0].score[score]).toEqual(CricketScore.noHit);
                 });
 
-                it('Player 1, after single, no score for: ' + score, () => {
+                it('Player 1, after single, sinle score for: ' + score, () => {
                     game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.single  });
                     expect(game.state().players[0].score[score]).toEqual(CricketScore.one);
                 });
 
-                it('Player 1, after double, no score for: ' + score, () => {
+                it('Player 1, after double, double score for: ' + score, () => {
                     game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
                     expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
                 });
 
-                it('Player 1, after double, no score for: ' + score, () => {
+                it('Player 1, after triple, closed score for: ' + score, () => {
                     game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
                     expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
                 });
+            });
+
+            it('Player 1, with score closed, stays close', () => {
+                let score = 20;
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
+                expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+            });
+
+            it('Player 1, with score double and score double, is closed', () => {
+                let score = 20;
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
+                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
+                expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
             });
         });
     });
