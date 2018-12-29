@@ -18,4 +18,16 @@ export class GameScoreComponent  {
     if (!this.gameState.s)  return [];
     return this.gameState.s.players;
   }
+
+  scoreState(score)
+  {
+    switch(score) {
+      case 1: { return "score-single"; }
+      case 2: { return "score-double"; }
+      case 3: { return "score-triple"; }
+      case 0: { return ""; }
+      default: { return ""; }
+  
+      }
+  }
 }
