@@ -18,6 +18,13 @@
     padding-left: 0.5em;
 }
 
+.gamescore {
+    overflow: none;
+    position: relative;
+    width: 40%;
+    height: 9 * $element-heigth;
+}
+
 .gamecontrols {
     overflow: none;
     position: relative;
