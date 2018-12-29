@@ -1,35 +1,35 @@
-<button id="btnBack" class="button" (click)="back()" [disabled]="controlsDisabled">back</button>
+<button id="btnBack" class="button" (click)="back()" [disabled]="controlsgenericScoreDisabled">back</button>
 <div class="barbutton">
 
   <div class="actions">
     <div class="indicator single">S</div>
-    <button id="btnSingle20" class="button single" (click)="hitSingle(20)" [disabled]="controlsScoreDisabled">20</button>
-    <button id="btnSingle19" class="button single" (click)="hitSingle(19)" [disabled]="controlsScoreDisabled">19</button>
-    <button id="btnSingle18" class="button single" (click)="hitSingle(18)" [disabled]="controlsScoreDisabled">18</button>
-    <button id="btnSingle17" class="button single" (click)="hitSingle(17)" [disabled]="controlsScoreDisabled">17</button>
-    <button id="btnSingle16" class="button single" (click)="hitSingle(16)" [disabled]="controlsScoreDisabled">16</button>
-    <button id="btnSingle15" class="button single" (click)="hitSingle(15)" [disabled]="controlsScoreDisabled">15</button>
-    <button id="btnSingleBull" class="button single" (click)="hitSingle(25)" [disabled]="controlsScoreDisabled">b</button>
+    <button id="btnSingle20" class="button single scorestate-{{controlsScoreState(20)}}" (click)="hitSingle(20)" [disabled]="controlsScoreDisabled(20)">20</button>
+    <button id="btnSingle19" class="button single scorestate-{{controlsScoreState(19)}}" (click)="hitSingle(19)" [disabled]="controlsScoreDisabled(19)">19</button>
+    <button id="btnSingle18" class="button single scorestate-{{controlsScoreState(18)}}" (click)="hitSingle(18)" [disabled]="controlsScoreDisabled(18)">18</button>
+    <button id="btnSingle17" class="button single scorestate-{{controlsScoreState(17)}}" (click)="hitSingle(17)" [disabled]="controlsScoreDisabled(17)">17</button>
+    <button id="btnSingle16" class="button single scorestate-{{controlsScoreState(16)}}" (click)="hitSingle(16)" [disabled]="controlsScoreDisabled(16)">16</button>
+    <button id="btnSingle15" class="button single scorestate-{{controlsScoreState(15)}}" (click)="hitSingle(15)" [disabled]="controlsScoreDisabled(15)">15</button>
+    <button id="btnSingleBull" class="button single scorestate-{{controlsScoreState(25)}}" (click)="hitSingle(25)" [disabled]="controlsScoreDisabled(25)">b</button>
   </div>
   <div class="actions">
     <div class="indicator double">D</div>
-    <button id="btnDouble20" class="button double" (click)="hitDouble(20)" [disabled]="controlsScoreDisabled">20</button>
-    <button id="btnDouble19" class="button double" (click)="hitDouble(19)" [disabled]="controlsScoreDisabled">19</button>
-    <button id="btnDouble18" class="button double" (click)="hitDouble(18)" [disabled]="controlsScoreDisabled">18</button>
-    <button id="btnDouble17" class="button double" (click)="hitDouble(17)" [disabled]="controlsScoreDisabled">17</button>
-    <button id="btnDouble16" class="button double" (click)="hitDouble(16)" [disabled]="controlsScoreDisabled">16</button>
-    <button id="btnDouble15" class="button double" (click)="hitDouble(15)" [disabled]="controlsScoreDisabled">15</button>
-    <button id="btnDoubleBull" class="button double" (click)="hitDouble(25)" [disabled]="controlsScoreDisabled">bb</button>
+    <button id="btnDouble20" class="button double scorestate-{{controlsScoreState(20)}}" (click)="hitDouble(20)" [disabled]="controlsScoreDisabled(20)">20</button>
+    <button id="btnDouble19" class="button double scorestate-{{controlsScoreState(19)}}" (click)="hitDouble(19)" [disabled]="controlsScoreDisabled(19)">19</button>
+    <button id="btnDouble18" class="button double scorestate-{{controlsScoreState(18)}}" (click)="hitDouble(18)" [disabled]="controlsScoreDisabled(18)">18</button>
+    <button id="btnDouble17" class="button double scorestate-{{controlsScoreState(17)}}" (click)="hitDouble(17)" [disabled]="controlsScoreDisabled(17)">17</button>
+    <button id="btnDouble16" class="button double scorestate-{{controlsScoreState(16)}}" (click)="hitDouble(16)" [disabled]="controlsScoreDisabled(16)">16</button>
+    <button id="btnDouble15" class="button double scorestate-{{controlsScoreState(15)}}" (click)="hitDouble(15)" [disabled]="controlsScoreDisabled(15)">15</button>
+    <button id="btnDoubleBull" class="button double scorestate-{{controlsScoreState(25)}}" (click)="hitDouble(25)" [disabled]="controlsScoreDisabled(25)">bb</button>
   </div> 
   <div class="actions">
     <div class="indicator triple">T</div>
-    <button id="btnTriple20" class="button triple" (click)="hitTriple(20)" [disabled]="controlsScoreDisabled">20</button>
-    <button id="btnTriple19" class="button triple" (click)="hitTriple(19)" [disabled]="controlsScoreDisabled">19</button>
-    <button id="btnTriple18" class="button triple" (click)="hitTriple(18)" [disabled]="controlsScoreDisabled">18</button>
-    <button id="btnTriple17" class="button triple" (click)="hitTriple(17)" [disabled]="controlsScoreDisabled">17</button>
-    <button id="btnTriple16" class="button triple" (click)="hitTriple(16)" [disabled]="controlsScoreDisabled">16</button>
-    <button id="btnTriple15" class="button triple" (click)="hitTriple(15)" [disabled]="controlsScoreDisabled">15</button>
-    <button id="btnMis" class="button triple" (click)="mis()" [disabled]="controlsScoreDisabled">mis</button>
+    <button id="btnTriple20" class="button triple scorestate-{{controlsScoreState(20)}}" (click)="hitTriple(20)" [disabled]="controlsScoreDisabled(20)">20</button>
+    <button id="btnTriple19" class="button triple scorestate-{{controlsScoreState(19)}}" (click)="hitTriple(19)" [disabled]="controlsScoreDisabled(19)">19</button>
+    <button id="btnTriple18" class="button triple scorestate-{{controlsScoreState(18)}}" (click)="hitTriple(18)" [disabled]="controlsScoreDisabled(18)">18</button>
+    <button id="btnTriple17" class="button triple scorestate-{{controlsScoreState(17)}}" (click)="hitTriple(17)" [disabled]="controlsScoreDisabled(17)">17</button>
+    <button id="btnTriple16" class="button triple scorestate-{{controlsScoreState(16)}}" (click)="hitTriple(16)" [disabled]="controlsScoreDisabled(16)">16</button>
+    <button id="btnTriple15" class="button triple scorestate-{{controlsScoreState(15)}}" (click)="hitTriple(15)" [disabled]="controlsScoreDisabled(15)">15</button>
+    <button id="btnMis" class="button triple" (click)="mis()" [disabled]="controlsgenericScoreDisabled">mis</button>
   </div>
 </div>
-<button id="btnDone"  class="button" (click)="endTurn()" [disabled]="controlsDisabled">Done</button>
+<button id="btnDone"  class="button" (click)="endTurn()" [disabled]="controlsDisabled">End turn</button>
