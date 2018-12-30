@@ -1,9 +1,11 @@
 import { ActionObject } from '../lib/Aggregate';
 
 export enum ActionsCricket { addPlayer, startGame, score, endTurn }
+export const NO_PLAYERS = 0;
 export const MAX_PLAYERS = 3;
 export const DARTS_IN_TURN = 3;
 export const BULL = 25; 
+export const SCORES_OPTIONS = [25, 20, 19, 18, 17, 16, 15];
 
 export enum DartScore { miss, single, double, triple };
 export enum CricketScore { noHit, one, two, closed };
@@ -13,43 +15,54 @@ export class CricketState
 {
     createdAt : Date;
     startedAt : Date;
+    
     players : PlayerState[] = [];
 
     turn : number = 1;
+    activeturn : TurnState;
 
     get round() {
-        return Math.ceil(this.turn / this.players.length);
+        return this.hasPlayers 
+                   ? Math.ceil(this.turn / this.players.length) 
+                   : 0;
     }
 
     get activePlayer() {
-        return  this.players[(this.turn-1) % this.players.length];
+        return  this.hasPlayers
+                    ? this.players[(this.turn-1) % this.players.length]
+                    : new PlayerState({name: 'Not active'});
     }
 
     gameScore(score: number) {
-        let closed = 0;
+        let playersClosedScore = 0;
     
-        function testClosed(value, index, array) {
-            closed += (value.score[score] == CricketScore.closed) ? 1 : 0;
-        }
+        this.players.forEach(player => {
+            playersClosedScore += (player.score[score] == CricketScore.closed) ? 1 : 0;
+        });
 
-        this.players.forEach(testClosed);
-
-        switch(closed) {
-            case 0: { return GameScore.open; }
-            case this.players.length: { return GameScore.closed; }
+        switch(playersClosedScore) {
+            case NO_PLAYERS: { return GameScore.open; }
+            case this.numberOfPlayers: { return GameScore.closed; }
             default: { return GameScore.playerToScore; }
         }
     }
 
-    activeturn : TurnState;
+    private get hasPlayers() : boolean    {
+      return this.players.length > 0;
+    }
+
+    private get numberOfPlayers() : number {
+       return this.players.length;
+    }
 }
 
 export class PlayerState
 {
-    constructor(private player) {}
+    constructor(private player) { }
 
     get name() : string { return this.player.name; }
 
+    bonus = 0;
     score = {
         25 /*BULL*/: CricketScore.noHit,
         20: CricketScore.noHit,
@@ -57,10 +70,8 @@ export class PlayerState
         18: CricketScore.noHit,
         17: CricketScore.noHit,
         16: CricketScore.noHit,
-        15: CricketScore.noHit 
+        15: CricketScore.noHit
     }
-
-    bonus = 0;
 }
 
 export class TurnState

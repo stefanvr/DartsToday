@@ -10,6 +10,20 @@ describe('CricketState', () => {
     beforeEach(() => {
         cricketState = new CricketState();
     });
+
+    describe ("Initials state", () => {
+        it('Round to be 0', () => {
+          expect(cricketState.round).toBe(0);
+        });
+
+        it('ActivePlayer to be set', () => {
+          expect(cricketState.activePlayer).toBeDefined(PlayerState);
+        });
+
+        it('PlayerWon to be false', () => {
+          expect(cricketState.playerWon()).toBe(false);
+        });
+    });
   
     it('With 2 player, round is turn divided by 2', () => {
         cricketState.players.push(player1);
