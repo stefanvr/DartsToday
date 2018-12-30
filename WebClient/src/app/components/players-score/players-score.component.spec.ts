@@ -5,7 +5,7 @@ import { GameService } from '../../services/game.service'
 
 import { CricketState, PlayerState } from '../../DartsToday/Cricket';
 
-describe('GameScoreComponent', () => {
+describe('PlayersScoreComponent', () => {
   let component: PlayersScoreComponent;
   let fixture: ComponentFixture<PlayersScoreComponent>;
   let compiled: any;
@@ -35,7 +35,7 @@ describe('GameScoreComponent', () => {
     let gs : CricketState;
     let player1 = { name: 'player 1a'};
 
-    it('Player', () => {   
+    it('Show player name', () => {   
       gs = new CricketState();
       gs.players.push(new PlayerState(player1));
       component.gameState.s = gs;

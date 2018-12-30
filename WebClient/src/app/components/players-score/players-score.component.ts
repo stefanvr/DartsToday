@@ -30,4 +30,9 @@ export class PlayersScoreComponent  {
       default: { return ""; }
       }
   }
+
+  activePlayer(name) {
+    if (!this.gameState.s)  return [];
+    return this.gameState.s.activePlayer.name == name ? "active-player" : "";
+  }
 }
