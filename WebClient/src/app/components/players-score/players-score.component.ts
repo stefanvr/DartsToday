@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService, ServiceState } from '../../services/game.service'
+import { CricketScore } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-players-score',
@@ -11,7 +12,7 @@ export class PlayersScoreComponent  {
 
   gameState: ServiceState; 
 
-  constructor(private gameService: GameService) {
+  constructor(gameService: GameService) {
     this.gameState = gameService.state;
   }
 
@@ -20,19 +21,19 @@ export class PlayersScoreComponent  {
     return this.gameState.s.players;
   }
 
-  scoreState(score)
+  scoreState(scoreOption, player)
   {
+    let score = player.score[scoreOption];
     switch(score) {
-      case 1: { return "score-single"; }
-      case 2: { return "score-double"; }
-      case 3: { return "score-triple"; }
-      case 0: { return ""; }
+      case CricketScore.one: { return "score-single"; }
+      case CricketScore.two: { return "score-double"; }
+      case CricketScore.closed: { return "score-triple"; }
+      case CricketScore.noHit: { return ""; }
       default: { return ""; }
       }
   }
 
-  activePlayer(name) {
-    if (!this.gameState.s)  return [];
-    return this.gameState.s.activePlayer.name == name ? "active-player" : "";
+  activePlayer(player) {
+    return this.gameState.s.activePlayer.name == player.name ? "active-player" : "";
   }
 }
