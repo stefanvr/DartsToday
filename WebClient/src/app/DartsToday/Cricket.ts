@@ -45,6 +45,18 @@ export class CricketState
             case this.numberOfPlayers: { return GameScore.closed; }
             default: { return GameScore.playerToScore; }
         }
+    }   
+
+    playerWon()
+    {
+        let hasWon = true;
+        let score = this.activePlayer.score;
+     
+        SCORES_OPTIONS.forEach(scoreOption => { 
+            hasWon = hasWon && (score[scoreOption] == CricketScore.closed) 
+        });
+     
+        return hasWon;
     }
 
     private get hasPlayers() : boolean    {
@@ -153,9 +165,16 @@ export class Cricket implements ActionObject {
 
     endTurn(event)
     {
-        this.state.activeturn = new TurnState();
-        this.state.turn += 1;
-
-        this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
+        if (!this.state.playerWon())
+        {
+          this.state.activeturn = new TurnState();
+          this.state.turn += 1;
+  
+          this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
+        }
+        else
+        {
+          this.enabledActions = []; 
+        }
     }
 }

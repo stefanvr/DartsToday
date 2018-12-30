@@ -186,6 +186,28 @@ describe('Cricket', () => {
                 game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.single });
                 expect(game.state().players[0].bonus).toEqual(score);
             });
+
+            function playTripleturn(scores)
+            {
+                game.execute({action: ActionsCricket.score, score: scores[0], multiplier: DartScore.triple });
+                game.execute({action: ActionsCricket.score, score: scores[1], multiplier: DartScore.triple });
+                game.execute({action: ActionsCricket.score, score: scores[2], multiplier: DartScore.triple });
+                game.execute({action: ActionsCricket.endTurn});
+                game.execute({action: ActionsCricket.endTurn});
+            }
+
+            describe('Player 1 wins', () => {
+            
+                it('Possible action(s):  ', () => {
+                    playTripleturn([20,19,18]);
+                    playTripleturn([17,16,15]);
+                    game.execute({action: ActionsCricket.score, score: 25, multiplier: DartScore.double });
+                    game.execute({action: ActionsCricket.score, score: 25, multiplier: DartScore.single });
+                    game.execute({action: ActionsCricket.endTurn});
+
+                    expect(game.enabledActions().length).toBe(0);
+                });
+            });
         });
     });
 });
