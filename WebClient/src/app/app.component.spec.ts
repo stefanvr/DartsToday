@@ -36,23 +36,35 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the app', () => {
-    expect(app).toBeTruthy();
+  describe('Component creation:', () => {
+    it('should create the app', () => {
+      expect(app).toBeTruthy();
+    });
+  
+    it('should render game type', () => {
+      expect(compiled.querySelector('#header').textContent).toContain('DartsToday');
+    });
+  
+    it('should render turn tracker', () => {
+      expect(compiled.querySelector('app-turn-tracker')).toBeTruthy();
+    });
+  
+    it('should render players score', () => {
+      expect(compiled.querySelector('app-players-score')).toBeTruthy();
+    });
+  
+    it('should render game score', () => {
+      expect(compiled.querySelector('app-players-score')).toBeTruthy();
+    });
+  
+    it('should render turn control ticket', () => {
+      expect(compiled.querySelector('app-turn-control-cricket')).toBeTruthy();
+    });
   });
 
-  it(`should have as title 'DartsToday'`, () => {
-    expect(app.title).toEqual('DartsToday');
-  });
-
-  it('should render game type', () => {
-    expect(compiled.querySelector('#header').textContent).toContain('DartsToday');
-  });
-
-  it('should render turn tracker', () => {
-    expect(compiled.querySelector('app-turn-tracker')).toBeTruthy();
-  });
-
-  it('should render turn control ticket', () => {
-    expect(compiled.querySelector('app-turn-control-cricket')).toBeTruthy();
+  describe('State:', () => {
+    it(`should have title 'DartsToday'`, () => {
+      expect(app.title).toEqual('DartsToday');
+    });
   });
 });
