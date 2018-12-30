@@ -10,7 +10,7 @@ import { GameService, ServiceState } from '../../services/game.service'
 export class TurnTrackerComponent {
   gameState: ServiceState; 
 
-  constructor(private gameService: GameService) {
+  constructor(gameService: GameService) {
     this.gameState = gameService.state;
   }
 
@@ -21,7 +21,7 @@ export class TurnTrackerComponent {
   }
 
   dartState(dart : number) {
-    if (!this.gameState.s || !this.gameState.s.activeturn)  return "";
+    if (!this.gameState.s)  return "";
 
     return  dart >= this.gameState.s.activeturn.dartsThrown  ? "turn-attempt" : "turn-done";
   }

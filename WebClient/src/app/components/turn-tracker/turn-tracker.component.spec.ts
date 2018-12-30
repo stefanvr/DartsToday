@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GameService } from '../../services/game.service'
 import { TurnTrackerComponent } from './turn-tracker.component';
+
+import {GAME_STATES_GAME, GAME_STATES_GAME_ROUND } from '../../DartsToday/CricketGameExamples'
 import { CricketState, TurnState, PlayerState } from '../../DartsToday/Cricket';
 
 describe('TurnTrackerComponent', () => {
@@ -25,44 +27,46 @@ describe('TurnTrackerComponent', () => {
   });
 
   describe('Initial state', () => {
-    it('No turn number displayed', () => {   
-      expect(compiled.querySelector('#turn').textContent).toBe('');
+    it('No dart state displayed', () => { 
+       expect(component.turn).toBe("");
+    });
+
+    it('No dart state displayed', () => { 
+      expect(component.dartState(1)).toBe("");
+      expect(component.dartState(2)).toBe("");
+      expect(component.dartState(3)).toBe("");
+    });
+
+    
+  });
+
+  describe('With game state:', () => {
+    beforeEach(() => {
+      let service = <GameService>TestBed.get(GameService);
+      service.executeScenario(GAME_STATES_GAME);
+      fixture.detectChanges();
+    });
+
+    it('Turn number', () => {   
+      expect(component.turn).toEqual(GAME_STATES_GAME_ROUND);
     });
   
-    it('No dart state displayed', () => {   
-      expect(compiled.querySelector('#dart1').getAttribute("class")).not.toContain("icon-dart-turn-attempt");
-      expect(compiled.querySelector('#dart2').getAttribute("class")).not.toContain("icon-dart-turn-done");
-      expect(compiled.querySelector('#dart3').getAttribute("class")).not.toContain("icon-dart-turn-attempt");
-    });
-  });
-
-  describe('TurnState set', () => {
-    let gs : CricketState;
-    
-    beforeEach(() => {
-      gs = new CricketState();
-      gs.activeturn = new TurnState();
-      gs.players.push(new PlayerState({}));
-      component.gameState.s = gs;
-      fixture.detectChanges();
-    });
-    
-    it('Display turn number', () => {
-      expect(compiled.querySelector('#turn').textContent).toBe('1');
+    it('Turn number', () => {   
+      expect(component.dartState(0)).toEqual("turn-done");
+      expect(component.dartState(1)).toEqual("turn-done");
+      expect(component.dartState(2)).toEqual("turn-attempt");
     });
 
-    it('Dart state displayed as noscore', () => {
-      expect(compiled.querySelector('#dart1').getAttribute("class")).toContain("icon-dart-turn-attempt");
-      expect(compiled.querySelector('#dart2').getAttribute("class")).toContain("icon-dart-turn-attempt");
-      expect(compiled.querySelector('#dart3').getAttribute("class")).toContain("icon-dart-turn-attempt");
-    });
+    describe('Template test:', () => {
+      it('Turn number displayed', () => {   
+        expect(compiled.querySelector('#turn').textContent).toEqual(GAME_STATES_GAME_ROUND.toString());
+      });
 
-    it('After two darts, Darts state displayed as scores for Dart1 & Dart2', () => {
-      gs.activeturn.dartsThrown = 2;
-      fixture.detectChanges();
-      expect(compiled.querySelector('#dart1').getAttribute("class")).toContain("icon-dart-turn-done");
-      expect(compiled.querySelector('#dart2').getAttribute("class")).toContain("icon-dart-turn-done");
-      expect(compiled.querySelector('#dart3').getAttribute("class")).toContain("icon-dart-turn-attempt");
+      it('After two darts, Darts state displayed as scores for Dart1 & Dart2', () => {
+        expect(compiled.querySelector('#dart1').getAttribute("class")).toContain("icon-dart-turn-done");
+        expect(compiled.querySelector('#dart2').getAttribute("class")).toContain("icon-dart-turn-done");
+        expect(compiled.querySelector('#dart3').getAttribute("class")).toContain("icon-dart-turn-attempt");
+      });
     });
-  });
+  });    
 });
