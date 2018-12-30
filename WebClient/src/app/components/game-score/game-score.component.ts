@@ -11,7 +11,7 @@ export class GameScoreComponent {
 
   gameState: ServiceState; 
 
-  constructor(private gameService: GameService) {
+  constructor(gameService: GameService) {
     this.gameState = gameService.state;
   }
 
@@ -26,5 +26,11 @@ export class GameScoreComponent {
 
     return this.gameState.s.gameScore(score) === GameScore.closed ? "": 
       (score === 25 ? "Bull" : score) ;
+  }
+
+  playerwon() {
+    if(!this.gameState.s) return  "";
+
+    return this.gameState.s.playerWon() ? "Win: " + this.gameState.s.activePlayer.name : ""; 
   }
 }
