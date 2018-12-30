@@ -20,6 +20,11 @@ export class GameService {
     return this._state;
   }
 
+  executeScenario(scenario: any) {
+    this.game = Aggregate.CreateFromEs(scenario, Cricket);
+    this._state.s = this.game.state();
+  }
+
   execute(command: any) {
     this.EnsureGame();
     this.game.execute(command);
