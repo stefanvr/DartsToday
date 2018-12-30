@@ -145,12 +145,12 @@ export class Cricket implements ActionObject {
         // calc state
         if (event.score > DartScore.miss && currentScore != CricketScore.closed)
         {
-          this.state.activePlayer.score[event.score] =Math.min(hits, CricketScore.closed);
+          this.state.activePlayer.score[event.score] = Math.min(hits, CricketScore.closed);
         }
 
         // calc bonus
         if ((this.state.gameScore(event.score) != GameScore.closed) ||
-           (this.state.gameScore(event.score) === GameScore.playerToScore && this.state.activePlayer.score[event.score] === CricketScore.closed))
+           (this.state.gameScore(event.score) === GameScore.playerToScore)) 
         {
           let bonusHits = Math.max(0, hits-CricketScore.closed);
           this.state.activePlayer.bonus += (bonusHits * event.score);
