@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService, ServiceState } from '../../services/game.service'
-import { GameScore } from '../../DartsToday/Cricket'
+import { GameScore, BULL } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-game-score',
@@ -18,14 +18,17 @@ export class GameScoreComponent {
   scoreState(score) {
     if(!this.gameState.s) return  "";
 
-    return this.gameState.s.gameScore(score) === GameScore.closed ? "closed": "";
+    return this.gameState.s.gameScore(score) === GameScore.closed 
+               ? "closed"
+               : "";
   }
 
   scoreStateLabel(score) {
     if(!this.gameState.s) return  "";
 
-    return this.gameState.s.gameScore(score) === GameScore.closed ? "": 
-      (score === 25 ? "Bull" : score) ;
+    return this.gameState.s.gameScore(score) === GameScore.closed 
+               ? ""
+               : (score === BULL ? "Bull" : score) ;
   }
 
   playerwon() {
