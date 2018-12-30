@@ -15,7 +15,7 @@ export class TurnControlCricketComponent {
   }
 
   get controlsDisabled() {
-    return !this.gameState.s;
+    return !this.gameState.s || this.gameState.s.playerWon();
   }
 
   get controlsgenericScoreDisabled() {
