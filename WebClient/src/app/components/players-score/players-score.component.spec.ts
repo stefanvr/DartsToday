@@ -73,5 +73,14 @@ describe('PlayersScoreComponent', () => {
         expect(compiled.querySelector('.playername').textContent).toEqual(PLAYER1.name);
       });
     });
+
+    describe('Should not happen:', () => { 
+      it('Invalid score"', () => {
+        let INVALID_SCORE = -1;   
+        let player = component.players[0];
+        player.score[20] = INVALID_SCORE  
+        expect(component.scoreState(20, player)).toBe("");
+      });
+    });
   });
 });

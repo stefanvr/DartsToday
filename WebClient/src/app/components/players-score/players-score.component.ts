@@ -29,7 +29,10 @@ export class PlayersScoreComponent  {
       case CricketScore.two: { return "score-double"; }
       case CricketScore.closed: { return "score-triple"; }
       case CricketScore.noHit: { return ""; }
-      default: { return ""; }
+      default: {
+          console.log("Invalid score: '"+ score +"'") 
+          return ""; 
+        }
       }
   }
 
