@@ -18,6 +18,10 @@ describe('GameService', () => {
     it('Command enabled to be false', () => {
       expect(service.commandEnabled("tstDisabledCommand")).toBe(false);
     });
+
+    it('service.execute no to throw', () => {
+      expect(service.execute(null)).not.toThrow;
+    });
   });
 
   describe('Execute', () => {
@@ -28,7 +32,7 @@ describe('GameService', () => {
   
     beforeEach(() => {
       aggregateSpy = jasmine.createSpyObj('Aggregate', ['execute', 'state', 'enabledActions']);
-      service.testSet(aggregateSpy);
+      service.intializeNew(aggregateSpy);
     });
 
     it('Applies command on aggegrate', () => {     

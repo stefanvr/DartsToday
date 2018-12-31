@@ -7,8 +7,10 @@ import { TurnTrackerComponent } from './components/turn-tracker/turn-tracker.com
 import { TurnControlCricketComponent } from './components/turn-control-cricket/turn-control-cricket.component';
 import { PlayersScoreComponent } from './components/players-score/players-score.component';
 import { GameScoreComponent } from './components/game-score/game-score.component'
+import { GameConfigurationComponent } from './components/game-configuration/game-configuration.component';
 
 import { GameService } from './services/game.service';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { GameService } from './services/game.service';
     TurnControlCricketComponent,
     GameScoreComponent,
     PlayersScoreComponent,
-    GameScoreComponent
+    GameScoreComponent,
+    GameConfigurationComponent
   ],
   imports: [
     BrowserModule,

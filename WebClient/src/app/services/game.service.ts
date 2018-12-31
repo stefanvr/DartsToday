@@ -12,12 +12,16 @@ export class ServiceState {
 
 export class GameService {
   private _state: ServiceState = new ServiceState();
-  private game: Aggregate;
+  private game: Aggregate = null;
 
   constructor() { }
 
   get state() : any {
     return this._state;
+  }
+
+  intializeNew(game) {
+    this.game = game;
   }
 
   executeScenario(scenario: any) {
@@ -26,32 +30,16 @@ export class GameService {
   }
 
   execute(command: any) {
-    this.EnsureGame();
+    if (!this.game) { 
+      console.log('Unable to execute command as game has not been initialized');
+      return;
+    }
+    
     this.game.execute(command);
     this._state.s = this.game.state();
   }
 
   commandEnabled(command){
     return this.game ? this.game.enabledActions().includes(command) : false;
-  }
-
-  // Future - create game creation options
-  testSet(game)
-  {
-    this.game = game;
-  }
-
-  private EnsureGame()
-  {
-    // Future - create game creation options
-    if (!this.game)
-    {
-      this.game = Aggregate.CreateNew(new Date(Date.now()).toISOString(), Cricket);
-
-      let player1 = { name: 'player 1'};
-      let player2 = { name: 'player 2'};
-      this.game.execute({action: ActionsCricket.addPlayer, player: player1});
-      this.game.execute({action: ActionsCricket.addPlayer, player: player2});
-    }
   }
 }
