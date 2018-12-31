@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
 import { GameService } from '../../services/game.service'
+
+import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
 import { ActionsCricket, CricketState, DartScore, BULL } from '../../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
@@ -22,24 +24,62 @@ describe('TurnControlCricketComponent', () => {
     fixture = TestBed.createComponent(TurnControlCricketComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;  
-    
-    let gs = new CricketState();
-    component.gameState.s = gs;
-
     fixture.detectChanges();
   });
 
   describe('Initial state', () => {
+    it('controlsDisabled is true', () => {
+      expect(component.controlsDisabled).toBe(true);
+    });
+
+    it('controlsgenericScoreDisabled is true', () => {
+      expect(component.controlsDisabled).toBe(true);
+    });
+
+    it('controlsScoreDisabled(BULL) is true', () => {
+      expect(component.controlsScoreDisabled(BULL)).toBe(true);
+    });
+
+    it('controlsScoreState(BULL) css post fix', () => {
+      expect(component.controlsScoreState(BULL)).toBe("");
+    });
+  });
+
+  describe('With game states:', () => {
     beforeEach(() => {
-      component.gameState = { s: new CricketState() };
-      spyOn(gameService, 'commandEnabled').and.returnValue(true);
+      gameService.executeScenario(GAME_STATES_GAME);
       fixture.detectChanges();
     });
 
-    it('should create', () => {
-      expect(component).toBeTruthy();
+    it('controlsScoreDisabled(20) is true', () => {
+      expect(component.controlsScoreDisabled(20)).toBe(true);
     });
 
+    it('controlsScoreState(20) css post fix', () => {
+      expect(component.controlsScoreState(20)).toBe("closed");
+    });
+
+    it('Active player with closed score, controlsScoreState(19) css post fix', () => {
+      expect(component.controlsScoreState(17)).toBe("score");
+    });
+
+    it('Active player without closed score, controlsScoreState(19) css post fix', () => {
+      gameService.execute({ action: ActionsCricket.endTurn});
+      fixture.detectChanges();
+      expect(component.controlsScoreState(17)).toBe("open");
+    });
+  });
+
+  describe('With  player1 won game state:', () => {
+    beforeEach(() => {
+      let service = <GameService>TestBed.get(GameService);
+      service.executeScenario(PLAYER1_WIN_GAME);
+      fixture.detectChanges();
+    });
+
+    it('controlsDisabled is true', () => {
+      expect(component.controlsDisabled).toBe(true);
+    });
   });
 
   function assertButtonToCommand(buttonId : string, command: any)
