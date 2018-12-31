@@ -150,6 +150,11 @@ describe('Cricket', () => {
                 expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
             });
         });
+
+        it('Player 1, at start, no score for: ' + score, () => {
+            game.execute({action: ActionsCricket.score, score: 0, multiplier: 1});
+            expect(game.state().players[0].bonus).toEqual(0);
+        });
         
         it('Player 1, with score closed, stays close', () => {
             

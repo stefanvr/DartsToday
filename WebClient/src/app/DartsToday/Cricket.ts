@@ -139,9 +139,10 @@ export class Cricket implements ActionObject {
     {
         this.state.activeturn.dartsThrown += 1;
         
+        if (event.score > 0)
         {
           this.UpdateScore(event.score, event.multiplier)
-        
+        }
 
         if (this.state.activeturn.dartsremaining === 0)
         {
