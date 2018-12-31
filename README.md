@@ -46,5 +46,7 @@ Add additional notes about how to deploy this on a live system
 ## Built With
 
 ```
-ng build --prod --aot
+Publish.ps1
 ```
+
+Which is in esssance 'ng build', but patching the index.html with git branch and rev number.
