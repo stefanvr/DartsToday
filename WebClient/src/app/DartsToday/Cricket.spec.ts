@@ -99,24 +99,35 @@ describe('Cricket', () => {
             expect(game.state().activeturn.dartsThrown).toBe(0); 
         });
 
-        it('Possible action(s): score', () => {
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.score, score: 0 });
+        it('After score, Possible action(s): back, score, end turn', () => {
             game.execute({action: ActionsCricket.score, score: 0 });
 
+            expect(game.enabledActions()).toContain(ActionsCricket.undo); 
+            expect(game.enabledActions()).toContain(ActionsCricket.score); 
             expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
-            expect(game.enabledActions().length).toBe(1);
+            expect(game.enabledActions().length).toBe(3);
         });
 
-        it('Possible action(s): score, endTurn', () => {
+        it('After 3 scores, Possible action(s): back, endturn', () => {
+            game.execute({action: ActionsCricket.score, score: 0 });
+            game.execute({action: ActionsCricket.score, score: 0 });
+            game.execute({action: ActionsCricket.score, score: 0 });
+
+            expect(game.enabledActions()).toContain(ActionsCricket.undo);
+            expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
+            expect(game.enabledActions().length).toBe(2);
+        });
+
+        it('After 3 scores and endturn, possible action(s): back, score, endTurn', () => {
             game.execute({action: ActionsCricket.score, score: 0 });
             game.execute({action: ActionsCricket.score, score: 0 });
             game.execute({action: ActionsCricket.score, score: 0 });
             game.execute({action: ActionsCricket.endTurn });
 
+            expect(game.enabledActions()).toContain(ActionsCricket.undo);
             expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
             expect(game.enabledActions()).toContain(ActionsCricket.score); 
-            expect(game.enabledActions().length).toBe(2);
+            expect(game.enabledActions().length).toBe(3);
         });
 
         [BULL,20,19,18,17,16,15].forEach(score => {
@@ -198,7 +209,6 @@ describe('Cricket', () => {
             game.execute({action: ActionsCricket.endTurn});
         }
     });
-
 
     describe('Game Player 1 wins:', () => {
         beforeEach(() => {

@@ -138,28 +138,39 @@ export class Cricket implements ActionObject {
     score(event)
     {
         this.state.activeturn.dartsThrown += 1;
-
-        let currentScore = this.state.activePlayer.score[event.score];
-        let hits = currentScore + event.multiplier;
         
-        // calc state
-        if (event.score > DartScore.miss && currentScore != CricketScore.closed)
         {
-          this.state.activePlayer.score[event.score] = Math.min(hits, CricketScore.closed);
-        }
-
-        // calc bonus
-        if ((this.state.gameScore(event.score) != GameScore.closed) ||
-           (this.state.gameScore(event.score) === GameScore.playerToScore)) 
-        {
-          let bonusHits = Math.max(0, hits-CricketScore.closed);
-          this.state.activePlayer.bonus += (bonusHits * event.score);
-        }
-
+          this.UpdateScore(event.score, event.multiplier)
+        
 
         if (this.state.activeturn.dartsremaining === 0)
         {
-            this.enabledActions = [ActionsCricket.endTurn];
+            this.enabledActions = [ActionsCricket.undo, ActionsCricket.endTurn];
+        }
+        else
+        {
+            this.enabledActions = [ActionsCricket.undo, ActionsCricket.score, ActionsCricket.endTurn];
+        }
+    }
+
+    private UpdateScore(score, multiplier)
+    {
+        let currentScore = this.state.activePlayer.score[score];
+        let hits = currentScore + multiplier;
+        
+        // calc state
+        if (score > DartScore.miss && currentScore != CricketScore.closed)
+        {
+          this.state.activePlayer.score[score] = Math.min(hits, CricketScore.closed);
+        }
+
+        // calc bonus
+        if ((this.state.gameScore(score) != GameScore.closed) ||
+           (this.state.gameScore(score) === GameScore.playerToScore)) 
+        {
+          let scoreBonus = (bonusHits * score)
+          this.state.activePlayer.turnBonus += scoreBonus;
+          this.state.activePlayer.bonus += scoreBonus;
         }
     }
 
@@ -170,7 +181,7 @@ export class Cricket implements ActionObject {
           this.state.activeturn = new TurnState();
           this.state.turn += 1;
   
-          this.enabledActions = [ActionsCricket.score, ActionsCricket.endTurn];
+          this.enabledActions = [ActionsCricket.undo, ActionsCricket.score, ActionsCricket.endTurn];
         }
         else
         {
