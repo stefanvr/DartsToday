@@ -49,14 +49,7 @@ export class CricketState
 
     playerWon()
     {
-        let hasWon = true;
-        let score = this.activePlayer.score;
-     
-        SCORES_OPTIONS.forEach(scoreOption => { 
-            hasWon = hasWon && (score[scoreOption] == CricketScore.closed) 
-        });
-     
-        return hasWon;
+        return this.hasClosedAllscores() && this.hasWinningBonus();
     }
 
     private get hasPlayers() : boolean    {
@@ -65,6 +58,27 @@ export class CricketState
 
     private get numberOfPlayers() : number {
        return this.players.length;
+    }
+
+    private hasClosedAllscores()
+    {
+        let closedAll = true;
+        let score = this.activePlayer.score;
+        SCORES_OPTIONS.forEach(scoreOption => { 
+            closedAll = closedAll && (score[scoreOption] == CricketScore.closed) 
+        });
+     
+        return closedAll;
+    }
+
+    private hasWinningBonus()
+    {
+      let winningBonus = true;
+      this.players.forEach(player => { 
+        winningBonus = winningBonus && this.activePlayer.bonus >= player.bonus;
+      });
+
+      return winningBonus;
     }
 }
 

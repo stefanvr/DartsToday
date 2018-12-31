@@ -1,7 +1,7 @@
 import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL } from "./Cricket";
 
 import { Aggregate } from '../lib/Aggregate';
-import { STARTED_GAME, PLAYER1_WIN_GAME } from './CricketGameExamples';
+import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME } from './CricketGameExamples';
 
 describe('Cricket', () => {
     let game: Aggregate;
@@ -221,8 +221,22 @@ describe('Cricket', () => {
             game = Aggregate.CreateFromEs(PLAYER1_WIN_GAME, Cricket);
         });
         
+        it('player won state is true', () => {
+            expect(game.state().playerWon()).toBe(true);
+        });
+
         it('Possible action(s):  ', () => {
             expect(game.enabledActions().length).toBe(0);
+        });
+    });
+
+    describe('Game Player closed all scores, but bonus lower than opponent:', () => {
+        beforeEach(() => {
+            game = Aggregate.CreateFromEs(PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME, Cricket);
+        });
+        
+        it('player won state is false', () => {
+            expect(game.state().playerWon()).toBe(false);
         });
     });
 });
