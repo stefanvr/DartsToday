@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
 import { GameService } from '../../services/game.service'
 
-import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
+import { STARTED_GAME, GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
 import { ActionsCricket, CricketState, DartScore, BULL } from '../../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
@@ -29,11 +29,11 @@ describe('TurnControlCricketComponent', () => {
 
   describe('Initial state', () => {
     it('controlsDisabled is true', () => {
-      expect(component.controlsDisabled).toBe(true);
+      expect(component.controlsBackDisabled).toBe(true);
     });
 
     it('controlsgenericScoreDisabled is true', () => {
-      expect(component.controlsDisabled).toBe(true);
+      expect(component.controlsEnTurnDisabled).toBe(true);
     });
 
     it('controlsScoreDisabled(BULL) is true', () => {
@@ -69,6 +69,19 @@ describe('TurnControlCricketComponent', () => {
       expect(component.controlsScoreState(17)).toBe("open");
     });
   });
+
+  describe('With started game:', () => {
+    beforeEach(() => {
+      gameService.executeScenario(STARTED_GAME);
+      fixture.detectChanges();
+    });
+
+    it('controlBackDisabled() is true', () => {
+      expect(component.controlsBackDisabled)  .toBe(true);
+    });
+
+  });
+
 
   describe('With  player1 won game state:', () => {
     beforeEach(() => {
@@ -117,7 +130,7 @@ describe('TurnControlCricketComponent', () => {
     });
 
     it('Button back', () => {
-      assertButtonToCommand("#btnBack", {action: "back"});
+      assertButtonToCommand("#btnBack", {action: ActionsCricket.undo});
     });
     
     [20,19,18,17,16,15].forEach(element => {

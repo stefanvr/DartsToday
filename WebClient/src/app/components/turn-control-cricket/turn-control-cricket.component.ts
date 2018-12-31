@@ -18,13 +18,23 @@ export class TurnControlCricketComponent {
     return !this.gameState.s || this.gameState.s.playerWon();
   }
 
-  get controlsgenericScoreDisabled() {
+  private controlsGenericScoreDisabled(action) {
     return this.controlsDisabled 
-      || !this.gameService.commandEnabled(ActionsCricket.score);
+      || !this.gameService.commandEnabled(action);
+  }
+
+  get controlsBackDisabled()
+  {
+    return this.controlsGenericScoreDisabled(ActionsCricket.undo);
+  }
+
+  get controlsEnTurnDisabled()
+  {
+    return this.controlsGenericScoreDisabled(ActionsCricket.endTurn);
   }
 
   controlsScoreDisabled(score) {
-    return this.controlsgenericScoreDisabled 
+    return this.controlsGenericScoreDisabled(ActionsCricket.score)
       || this.controlsScoreState(score) == "closed";
   }
 
@@ -38,7 +48,7 @@ export class TurnControlCricketComponent {
   }
 
   back() {
-    this.gameService.execute({action: "back"});
+    this.gameService.execute({action: ActionsCricket.undo});
   }
 
   endTurn() {

@@ -1,4 +1,4 @@
-<button id="btnBack" class="button" (click)="back()" [disabled]="controlsgenericScoreDisabled">back</button>
+<button id="btnBack" class="button" (click)="back()" [disabled]="controlsBackDisabled">back</button>
 <div class="barbutton">
 
   <div class="actions">
@@ -29,7 +29,7 @@
     <button id="btnTriple17" class="button triple scorestate-{{controlsScoreState(17)}}" (click)="hitTriple(17)" [disabled]="controlsScoreDisabled(17)">17</button>
     <button id="btnTriple16" class="button triple scorestate-{{controlsScoreState(16)}}" (click)="hitTriple(16)" [disabled]="controlsScoreDisabled(16)">16</button>
     <button id="btnTriple15" class="button triple scorestate-{{controlsScoreState(15)}}" (click)="hitTriple(15)" [disabled]="controlsScoreDisabled(15)">15</button>
-    <button id="btnMis" class="button triple" (click)="mis()" [disabled]="controlsgenericScoreDisabled">mis</button>
+    <button id="btnMis" class="button triple" (click)="mis()" [disabled]="controlsScoreDisabled(0)">mis</button>
   </div>
 </div>
-<button id="btnDone"  class="button" (click)="endTurn()" [disabled]="controlsDisabled">End turn</button>
+<button id="btnDone"  class="button" (click)="endTurn()" [disabled]="controlsEnTurnDisabled">End turn</button>
