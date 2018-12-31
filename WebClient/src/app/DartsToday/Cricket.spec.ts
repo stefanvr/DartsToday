@@ -187,6 +187,7 @@ describe('Cricket', () => {
             game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
             game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
             expect(game.state().players[1].bonus).toEqual(score);
+            expect(game.state().players[1].turnBonus).toEqual(score);
         });
 
         it('After Player 1 closes score, Player 2 get no bonus', () => {

@@ -75,6 +75,7 @@ export class PlayerState
     get name() : string { return this.player.name; }
 
     bonus = 0;
+    turnBonus = 0;
     score = {
         25 /*BULL*/: CricketScore.noHit,
         20: CricketScore.noHit,
@@ -169,6 +170,7 @@ export class Cricket implements ActionObject {
         if ((this.state.gameScore(score) != GameScore.closed) ||
            (this.state.gameScore(score) === GameScore.playerToScore)) 
         {
+          let bonusHits = Math.max(0, hits-CricketScore.closed);
           let scoreBonus = (bonusHits * score)
           this.state.activePlayer.turnBonus += scoreBonus;
           this.state.activePlayer.bonus += scoreBonus;
@@ -179,6 +181,7 @@ export class Cricket implements ActionObject {
     {
         if (!this.state.playerWon())
         {
+          this.state.activePlayer.turnBonus = 0;
           this.state.activeturn = new TurnState();
           this.state.turn += 1;
   

@@ -29,7 +29,7 @@ export const PLAYER1_WIN_GAME = { events: [
     {"action":"endTurn"}
 ]};
 
-// 20 Closed, player 1: 17, triple, 19 double, 18 single score
+// 20 Closed, player 1: 17 triple/closed, 19 double, 18 single score and bonus 51 on triple 17 in current turn
 export const GAME_STATES_GAME_ROUND = 2;
 export const GAME_STATES_GAME = { events: [
     {"action":"initialized","createdAt":"2018-12-30T20:00:24.299Z"},
@@ -38,9 +38,10 @@ export const GAME_STATES_GAME = { events: [
     {"action":"startGame","startedAt":"2018-12-30T20:00:24.301Z"},
     {"action":"score","score":20,"multiplier":3},
     {"action":"score","score":17,"multiplier":3},
+    {"action":"score","score":19,"multiplier":2},
     {"action":"endTurn"},
     {"action":"score","score":20,"multiplier":3},
     {"action":"endTurn"},
-    {"action":"score","score":19,"multiplier":2},
-    {"action":"score","score":18,"multiplier":1}
+    {"action":"score","score":18,"multiplier":1},
+    {"action":"score","score":17,"multiplier":3},
 ]};
