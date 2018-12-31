@@ -37,7 +37,9 @@ describe('TurnTrackerComponent', () => {
       expect(component.dartState(3)).toBe("");
     });
 
-    
+    it('No Score displayed', () => { 
+      expect(component.turnBonus).toBe("");
+    });
   });
 
   describe('With game state:', () => {
@@ -48,7 +50,7 @@ describe('TurnTrackerComponent', () => {
     });
 
     it('Turn number', () => {   
-      expect(component.turn).toEqual(GAME_STATES_GAME_ROUND);
+      expect(component.turn).toEqual("Turn: " + GAME_STATES_GAME_ROUND);
     });
   
     it('Turn number', () => {   
@@ -57,9 +59,13 @@ describe('TurnTrackerComponent', () => {
       expect(component.dartState(2)).toEqual("turn-attempt");
     });
 
+    it('Bonus displayed', () => { 
+      expect(component.turnBonus).toBe("Bonus: 51");
+    });
+
     describe('Template test:', () => {
       it('Turn number displayed', () => {   
-        expect(compiled.querySelector('#turn').textContent).toEqual(GAME_STATES_GAME_ROUND.toString());
+        expect(compiled.querySelector('#turn').textContent).toEqual("Turn: " + GAME_STATES_GAME_ROUND.toString());
       });
 
       it('After two darts, Darts state displayed as scores for Dart1 & Dart2', () => {

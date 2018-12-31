@@ -17,12 +17,18 @@ export class TurnTrackerComponent {
   get turn() {
     if (!this.gameState.s)  return "";
 
-    return this.gameState.s.round;
+    return "Turn: " + this.gameState.s.round;
   }
 
   dartState(dart : number) {
     if (!this.gameState.s)  return "";
 
     return  dart >= this.gameState.s.activeturn.dartsThrown  ? "turn-attempt" : "turn-done";
+  }
+
+  get turnBonus() {
+    if (!this.gameState.s)  return "";
+
+    return "Bonus: " + this.gameState.s.activePlayer.turnBonus;
   }
 }
