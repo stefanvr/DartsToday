@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GameScoreComponent } from './game-score.component';
 import { GameService } from '../../services/game.service'
 
-import {GAME_STATES_GAME} from '../../DartsToday/CricketGameExamples'
+import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1 } from '../../DartsToday/CricketGameExamples'
 
 describe('GameScoreComponent', () => {
   let component: GameScoreComponent;
@@ -80,4 +80,16 @@ describe('GameScoreComponent', () => {
       expect(component.playerwon()).toBe("");
     }); 
   });  
+
+  describe('With player1 won game state:', () => {
+    beforeEach(() => {
+      let service = <GameService>TestBed.get(GameService);
+      service.executeScenario(PLAYER1_WIN_GAME);
+      fixture.detectChanges();
+    });
+
+    it('playerwon test to be: ""', () => {
+      expect(component.playerwon()).toEqual("Win: " + PLAYER1.name);
+    });
+  });
 });
