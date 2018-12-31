@@ -1,4 +1,6 @@
-import { Aggregate, ActionObject } from '../lib/Aggregate';
+import { Aggregate, ActionObject, CMD_UNDO } from '../lib/Aggregate';
+
+const COMMAND_TO_CONVERT  = -1;
 
 class TestGame implements  ActionObject
 {
@@ -6,12 +8,12 @@ class TestGame implements  ActionObject
     state: any = { createdAt: null, customData: null, payload: null }
     
     convertAction(command) {
-       return command === 0 ? "convertedCommand" : command; 
+       return command === COMMAND_TO_CONVERT ? "convertedCommand" : command; 
     }
 
     initialized(event) {  
         this.state.createdAt = event.createdAt;
-        this.enabledActions = [ "enabledCommand", 0, "unkownHandler" ]
+        this.enabledActions = [ "enabledCommand", COMMAND_TO_CONVERT, "unkownHandler", CMD_UNDO ]
     }
     
     disabledCommand(event) {  
@@ -67,7 +69,7 @@ describe('Aggregate newly created', () => {
     
     it('Custom event, payload, to be processed', () => {
         let payload = "my payload";
-        root.execute({action: 0});
+        root.execute({action: COMMAND_TO_CONVERT});
         expect(root.state().customData).toBe("converted");
     });
 
@@ -80,6 +82,12 @@ describe('Aggregate newly created', () => {
           root.execute({action: "enabledCommand"});
           expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}, {action: "enabledCommand"}]});
       });
+
+      it('The eventSource contains, after Custom event and undot, initialized event', () => {
+        root.execute({action: "enabledCommand"});
+        root.execute({action: CMD_UNDO });
+        expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}]});
+    });
 
     });
 });

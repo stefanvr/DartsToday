@@ -1,3 +1,5 @@
+export const CMD_UNDO = 0
+
 export interface ActionObject {
     enabledActions: any[];
     state: any;
@@ -28,13 +30,13 @@ export class Aggregate {
     }
 
     private static init(type, setup) : Aggregate {
-        let aggregate = new Aggregate();
+        let aggregate = new Aggregate(type);
         aggregate.actionObject = Aggregate.createInstance(type); 
         setup(aggregate);
         return aggregate;
     }
 
-    private constructor() { 
+    private constructor(private type) { 
     }
     
     enabledActions() {
@@ -59,6 +61,12 @@ export class Aggregate {
          return;
        }
 
+       if (command.action === CMD_UNDO)
+       {
+         this.revertLastCommand();
+         return
+       }
+       
        this.Apply(this.ConvertToEvent(command));
     }
 
@@ -89,5 +97,16 @@ export class Aggregate {
         {
             console.log("Unkown event:"+ JSON.stringify(event) );
         }
+    }
+
+    private revertLastCommand() {
+        this.actionObject = Aggregate.createInstance(this.type); 
+        let eventsCurrent = this.events;
+        this.events = [];
+        
+        eventsCurrent.pop();
+        eventsCurrent.forEach(ev => {
+            this.Apply(ev);
+        });
     }
 }  
