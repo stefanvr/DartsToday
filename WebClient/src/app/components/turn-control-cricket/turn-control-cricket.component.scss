@@ -1,6 +1,6 @@
 @import '../../../styles';
 
-.button, .indicator{
+.button, .indicator, .btn {
     @extend %element-shared;
     width: 10%;
 }
@@ -37,9 +37,9 @@
 
 
 .scorestate-score {
-    background-color: green;
+    background-color: $success;
 }
 
 .scorestate-open {
-    background-color: red;
+    background-color: $danger;
 }
