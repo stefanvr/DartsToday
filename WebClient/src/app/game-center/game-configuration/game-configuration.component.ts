@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Aggregate } from '../../lib/Aggregate'
 import { GameService } from '../../services/game.service'
@@ -12,10 +13,8 @@ import { GAME_STATES_GAME } from '../../DartsToday/CricketGameExamples'
   styleUrls: ['./game-configuration.component.scss']
 })
 export class GameConfigurationComponent {
+  constructor(private gameService: GameService, private router: Router) {  }
 
-  constructor(private gameService: GameService) {  }
-
-  display = ""
   start() {
     let player1 = { name: 'player 1'};
     let player2 = { name: 'player 2'};
@@ -27,6 +26,7 @@ export class GameConfigurationComponent {
     
     //this.gameService.executeScenario(GAME_STATES_GAME);
    
-    this.display = "hide";
+
+    this.router.navigate(['/game']);
   }
 }

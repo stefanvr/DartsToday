@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { GameConfigurationComponent } from './game-configuration.component';
 import { GameService } from '../../services/game.service'
@@ -9,6 +10,9 @@ describe('GameConfigurationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
       declarations: [ GameConfigurationComponent ],
       providers: [GameService]
     })

@@ -1,0 +1,46 @@
+@import '../../styles';
+
+/* generic layout */
+#topbar {
+    overflow: none;
+    position: relative;
+    height: $element-heigth;
+}
+
+#gamebar {
+    height: 10 * $element-heigth;
+}
+
+#playersscore {
+    float: left;
+    overflow: none;
+    position: relative;
+    width: 40%;
+    height: 9 * $element-heigth;
+}
+
+#gamescore {
+    float: left;
+    overflow: none;
+    position: relative;
+    width: 20%;
+    height: 9 * $element-heigth;
+}
+
+#gamecontrols {
+    overflow: none;
+    position: relative;
+    height: 3 * $element-heigth;
+}
+
+
+/* generic elements */
+.split {
+    width: 50%;
+    float: left;
+}
+
+.game {
+    text-align: left;
+    padding-left: 0.5em;
+}
