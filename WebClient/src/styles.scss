@@ -35,3 +35,14 @@ $font-monospace:  Lucida Console, Courier, monospace;
   float: left;
   text-align: center;
 }
+
+/* Stop ios from styling components, not needed when bootstrap styling is applied */ 
+button,
+input.text,
+input[type="text"],
+input[type="button"],
+input[type="submit"],
+.input-checkbox {
+-webkit-appearance: none;
+border-radius: 0;
+}
