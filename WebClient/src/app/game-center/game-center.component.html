@@ -1,1 +1,23 @@
-<app-game-configuration></app-game-configuration>
+<div class="container">
+  <section id="topbar" class="row">
+    <div class="split game" id="header">DartsToday</div>
+  </section>
+  <div class="row">
+    <section class="col-sm">
+      <div>Game type:</div>
+      <div>{{selectedGameType}}</div>
+    </section>
+    <section class="col-sm">
+      <div>Players:</div>
+      <div class="player" *ngFor="let player of selectedPlayers">
+          <div>
+            <div class="playername ">{{player.name}}</div> 
+          </div>
+      </div>
+    </section>
+  </div>
+  <section class="row">
+    <button id="start" class="btn btn-primary" (click)="start()">Start</button>
+  </section>           
+</div>
+      

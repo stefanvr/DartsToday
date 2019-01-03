@@ -22,6 +22,7 @@ export class GameService {
 
   intializeNew(game) {
     this.game = game;
+    this._state.s = this.game.state();
   }
 
   executeScenario(scenario: any) {

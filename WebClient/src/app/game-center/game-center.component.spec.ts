@@ -9,6 +9,7 @@ describe('GameCenterComponent', () => {
   let component: GameCenterComponent;
   let fixture: ComponentFixture<GameCenterComponent>;
   let compiled: any;
+  let gameService : GameService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,7 +30,27 @@ describe('GameCenterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
-    expect(component).toBeTruthy();
+  describe('Initial state', () => {
+    it('No players, players to be []', () => {   
+      expect(component.selectedGameType).toEqual("Cricket");
+    });
+
+    it('should create the component', () => {
+      expect(component.selectedPlayers).toEqual([{ name: 'player 1' },{ name: 'player 2' }]);
+    });
+  });
+
+  describe('Button wiring', () => {
+    beforeEach(() => {
+      gameService =  TestBed.get(GameService);
+      spyOn(gameService, 'execute').and.callFake(() => {});
+      fixture.detectChanges();
+    });
+
+    xit('Button endTurn', () => {
+      let button = fixture.debugElement.nativeElement.querySelector("#start");
+      button.click();
+      expect(gameService.execute).toHaveBeenCalledTimes(3);
+    });
   });
 });
