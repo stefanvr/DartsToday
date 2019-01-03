@@ -11,8 +11,6 @@ import { TurnControlCricketComponent } from './game/turn-control-cricket/turn-co
 import { PlayersScoreComponent } from './game/players-score/players-score.component';
 import { GameScoreComponent } from './game/game-score/game-score.component'
 
-import { GameConfigurationComponent } from './game-center/game-configuration/game-configuration.component';
-
 import { GameService } from './services/game.service'
 
 @NgModule({
@@ -20,7 +18,6 @@ import { GameService } from './services/game.service'
     AppComponent,
     GameCenterComponent,
     GameComponent,
-    GameConfigurationComponent,
     TurnTrackerComponent,
     TurnControlCricketComponent,
     PlayersScoreComponent,
