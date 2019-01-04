@@ -4,7 +4,7 @@ import { GameService } from '../../services/game.service'
 import { TurnTrackerComponent } from './turn-tracker.component';
 
 import {GAME_STATES_GAME, GAME_STATES_GAME_ROUND } from '../../DartsToday/CricketGameExamples'
-import { CricketState, TurnState, PlayerState } from '../../DartsToday/Cricket';
+import { Cricket } from '../../DartsToday/Cricket';
 
 describe('TurnTrackerComponent', () => {
   let component: TurnTrackerComponent;
@@ -45,7 +45,7 @@ describe('TurnTrackerComponent', () => {
   describe('With game state:', () => {
     beforeEach(() => {
       let service = <GameService>TestBed.get(GameService);
-      service.executeScenario(GAME_STATES_GAME);
+      service.executeScenario(GAME_STATES_GAME, Cricket);
       fixture.detectChanges();
     });
 

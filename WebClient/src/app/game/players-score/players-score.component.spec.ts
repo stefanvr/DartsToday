@@ -3,7 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PlayersScoreComponent } from './players-score.component';
 import { GameService } from '../../services/game.service'
 
-import {GAME_STATES_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
+import { GAME_STATES_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
+import { Cricket } from '../../DartsToday/Cricket'
 
 describe('PlayersScoreComponent', () => {
   let component: PlayersScoreComponent;
@@ -40,7 +41,7 @@ describe('PlayersScoreComponent', () => {
   describe('With game state:', () => {
     beforeEach(() => {
       let service = <GameService>TestBed.get(GameService);
-      service.executeScenario(GAME_STATES_GAME);
+      service.executeScenario(GAME_STATES_GAME, Cricket);
       fixture.detectChanges();
     });
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Cricket, ActionsCricket } from '../DartsToday/Cricket'
 import { Aggregate } from '../lib/Aggregate'
 
 @Injectable({
@@ -12,7 +11,7 @@ export class ServiceState {
 
 export class GameService {
   private _state: ServiceState = new ServiceState();
-  private game: Aggregate = null;
+  private aggregate: Aggregate = null;
 
   constructor() { }
 
@@ -20,27 +19,27 @@ export class GameService {
     return this._state;
   }
 
-  intializeNew(game) {
-    this.game = game;
-    this._state.s = this.game.state();
+  intializeNew(aggregate) {
+    this.aggregate = aggregate;
+    this._state.s = this.aggregate.state();
   }
 
-  executeScenario(scenario: any) {
-    this.game = Aggregate.CreateFromEs(scenario, Cricket);
-    this._state.s = this.game.state();
+  executeScenario(scenario: any, type) {
+    this.aggregate = Aggregate.CreateFromEs(scenario, type);
+    this._state.s = this.aggregate.state();
   }
 
   execute(command: any) {
-    if (!this.game) { 
-      console.log('Unable to execute command as game has not been initialized');
+    if (!this.aggregate) { 
+      console.log('Unable to execute command as aggregate has not been initialized');
       return;
     }
     
-    this.game.execute(command);
-    this._state.s = this.game.state();
+    this.aggregate.execute(command);
+    this._state.s = this.aggregate.state();
   }
 
   commandEnabled(command){
-    return this.game ? this.game.enabledActions().includes(command) : false;
+    return this.aggregate ? this.aggregate.enabledActions().includes(command) : false;
   }
 }

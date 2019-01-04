@@ -4,6 +4,7 @@ import { GameScoreComponent } from './game-score.component';
 import { GameService } from '../../services/game.service'
 
 import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1 } from '../../DartsToday/CricketGameExamples'
+import { Cricket } from 'src/app/DartsToday/Cricket';
 
 describe('GameScoreComponent', () => {
   let component: GameScoreComponent;
@@ -40,7 +41,7 @@ describe('GameScoreComponent', () => {
   describe('With game state:', () => {
     beforeEach(() => {
       let service = <GameService>TestBed.get(GameService);
-      service.executeScenario(GAME_STATES_GAME);
+      service.executeScenario(GAME_STATES_GAME, Cricket);
       fixture.detectChanges();
     });
 
@@ -84,7 +85,7 @@ describe('GameScoreComponent', () => {
   describe('With player1 won game state:', () => {
     beforeEach(() => {
       let service = <GameService>TestBed.get(GameService);
-      service.executeScenario(PLAYER1_WIN_GAME);
+      service.executeScenario(PLAYER1_WIN_GAME, Cricket);
       fixture.detectChanges();
     });
 

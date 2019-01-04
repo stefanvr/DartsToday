@@ -3,7 +3,7 @@ import { TurnControlCricketComponent } from './turn-control-cricket.component';
 import { GameService } from '../../services/game.service'
 
 import { STARTED_GAME, GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
-import { ActionsCricket, CricketState, DartScore, BULL } from '../../DartsToday/Cricket'
+import { ActionsCricket, CricketState, Cricket, DartScore, BULL } from '../../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;
@@ -47,7 +47,7 @@ describe('TurnControlCricketComponent', () => {
 
   describe('With game states:', () => {
     beforeEach(() => {
-      gameService.executeScenario(GAME_STATES_GAME);
+      gameService.executeScenario(GAME_STATES_GAME, Cricket);
       fixture.detectChanges();
     });
 
@@ -72,7 +72,7 @@ describe('TurnControlCricketComponent', () => {
 
   describe('With started game:', () => {
     beforeEach(() => {
-      gameService.executeScenario(STARTED_GAME);
+      gameService.executeScenario(STARTED_GAME, Cricket);
       fixture.detectChanges();
     });
 
@@ -82,11 +82,10 @@ describe('TurnControlCricketComponent', () => {
 
   });
 
-
   describe('With  player1 won game state:', () => {
     beforeEach(() => {
       let service = <GameService>TestBed.get(GameService);
-      service.executeScenario(PLAYER1_WIN_GAME);
+      service.executeScenario(PLAYER1_WIN_GAME,Cricket);
       fixture.detectChanges();
     });
 
