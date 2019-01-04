@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GameService } from './game.service';
+import { AggregateService } from './aggregate.service';
 
-describe('GameService', () => {
-  let service: GameService;
+describe('AggregateService', () => {
+  let service: AggregateService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [GameService]});
-    service = TestBed.get(GameService);
+    TestBed.configureTestingModule({providers: [AggregateService]});
+    service = TestBed.get(AggregateService);
   });
 
   it('Command enabled to be false', () => {

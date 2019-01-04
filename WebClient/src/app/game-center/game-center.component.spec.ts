@@ -3,13 +3,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { GameCenterComponent } from './game-center.component';
 
-import { GameService } from '../services/game.service'
+import { AggregateService } from '../lib/aggregate.service'
 
 describe('GameCenterComponent', () => {
   let component: GameCenterComponent;
   let fixture: ComponentFixture<GameCenterComponent>;
   let compiled: any;
-  let gameService : GameService;
+  let aggregateService : AggregateService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,7 +19,7 @@ describe('GameCenterComponent', () => {
       declarations: [ 
         GameCenterComponent
      ],
-     providers: [GameService],
+     providers: [AggregateService],
     }).compileComponents();
   }));
 
@@ -42,15 +42,15 @@ describe('GameCenterComponent', () => {
 
   describe('Button wiring', () => {
     beforeEach(() => {
-      gameService =  TestBed.get(GameService);
-      spyOn(gameService, 'execute').and.callFake(() => {});
+      aggregateService =  TestBed.get(AggregateService);
+      spyOn(aggregateService, 'execute').and.callFake(() => {});
       fixture.detectChanges();
     });
 
     xit('Button endTurn', () => {
       let button = fixture.debugElement.nativeElement.querySelector("#start");
       button.click();
-      expect(gameService.execute).toHaveBeenCalledTimes(3);
+      expect(aggregateService.execute).toHaveBeenCalledTimes(3);
     });
   });
 });

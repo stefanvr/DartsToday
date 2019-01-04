@@ -1,6 +1,6 @@
 import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL } from "./Cricket";
 
-import { Aggregate } from '../lib/Aggregate';
+import { Aggregate } from '../lib/aggregate';
 import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME } from './CricketGameExamples';
 
 describe('Cricket', () => {

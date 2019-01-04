@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
-import { GameService } from './services/game.service'
+import { AggregateService } from './lib/aggregate.service'
 
 describe('AppComponent', () => {
   let app: AppComponent;
@@ -17,7 +17,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
       ],
-      providers: [GameService],
+      providers: [AggregateService],
     }).compileComponents();
   }));
 

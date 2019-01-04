@@ -1,4 +1,4 @@
-import { ActionObject } from '../lib/Aggregate';
+import { ActionObject } from '../lib/aggregate';
 
 export enum ActionsGameConfig { undo/*==CMD_UNDO*/, start }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Aggregate } from '../lib/Aggregate'
+import { Aggregate } from './aggregate'
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class ServiceState {
   public s: any;
 }
 
-export class GameService {
+export class AggregateService {
   private _state: ServiceState = new ServiceState();
   private aggregate: Aggregate = null;
 

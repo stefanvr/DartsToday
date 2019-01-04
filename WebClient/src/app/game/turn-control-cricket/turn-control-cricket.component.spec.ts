@@ -1,26 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
-import { GameService } from '../../services/game.service'
+import { AggregateService } from '../../lib/aggregate.service'
 
-import { STARTED_GAME, GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1} from '../../DartsToday/CricketGameExamples'
+import { STARTED_GAME, GAME_STATES_GAME, PLAYER1_WIN_GAME } from '../../DartsToday/CricketGameExamples'
 import { ActionsCricket, CricketState, Cricket, DartScore, BULL } from '../../DartsToday/Cricket'
 
 describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;
   let fixture: ComponentFixture<TurnControlCricketComponent>;
   let compiled: any;
-  let gameService :GameService;
+  let gameService : AggregateService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TurnControlCricketComponent ],
-      providers: [GameService]
+      providers: [AggregateService]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    gameService = TestBed.get(GameService);
+    gameService = TestBed.get(AggregateService);
     fixture = TestBed.createComponent(TurnControlCricketComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;  
@@ -84,7 +84,7 @@ describe('TurnControlCricketComponent', () => {
 
   describe('With  player1 won game state:', () => {
     beforeEach(() => {
-      let service = <GameService>TestBed.get(GameService);
+      let service = <AggregateService>TestBed.get(AggregateService);
       service.executeScenario(PLAYER1_WIN_GAME,Cricket);
       fixture.detectChanges();
     });

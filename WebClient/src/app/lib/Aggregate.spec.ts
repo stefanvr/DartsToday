@@ -1,4 +1,4 @@
-import { Aggregate, ActionObject, CMD_UNDO } from '../lib/Aggregate';
+import { Aggregate, ActionObject, CMD_UNDO } from './aggregate';
 
 const COMMAND_TO_CONVERT  = -1;
 

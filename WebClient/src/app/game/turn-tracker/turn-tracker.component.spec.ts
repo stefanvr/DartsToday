@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameService } from '../../services/game.service'
+import { AggregateService } from '../../lib/aggregate.service'
 import { TurnTrackerComponent } from './turn-tracker.component';
 
 import {GAME_STATES_GAME, GAME_STATES_GAME_ROUND } from '../../DartsToday/CricketGameExamples'
@@ -14,7 +14,7 @@ describe('TurnTrackerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TurnTrackerComponent ],
-      providers: [GameService]
+      providers: [AggregateService]
     })
     .compileComponents();
   }));
@@ -44,7 +44,7 @@ describe('TurnTrackerComponent', () => {
 
   describe('With game state:', () => {
     beforeEach(() => {
-      let service = <GameService>TestBed.get(GameService);
+      let service = <AggregateService>TestBed.get(AggregateService);
       service.executeScenario(GAME_STATES_GAME, Cricket);
       fixture.detectChanges();
     });

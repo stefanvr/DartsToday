@@ -1,6 +1,6 @@
 import { GameConfiguration, ActionsGameConfig } from './GameConfiguration'
 
-import { Aggregate } from '../lib/Aggregate';
+import { Aggregate } from '../lib/aggregate';
 
 describe('GameConfiguration', () => {
     let sut: Aggregate;

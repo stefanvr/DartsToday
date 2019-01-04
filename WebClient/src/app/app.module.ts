@@ -11,7 +11,7 @@ import { TurnControlCricketComponent } from './game/turn-control-cricket/turn-co
 import { PlayersScoreComponent } from './game/players-score/players-score.component';
 import { GameScoreComponent } from './game/game-score/game-score.component'
 
-import { GameService } from './services/game.service'
+import { AggregateService } from './lib/aggregate.service'
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { GameService } from './services/game.service'
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [GameService],
+  providers: [AggregateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

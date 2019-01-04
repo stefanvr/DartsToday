@@ -1,4 +1,4 @@
-import { ActionObject } from '../lib/Aggregate';
+import { ActionObject } from '../lib/aggregate';
 
 export enum ActionsCricket { undo/*==CMD_UNDO*/, addPlayer, startGame, score, endTurn }
 export const NO_PLAYERS = 0;

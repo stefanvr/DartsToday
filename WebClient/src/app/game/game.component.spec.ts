@@ -7,7 +7,7 @@ import { TurnControlCricketComponent } from './turn-control-cricket/turn-control
 import { PlayersScoreComponent } from './players-score/players-score.component';
 import { GameScoreComponent } from './game-score/game-score.component'
 
-import { GameService } from '../services/game.service'
+import { AggregateService } from '../lib/aggregate.service'
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -23,7 +23,7 @@ describe('GameComponent', () => {
         PlayersScoreComponent,
         GameScoreComponent
       ],
-      providers: [GameService],
+      providers: [AggregateService],
     })
     .compileComponents();
   }));
