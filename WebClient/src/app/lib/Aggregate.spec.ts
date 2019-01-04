@@ -73,6 +73,24 @@ describe('Aggregate newly created', () => {
         expect(root.state().customData).toBe("converted");
     });
 
+    it('OnEvent, with domain command, emits events', (done: DoneFn) => {
+        let cmd = { action: "enabledCommand" }
+        root.onEvent.subscribe(event => {
+                expect(event).toEqual(cmd);
+                done();
+        });
+        root.execute(cmd);
+    });
+
+    it('OnEvent, with undo, emits events', (done: DoneFn) => {
+        let cmd = { action: CMD_UNDO }
+        root.onEvent.subscribe(event => {
+                expect(event).toEqual(cmd);
+                done();
+        });
+        root.execute(cmd);
+    });
+
     describe('Persistance:', () => {
       it('The eventSource contains Initialized event', () => {
           expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}]});

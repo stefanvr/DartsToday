@@ -1,3 +1,5 @@
+import { EventEmitter } from '@angular/core';
+
 export const CMD_UNDO = 0
 
 export interface ActionObject {
@@ -9,6 +11,7 @@ export interface ActionObject {
 export class Aggregate {
     private actionObject: ActionObject;
     private events = [];
+    public onEvent: EventEmitter<any> = new EventEmitter();
 
     static CreateNew(createdAt, type) {
         return Aggregate.init(type, (aggregate) => {
@@ -86,6 +89,7 @@ export class Aggregate {
     {
         this.ApplyEventOnHandler(event.action, event)
         this.events.push(event);
+        this.onEvent.emit(event);
     }
 
     private ApplyEventOnHandler(methodName, event)
@@ -108,5 +112,6 @@ export class Aggregate {
         eventsCurrent.forEach(ev => {
             this.Apply(ev);
         });
+        this.onEvent.emit({ action: CMD_UNDO });
     }
 }  
