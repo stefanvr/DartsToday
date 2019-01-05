@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { GameService } from '../game.component';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
-import { AggregateService } from '../../lib/aggregate.service'
 
 import { STARTED_GAME, GAME_STATES_GAME, PLAYER1_WIN_GAME } from '../../DartsToday/CricketGameExamples'
 import { ActionsCricket, CricketState, Cricket, DartScore, BULL } from '../../DartsToday/Cricket'
@@ -9,18 +10,18 @@ describe('TurnControlCricketComponent', () => {
   let component: TurnControlCricketComponent;
   let fixture: ComponentFixture<TurnControlCricketComponent>;
   let compiled: any;
-  let gameService : AggregateService;
+  let gameService : GameService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TurnControlCricketComponent ],
-      providers: [AggregateService]
+      providers: [GameService]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    gameService = TestBed.get(AggregateService);
+    gameService = TestBed.get(GameService);
     fixture = TestBed.createComponent(TurnControlCricketComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;  
@@ -84,7 +85,7 @@ describe('TurnControlCricketComponent', () => {
 
   describe('With  player1 won game state:', () => {
     beforeEach(() => {
-      let service = <AggregateService>TestBed.get(AggregateService);
+      let service = TestBed.get(GameService);
       service.executeScenario(PLAYER1_WIN_GAME,Cricket);
       fixture.detectChanges();
     });

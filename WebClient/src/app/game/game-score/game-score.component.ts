@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AggregateService, ServiceState } from '../../lib/aggregate.service'
+import { GameService, GameState } from '../game.component'
 import { GameScore, BULL } from '../../DartsToday/Cricket'
 
 @Component({
@@ -9,9 +9,9 @@ import { GameScore, BULL } from '../../DartsToday/Cricket'
 })
 export class GameScoreComponent {
 
-  gameState: ServiceState; 
+  gameState: GameState; 
 
-  constructor(gameService: AggregateService) {
+  constructor(gameService: GameService) {
     this.gameState = gameService.state;
   }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AggregateService, ServiceState } from '../../lib/aggregate.service'
+import { GameService, GameState } from '../game.component'
 
 @Component({
   selector: 'app-turn-tracker',
@@ -8,9 +8,9 @@ import { AggregateService, ServiceState } from '../../lib/aggregate.service'
 })
 
 export class TurnTrackerComponent {
-  gameState: ServiceState; 
+  gameState: GameState; 
 
-  constructor(gameService: AggregateService) {
+  constructor(gameService: GameService) {
     this.gameState = gameService.state;
   }
 

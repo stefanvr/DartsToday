@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { GameService } from '../game.component'
 import { GameScoreComponent } from './game-score.component';
-import { AggregateService } from '../../lib/aggregate.service'
 
 import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1 } from '../../DartsToday/CricketGameExamples'
 import { Cricket } from 'src/app/DartsToday/Cricket';
@@ -13,7 +13,7 @@ describe('GameScoreComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GameScoreComponent ],
-      providers: [AggregateService]
+      providers: [GameService]
     })
     .compileComponents();
   }));
@@ -40,7 +40,7 @@ describe('GameScoreComponent', () => {
 
   describe('With game state:', () => {
     beforeEach(() => {
-      let service = <AggregateService>TestBed.get(AggregateService);
+      let service = TestBed.get(GameService);
       service.executeScenario(GAME_STATES_GAME, Cricket);
       fixture.detectChanges();
     });
@@ -84,7 +84,7 @@ describe('GameScoreComponent', () => {
 
   describe('With player1 won game state:', () => {
     beforeEach(() => {
-      let service = <AggregateService>TestBed.get(AggregateService);
+      let service = TestBed.get(GameService);
       service.executeScenario(PLAYER1_WIN_GAME, Cricket);
       fixture.detectChanges();
     });

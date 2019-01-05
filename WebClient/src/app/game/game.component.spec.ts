@@ -1,13 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameComponent } from './game.component';
+import { GameComponent, GameService } from './game.component';
 
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
 import { PlayersScoreComponent } from './players-score/players-score.component';
 import { GameScoreComponent } from './game-score/game-score.component'
-
-import { AggregateService } from '../lib/aggregate.service'
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -23,7 +21,7 @@ describe('GameComponent', () => {
         PlayersScoreComponent,
         GameScoreComponent
       ],
-      providers: [AggregateService],
+      providers: [GameService],
     })
     .compileComponents();
   }));

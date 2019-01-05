@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import  * as DateTime from '../lib/datetime';
+
 import { Aggregate } from '../lib/aggregate';
 import { AggregateService, ServiceState } from '../lib/aggregate.service'
+import { GameService, GameState } from '../game/game.component'
 
 import { GameConfiguration } from '../DartsToday/GameConfiguration';
 import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
@@ -17,7 +19,7 @@ export class GameCenterComponent  {
   private gameConfigService : AggregateService = new AggregateService();
   state: ServiceState;
 
-  constructor(private gameService: AggregateService, private router: Router) {
+  constructor(private gameService: GameService, private router: Router) {
     this.gameConfigService.intializeNew(Aggregate.CreateNew(DateTime.now(), GameConfiguration));
     this.state = this.gameConfigService.state;
   }
