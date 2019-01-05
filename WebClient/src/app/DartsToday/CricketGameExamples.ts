@@ -1,5 +1,5 @@
-export const PLAYER1 = {"name":"player 1"}
-export const PLAYER2 = {"name":"player 2"}
+export const PLAYER1 = {"id":"1", "name":"player 1"}
+export const PLAYER2 = {"id":"2", "name":"player 2"}
 
 export const STARTED_AT = "2018-12-30T20:00:24.301Z";
 
