@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import  * as DateTime from '../lib/datetime';
 import { Aggregate } from '../lib/aggregate';
 import { AggregateService, ServiceState } from '../lib/aggregate.service'
 
@@ -17,7 +18,7 @@ export class GameCenterComponent  {
   state: ServiceState;
 
   constructor(private gameService: AggregateService, private router: Router) {
-    this.gameConfigService.intializeNew(Aggregate.CreateNew(new Date(Date.now()).toISOString(), GameConfiguration));
+    this.gameConfigService.intializeNew(Aggregate.CreateNew(DateTime.now(), GameConfiguration));
     this.state = this.gameConfigService.state;
   }
 
@@ -30,12 +31,12 @@ export class GameCenterComponent  {
   }
 
   start() {
-    this.gameService.intializeNew(Aggregate.CreateNew(new Date(Date.now()).toISOString(), Cricket));
+    this.gameService.intializeNew(Aggregate.CreateNew(DateTime.now(), Cricket));
 
     this.selectedPlayers.forEach(player => {
       this.gameService.execute({action: ActionsCricket.addPlayer, player: player});
     });
-    this.gameService.execute({action: ActionsCricket.startGame, startedAt: new Date(Date.now()).toISOString()});
+    this.gameService.execute({action: ActionsCricket.startGame, startedAt: DateTime.now()});
 
     this.router.navigate(['/game']);
   }

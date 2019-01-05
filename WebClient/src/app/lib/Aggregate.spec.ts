@@ -1,4 +1,6 @@
+import  * as DateTime from '../lib/datetime';
 import { Aggregate, ActionObject, CMD_UNDO } from './aggregate';
+
 
 const COMMAND_TO_CONVERT  = -1;
 
@@ -30,7 +32,7 @@ class TestGame implements  ActionObject
     }
 }
 
-let createDate = new Date(Date.now()).toISOString();
+let createDate = DateTime.now();
 let es = { events: [{ action: "initialized", createdAt: createDate}, {action: "enabledCommand"}]};
 
 describe('Aggregate newly created', () => {

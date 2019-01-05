@@ -1,10 +1,11 @@
 import { GameConfiguration, ActionsGameConfig } from './GameConfiguration'
 
+import  * as DateTime from '../lib/datetime';
 import { Aggregate } from '../lib/aggregate';
 
 describe('GameConfiguration', () => {
     let sut: Aggregate;
-    let createDate = new Date(Date.now()).toISOString();
+    let createDate = DateTime.now();
     
     describe('For a new configuration:', () => {
         beforeEach(() => {

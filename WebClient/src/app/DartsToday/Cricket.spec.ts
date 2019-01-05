@@ -1,11 +1,13 @@
 import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL } from "./Cricket";
 
+import  * as DateTime from '../lib/datetime';
 import { Aggregate } from '../lib/aggregate';
+
 import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME } from './CricketGameExamples';
 
 describe('Cricket', () => {
     let game: Aggregate;
-    let createDate = new Date(Date.now()).toISOString();
+    let createDate = DateTime.now();
     
     describe('For a new game:', () => {
         beforeEach(() => {

@@ -1,5 +1,6 @@
 import { Players , ActionsPlayers} from './players'
 
+import  * as DateTime from '../lib/datetime';
 import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGameExamples'
 
 // POC test without aggregate wrapper
@@ -29,12 +30,13 @@ describe('Players', () => {
     });
 
     describe('After initialized:', () => {
+        let creationDate = DateTime.now();
         beforeEach(() => {
-          sut.initialized({ createdAt: "dt" }); 
+          sut.initialized({ createdAt: creationDate }); 
         });
 
         it('createdAt, returns creation date', () => {  
-            expect(sut.state.createdAt).toEqual("dt");
+            expect(sut.state.createdAt).toEqual(creationDate);
         });
         it('uniquePlayers, returns empty list', () => {  
             expect(sut.state.uniquePlayers).toEqual([]);
