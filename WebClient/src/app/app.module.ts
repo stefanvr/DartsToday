@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GameCenterComponent } from './game-center/game-center.component';
+import { GameCenterComponent, GameConfigService } from './game-center/game-center.component';
 import { GameComponent, GameService } from './game/game.component';
 
 import { TurnTrackerComponent } from './game/turn-tracker/turn-tracker.component';
@@ -26,7 +26,7 @@ import { GameScoreComponent } from './game/game-score/game-score.component'
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [GameService],
+  providers: [GameService, GameConfigService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

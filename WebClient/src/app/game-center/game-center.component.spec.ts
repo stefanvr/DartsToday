@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { GameCenterComponent } from './game-center.component';
+import { GameCenterComponent, GameConfigService } from './game-center.component';
 
 import { GameService } from '../game/game.component';
 
@@ -19,7 +19,7 @@ describe('GameCenterComponent', () => {
       declarations: [ 
         GameCenterComponent
      ],
-     providers: [GameService],
+     providers: [GameConfigService, GameService],
     }).compileComponents();
   }));
 
