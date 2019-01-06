@@ -26,6 +26,14 @@ _Note: need to make this work with local installed package_
   using SCSS
 ```
 
+** test tips ** 
+
+* Change settings in `\tslint.json` to use "debugger;" statement as have type script mapping in browser.
+* Change settings in `\test.json` to filter component.spec for even faster running test suite.
+
+```
+ tslint.json
+``` 
 **Add bootstrap**
 
 ```
