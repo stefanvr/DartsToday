@@ -41,7 +41,7 @@ export class Players implements ActionObject {
            : this.enabledActions = [ActionsPlayers.newPlayer];  
     }
 
-    eventHandler(event){
+    eventHandler_addPlayer(event){
         this.state.uniquePlayers.forEach((p) => {
             if (p.id == event.player.id) { p.canBeRemoved = false; }
          });

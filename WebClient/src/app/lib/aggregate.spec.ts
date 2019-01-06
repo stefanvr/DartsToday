@@ -103,6 +103,10 @@ describe('Aggregate newly created', () => {
         expect(root.state().eventData).toBe(payload);
     });
 
+    it('Unkown event, does not throw', () => {
+        expect(root.eventHandler({action: "unkownHandler"})).not.toThrow;
+    });
+
     describe('Persistance:', () => {
       it('The eventSource contains Initialized event', () => {
           expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}]});

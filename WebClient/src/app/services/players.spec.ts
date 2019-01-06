@@ -96,7 +96,7 @@ describe('Players', () => {
             sut.initialized({ createdAt: "dt" }); 
             sut.newPlayer({ action: ActionsPlayers.newPlayer, player: PLAYER1 });
             sut.newPlayer({ action: ActionsPlayers.newPlayer, player: PLAYER2 });
-            sut.eventHandler({ action: 'addPlayer', player: PLAYER1 })
+            sut.eventHandler_addPlayer({ action: 'addPlayer', player: PLAYER1 })
         });
 
         it('Player1 state, canBeRemoved:false', () => { 
