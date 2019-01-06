@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import  * as DateTime from '../lib/datetime';
@@ -10,6 +10,9 @@ import { GameService } from '../game/game.component'
 import { GameConfiguration } from '../DartsToday/GameConfiguration';
 import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
 
+@Injectable({
+  providedIn: 'root',
+})
 export class GameConfigService extends AggregateService { }
 
 @Component({

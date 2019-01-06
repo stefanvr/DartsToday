@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameComponent, GameService } from './game.component';
+import { GameComponent } from './game.component';
 
 import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
@@ -21,7 +21,7 @@ describe('GameComponent', () => {
         PlayersScoreComponent,
         GameScoreComponent
       ],
-      providers: [GameService],
+      providers: [],
     })
     .compileComponents();
   }));

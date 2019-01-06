@@ -1,9 +1,4 @@
-import { Injectable } from '@angular/core';
 import { Aggregate } from './aggregate'
-
-@Injectable({
-  providedIn: 'root'
-})
 
 export class ServiceState {
   public s: any;

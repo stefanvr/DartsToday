@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { AggregateService, ServiceState } from '../lib/aggregate.service'
 
 export class GameState extends ServiceState { }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class GameService extends AggregateService { }
 
 @Component({

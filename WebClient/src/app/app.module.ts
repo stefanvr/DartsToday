@@ -26,7 +26,7 @@ import { GameScoreComponent } from './game/game-score/game-score.component'
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [GameService, GameConfigService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

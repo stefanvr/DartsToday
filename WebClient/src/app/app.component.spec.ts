@@ -17,7 +17,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
       ],
-      providers: [AggregateService],
+      providers: [],
     }).compileComponents();
   }));
 
