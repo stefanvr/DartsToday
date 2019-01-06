@@ -72,6 +72,14 @@ export class Aggregate {
        
        this.Apply(this.ConvertToEvent(command));
     }
+    
+    eventHandler(event) {
+      let methodName = "eventHandler_" + event.action;
+      if(this.actionObject[methodName]) {
+          this.actionObject[methodName](event); 
+      }
+      // To be expected that events are not applicable for aggregate, so no logging
+    }
 
     private ConvertToEvent(command:any)
     {

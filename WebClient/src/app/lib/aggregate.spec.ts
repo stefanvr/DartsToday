@@ -7,7 +7,7 @@ const COMMAND_TO_CONVERT  = -1;
 class TestGame implements  ActionObject
 {
     enabledActions: any[];
-    state: any = { createdAt: null, customData: null, payload: null }
+    state: any = { createdAt: null, customData: null, payload: null, eventData: null }
     
     convertAction(command) {
        return command === COMMAND_TO_CONVERT ? "convertedCommand" : command; 
@@ -29,6 +29,10 @@ class TestGame implements  ActionObject
 
     convertedCommand(event) { 
         this.state.customData = "converted";
+    }
+
+    eventHandler_myEvent(event) {
+        this.state.eventData = event.data;
     }
 }
 
@@ -91,6 +95,12 @@ describe('Aggregate newly created', () => {
                 done();
         });
         root.execute(cmd);
+    });
+
+    it('Recieving  myevent, payload, to be processed', () => {
+        let payload = "my payload";
+        root.eventHandler({action: "myEvent", data: payload});
+        expect(root.state().eventData).toBe(payload);
     });
 
     describe('Persistance:', () => {
