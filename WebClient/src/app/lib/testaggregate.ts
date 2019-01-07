@@ -39,4 +39,8 @@ export class TestAggregate implements  ActionObject
     eventHandler_myEvent(event) {
         this.state.eventData = event.data;
     }
+
+    eventHandler_enabledCommand(event) {
+        this.state.eventData = "FROM event: " + event.payload;
+    }
 }

@@ -2,6 +2,7 @@ import { Component, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import  * as DateTime from '../lib/datetime';
+import { Dispatcher } from '../lib/dispatcher'
 import { AggregateService, ServiceState } from '../lib/aggregate.service'
 
 import { GameService } from '../game/game.component'
@@ -12,7 +13,9 @@ import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
 @Injectable({
   providedIn: 'root',
 })
-export class GameConfigService extends AggregateService { }
+export class GameConfigService extends AggregateService { 
+  constructor(dispatcher: Dispatcher) { super(dispatcher); }
+}
 
 @Component({
   selector: 'app-game-center',

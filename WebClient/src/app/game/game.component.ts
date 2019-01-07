@@ -1,4 +1,5 @@
 import { Component, Injectable } from '@angular/core';
+import { Dispatcher } from '../lib/dispatcher'
 import { AggregateService, ServiceState } from '../lib/aggregate.service'
 
 export class GameState extends ServiceState { }
@@ -6,7 +7,9 @@ export class GameState extends ServiceState { }
 @Injectable({
   providedIn: 'root',
 })
-export class GameService extends AggregateService { }
+export class GameService extends AggregateService { 
+  constructor(dispatcher: Dispatcher) { super(dispatcher); }
+}
 
 @Component({
   selector: 'app-game',

@@ -1,12 +1,12 @@
 import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
-
 import { AggregateService } from './aggregate.service';
+import { Dispatcher } from '../lib/dispatcher'
 
 describe('AggregateService', () => {
   let service: AggregateService;
 
   beforeEach(() => {
-    service = new AggregateService();
+    service = new AggregateService(new Dispatcher());
   });
 
   it('Command enabled to be false', () => {

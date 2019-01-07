@@ -1,3 +1,4 @@
+import { Dispatcher } from './dispatcher'
 import { Aggregate } from './aggregate'
 
 export class ServiceState {
@@ -5,10 +6,13 @@ export class ServiceState {
 }
 
 export class AggregateService {
+  private dispatcher: Dispatcher;
   private _state: ServiceState = new ServiceState();
   private aggregate: Aggregate = null;
 
-  constructor() { }
+  constructor(dispatcher: Dispatcher) { 
+      this.dispatcher = dispatcher;
+  }
 
   get state() : any {
     return this._state;
@@ -17,6 +21,9 @@ export class AggregateService {
   intializeNew(createdAt, type) {
     this.aggregate = Aggregate.CreateNew(createdAt, type);
     this._state.s = this.aggregate.state();
+
+    this.dispatcher.subscibe((event) => { this.receiveEvent(event); } );
+    this.aggregate.onEvent.subscribe((event) => { this.publishEvent(event); } );
   }
 
   executeScenario(scenario: any, type) {
@@ -36,5 +43,16 @@ export class AggregateService {
 
   commandEnabled(command){
     return this.aggregate ? this.aggregate.enabledActions().includes(command) : false;
+  }
+
+  private publishEvent(event)
+  {
+    this.dispatcher.publish(event);
+  }
+
+  private receiveEvent(event)
+  {
+    this.aggregate.eventHandler(event);
+    this._state.s = this.aggregate.state();
   }
 }
