@@ -2,6 +2,9 @@ import { GameConfiguration, ActionsGameConfig } from './GameConfiguration'
 
 import  * as DateTime from '../lib/datetime';
 
+import { PLAYER1, PLAYER2 } from './CricketGameExamples';
+
+
 describe('GameConfiguration', () => {
     let sut: GameConfiguration;
     let creationDate = DateTime.now();
@@ -24,7 +27,7 @@ describe('GameConfiguration', () => {
         });
 
         it('selectedPlayers, returns Player 1 and 2', () => {
-            expect(sut.state.selectedPlayers).toEqual([{ name: 'player 1'}, { name: 'player 2'}]);
+            expect(sut.state.selectedPlayers).toEqual([PLAYER1, PLAYER2]);
         });   
     });
 

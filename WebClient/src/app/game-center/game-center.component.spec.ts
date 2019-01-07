@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { GameCenterComponent } from './game-center.component';
 
 import { GameService } from '../game/game.component';
+import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGameExamples';
 
 describe('GameCenterComponent', () => {
   let component: GameCenterComponent;
@@ -36,7 +37,7 @@ describe('GameCenterComponent', () => {
     });
 
     it('should create the component', () => {
-      expect(component.selectedPlayers).toEqual([{ name: 'player 1' },{ name: 'player 2' }]);
+      expect(component.selectedPlayers).toEqual([PLAYER1, PLAYER2]);
     });
   });
 

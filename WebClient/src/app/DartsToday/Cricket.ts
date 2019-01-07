@@ -87,6 +87,7 @@ export class PlayerState
     constructor(private player) { }
 
     get name() : string { return this.player.name; }
+    get id() : string { return this.player.id; }
 
     bonus = 0;
     turnBonus = 0;
@@ -167,6 +168,8 @@ export class Cricket implements ActionObject {
         {
             this.enabledActions = [ActionsCricket.undo, ActionsCricket.score, ActionsCricket.endTurn];
         }
+
+        event.playerId = this.state.activePlayer.id;
     }
 
     private UpdateScore(score, multiplier)
@@ -193,17 +196,22 @@ export class Cricket implements ActionObject {
 
     endTurn(event)
     {
+        event.playerId = this.state.activePlayer.id;
+
         if (!this.state.playerWon())
         {
+          event.noScore = this.state.activeturn.dartsremaining;
+          
           this.state.activePlayer.turnBonus = 0;
           this.state.activeturn = new TurnState();
           this.state.turn += 1;
   
-          this.enabledActions = [ActionsCricket.undo, ActionsCricket.score, ActionsCricket.endTurn];
+          this.enabledActions = [ActionsCricket.undo, ActionsCricket.score, ActionsCricket.endTurn];         
         }
         else
         {
-          this.enabledActions = []; 
+          event.noScore = 0;
+          this.enabledActions = [];         
         }
     }
 }
