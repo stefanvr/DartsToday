@@ -1,40 +1,6 @@
 import  * as DateTime from '../lib/datetime';
-import { Aggregate, ActionObject, CMD_UNDO } from './aggregate';
-
-
-const COMMAND_TO_CONVERT  = -1;
-
-class TestGame implements  ActionObject
-{
-    enabledActions: any[];
-    state: any = { createdAt: null, customData: null, payload: null, eventData: null }
-    
-    convertAction(command) {
-       return command === COMMAND_TO_CONVERT ? "convertedCommand" : command; 
-    }
-
-    initialized(event) {  
-        this.state.createdAt = event.createdAt;
-        this.enabledActions = [ "enabledCommand", COMMAND_TO_CONVERT, "unkownHandler", CMD_UNDO ]
-    }
-    
-    disabledCommand(event) {  
-        this.state.customData = "disabled";
-    }
-
-    enabledCommand(event) {  
-        this.state.customData = "enabled";
-        this.state.payload = event.payload;
-    }
-
-    convertedCommand(event) { 
-        this.state.customData = "converted";
-    }
-
-    eventHandler_myEvent(event) {
-        this.state.eventData = event.data;
-    }
-}
+import { Aggregate, CMD_UNDO } from './aggregate';
+import { TestAggregate, COMMAND_TO_CONVERT , COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
 
 let createDate = DateTime.now();
 let es = { events: [{ action: "initialized", createdAt: createDate}, {action: "enabledCommand"}]};
@@ -43,7 +9,7 @@ describe('Aggregate newly created', () => {
     let root: Aggregate;
 
     beforeEach(() => {
-        root = Aggregate.CreateNew(createDate, TestGame);
+        root = Aggregate.CreateNew(createDate, TestAggregate);
     });
 
     it('Initialisation trigger by passing createdAt to state', () => {
@@ -51,12 +17,12 @@ describe('Aggregate newly created', () => {
     });
 
     it('Custom event, not enabled, to be skipped', () => {
-        root.execute({action: "disabledCommand"});
+        root.execute(COMMMAND_DISABLED);
         expect(root.state().customData).toBeNull();
     });
 
     it('Custom event, enabled, to be processed', () => {
-        root.execute({action: "enabledCommand"});
+        root.execute(COMMMAND_ENABLED);
         expect(root.state().customData).toBe("enabled");
     });
 
@@ -71,11 +37,10 @@ describe('Aggregate newly created', () => {
         // Error is logged for troubleshooting.
         expect(root.execute({action: "unkownHandler"})).not.toThrow;
     });
-
     
     it('Custom event, payload, to be processed', () => {
         let payload = "my payload";
-        root.execute({action: COMMAND_TO_CONVERT});
+        root.execute(COMMAND_TO_CONVERT);
         expect(root.state().customData).toBe("converted");
     });
 
@@ -130,7 +95,7 @@ describe('Aggregate loaded from events', () => {
     let root: Aggregate;
     
     beforeEach(() => {
-        root =  Aggregate.CreateFromEs(es, TestGame);
+        root =  Aggregate.CreateFromEs(es, TestAggregate);
     });
 
     it('Initialisation event is processed and passed createdAt to state', () => {

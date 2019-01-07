@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
+import { TestAggregate, COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
+import { Aggregate } from './aggregate'
 import { AggregateService } from './aggregate.service';
 
 describe('AggregateService', () => {
@@ -25,43 +26,22 @@ describe('AggregateService', () => {
   });
 
   describe('Execute', () => {
-    let testState = { test: "teststatevalue" }
-    let testCmd ={ command: "command" };
-
-    let aggregateSpy;
-  
     beforeEach(() => {
-      aggregateSpy = jasmine.createSpyObj('Aggregate', ['execute', 'state', 'enabledActions']);
-      service.intializeNew(aggregateSpy);
-    });
-
-    it('Applies command on aggegrate', () => {     
-      service.execute( testCmd );
-  
-      expect(aggregateSpy.execute.calls.count())
-        .toBe(1, 'spy method was called once');
-      expect(aggregateSpy.execute.calls.mostRecent().args[0])
-        .toBe(testCmd);
+      service.intializeNew(Aggregate.CreateNew('dt', TestAggregate));
     });
   
     it('Returns state from aggegrate', () => {
-      aggregateSpy.state.and.returnValue(testState);
+      service.execute(COMMMAND_ENABLED);
   
-      service.execute( testCmd );
-  
-      expect(service.state.s).toBe(testState);
+      expect(service.state.s.customData).toBe("enabled");;
     });
 
     it('Command enabled to be true', () => {
-      aggregateSpy.enabledActions.and.returnValue(['tstEnabledCommand']);
-  
-      expect(service.commandEnabled("tstEnabledCommand")).toBe(true);
+      expect(service.commandEnabled(COMMMAND_ENABLED.action)).toBe(true);
     });
 
     it('Command enabled to be false', () => {
-      aggregateSpy.enabledActions.and.returnValue([]);
-  
-      expect(service.commandEnabled("tstDisabledCommand")).toBe(false);
+      expect(service.commandEnabled(COMMMAND_DISABLED.action)).toBe(false);
     });
   });
 });
