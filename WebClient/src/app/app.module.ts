@@ -4,13 +4,16 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameCenterComponent, GameConfigService } from './game-center/game-center.component';
-import { GameComponent, GameService } from './game/game.component';
+import { GameComponent, GameService, StatisticsService } from './game/game.component';
 
 import { TurnTrackerComponent } from './game/turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './game/turn-control-cricket/turn-control-cricket.component';
 import { PlayersScoreComponent } from './game/players-score/players-score.component';
 import { GameScoreComponent } from './game/game-score/game-score.component'
+import { StatisticsComponent } from './game/statistics/statistics.component';
 
+import * as DateTime from './lib/datetime'
+import { Statistics } from './DartsToday/Statistics';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import { GameScoreComponent } from './game/game-score/game-score.component'
     TurnTrackerComponent,
     TurnControlCricketComponent,
     PlayersScoreComponent,
-    GameScoreComponent
+    GameScoreComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -29,4 +33,10 @@ import { GameScoreComponent } from './game/game-score/game-score.component'
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+  constructor(statisticsService : StatisticsService) {
+    statisticsService.intializeNew(DateTime.now() , Statistics);
+  }
+}
+

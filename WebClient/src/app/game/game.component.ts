@@ -11,6 +11,13 @@ export class GameService extends AggregateService {
   constructor(dispatcher: Dispatcher) { super(dispatcher); }
 }
 
+@Injectable({
+  providedIn: 'root',
+})
+export class StatisticsService extends AggregateService { 
+  constructor(dispatcher: Dispatcher) { super(dispatcher); }
+}
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',

@@ -10,6 +10,8 @@ import { GameService } from '../game/game.component'
 import { GameConfiguration } from '../DartsToday/GameConfiguration';
 import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
 
+import {PLAYER1_WIN_GAME} from '../DartsToday/CricketGameExamples'
+
 @Injectable({
   providedIn: 'root',
 })
@@ -47,7 +49,7 @@ export class GameCenterComponent  {
       this.gameService.execute({action: ActionsCricket.addPlayer, player: player});
     });
     this.gameService.execute({action: ActionsCricket.startGame, startedAt: DateTime.now()});
-
+   
     this.router.navigate(['/game']);
   }
  }

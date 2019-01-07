@@ -6,6 +6,7 @@ import { TurnTrackerComponent } from './turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './turn-control-cricket/turn-control-cricket.component';
 import { PlayersScoreComponent } from './players-score/players-score.component';
 import { GameScoreComponent } from './game-score/game-score.component'
+import { StatisticsComponent } from '../game/statistics/statistics.component';
 
 describe('GameComponent', () => {
   let component: GameComponent;
@@ -19,7 +20,8 @@ describe('GameComponent', () => {
         TurnTrackerComponent,
         TurnControlCricketComponent,
         PlayersScoreComponent,
-        GameScoreComponent
+        GameScoreComponent,
+        StatisticsComponent
       ],
       providers: [],
     })
