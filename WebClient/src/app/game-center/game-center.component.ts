@@ -2,7 +2,6 @@ import { Component, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import  * as DateTime from '../lib/datetime';
-import { Aggregate } from '../lib/aggregate';
 import { AggregateService, ServiceState } from '../lib/aggregate.service'
 
 import { GameService } from '../game/game.component'
@@ -26,7 +25,7 @@ export class GameCenterComponent  {
   constructor(private gameService: GameService, 
               private gameConfigService : GameConfigService,
               private router: Router) {
-    this.gameConfigService.intializeNew(Aggregate.CreateNew(DateTime.now(), GameConfiguration));
+    this.gameConfigService.intializeNew(DateTime.now(), GameConfiguration);
     this.state = this.gameConfigService.state;
   }
 
@@ -39,7 +38,7 @@ export class GameCenterComponent  {
   }
 
   start() {
-    this.gameService.intializeNew(Aggregate.CreateNew(DateTime.now(), Cricket));
+    this.gameService.intializeNew(DateTime.now(), Cricket);
 
     this.selectedPlayers.forEach(player => {
       this.gameService.execute({action: ActionsCricket.addPlayer, player: player});

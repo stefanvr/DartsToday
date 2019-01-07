@@ -1,14 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { TestAggregate, COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
-import { Aggregate } from './aggregate'
+import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
+
 import { AggregateService } from './aggregate.service';
 
 describe('AggregateService', () => {
   let service: AggregateService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [AggregateService]});
-    service = TestBed.get(AggregateService);
+    service = new AggregateService();
   });
 
   it('Command enabled to be false', () => {
@@ -27,13 +25,13 @@ describe('AggregateService', () => {
 
   describe('Execute', () => {
     beforeEach(() => {
-      service.intializeNew(Aggregate.CreateNew('dt', TestAggregate));
+      service.intializeNew(CREATE_DATE, TestAggregate);
     });
   
     it('Returns state from aggegrate', () => {
       service.execute(COMMMAND_ENABLED);
   
-      expect(service.state.s.customData).toBe("enabled");;
+      expect(service.state.s.customData).toBe("enabled");
     });
 
     it('Command enabled to be true', () => {

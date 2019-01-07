@@ -14,8 +14,8 @@ export class AggregateService {
     return this._state;
   }
 
-  intializeNew(aggregate) {
-    this.aggregate = aggregate;
+  intializeNew(createdAt, type) {
+    this.aggregate = Aggregate.CreateNew(createdAt, type);
     this._state.s = this.aggregate.state();
   }
 

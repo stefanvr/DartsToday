@@ -1,19 +1,17 @@
-import  * as DateTime from '../lib/datetime';
 import { Aggregate, CMD_UNDO } from './aggregate';
-import { TestAggregate, COMMAND_TO_CONVERT , COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
+import { TestAggregate, CREATE_DATE, PAYLOAD, COMMAND_TO_CONVERT, COMMMAND_ENABLED, COMMMAND_DISABLED, COMMMAND_UNKOWN } from './testaggregate';
 
-let createDate = DateTime.now();
-let es = { events: [{ action: "initialized", createdAt: createDate}, {action: "enabledCommand"}]};
+let es = { events: [{ action: "initialized", createdAt: CREATE_DATE}, {action: "enabledCommand"}]};
 
 describe('Aggregate newly created', () => {
     let root: Aggregate;
 
     beforeEach(() => {
-        root = Aggregate.CreateNew(createDate, TestAggregate);
+        root = Aggregate.CreateNew(CREATE_DATE, TestAggregate);
     });
 
     it('Initialisation trigger by passing createdAt to state', () => {
-        expect(root.state().createdAt).toBe(createDate);
+        expect(root.state().createdAt).toBe(CREATE_DATE);
     });
 
     it('Custom event, not enabled, to be skipped', () => {
@@ -27,19 +25,17 @@ describe('Aggregate newly created', () => {
     });
 
     it('Custom event, payload, to be processed', () => {
-        let payload = "my payload";
-        root.execute({action: "enabledCommand", payload: payload});
-        expect(root.state().payload).toBe(payload);
+        root.execute(COMMMAND_ENABLED);
+        expect(root.state().payload).toBe(PAYLOAD);
     });
 
     it('Unkown handler, does not throw', () => {
         // Currently trust test suite as this would indicate bug.
         // Error is logged for troubleshooting.
-        expect(root.execute({action: "unkownHandler"})).not.toThrow;
+        expect(root.execute(COMMMAND_UNKOWN)).not.toThrow;
     });
     
     it('Custom event, payload, to be processed', () => {
-        let payload = "my payload";
         root.execute(COMMAND_TO_CONVERT);
         expect(root.state().customData).toBe("converted");
     });
@@ -74,20 +70,19 @@ describe('Aggregate newly created', () => {
 
     describe('Persistance:', () => {
       it('The eventSource contains Initialized event', () => {
-          expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}]});
+          expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: CREATE_DATE}]});
       });
 
       it('The eventSource contains, after Custom event, initialized and command event', () => {
           root.execute({action: "enabledCommand"});
-          expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}, {action: "enabledCommand"}]});
+          expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: CREATE_DATE}, {action: "enabledCommand"}]});
       });
 
       it('The eventSource contains, after Custom event and undot, initialized event', () => {
         root.execute({action: "enabledCommand"});
         root.execute({action: CMD_UNDO });
-        expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: createDate}]});
-    });
-
+        expect(root.eventSource()).toEqual({ events: [{ action: "initialized", createdAt: CREATE_DATE}]});
+      });
     });
 });
 
@@ -99,7 +94,7 @@ describe('Aggregate loaded from events', () => {
     });
 
     it('Initialisation event is processed and passed createdAt to state', () => {
-        expect(root.state().createdAt).toBe(createDate);
+        expect(root.state().createdAt).toBe(CREATE_DATE);
     });
   
     it('Custom event is processed and passed to custom data ', () => {

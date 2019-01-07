@@ -1,8 +1,13 @@
+import  * as DateTime from '../lib/datetime';
 import { ActionObject, CMD_UNDO } from './aggregate';
 
+export const CREATE_DATE = DateTime.now();
+export const PAYLOAD = "my payload";
+
 export const COMMAND_TO_CONVERT  = { action: -1 }
-export const COMMMAND_ENABLED = { action: "enabledCommand" }
+export const COMMMAND_ENABLED = { action: "enabledCommand", payload: PAYLOAD }
 export const COMMMAND_DISABLED = { action: "disabledCommand" }
+export const COMMMAND_UNKOWN = { action: "unkownHandler" }
 
 export class TestAggregate implements  ActionObject
 {
@@ -15,7 +20,7 @@ export class TestAggregate implements  ActionObject
 
     initialized(event) {  
         this.state.createdAt = event.createdAt;
-        this.enabledActions = [ "enabledCommand", COMMAND_TO_CONVERT, "unkownHandler", CMD_UNDO ]
+        this.enabledActions = [ "enabledCommand", COMMAND_TO_CONVERT.action, "unkownHandler", CMD_UNDO ]
     }
     
     disabledCommand(event) {  
