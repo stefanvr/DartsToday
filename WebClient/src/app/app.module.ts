@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,8 +36,9 @@ import { Statistics } from './DartsToday/Statistics';
 })
 export class AppModule { 
 
-  constructor(statisticsService : StatisticsService) {
+  constructor(statisticsService : StatisticsService, router: Router) {
     statisticsService.intializeNew(DateTime.now() , Statistics);
+    router.navigate(['/game-center']);
   }
 }
 
