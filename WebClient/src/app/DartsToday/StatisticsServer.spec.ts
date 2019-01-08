@@ -1,6 +1,6 @@
 import { Statistics, ActionsStatistics } from './Statistics'
 
-import { PLAYER1 } from './CricketGameExamples';
+import { PLAYER1 } from './CricketGame.examples';
 
 describe('Statistics', () => {
     let sut: Statistics

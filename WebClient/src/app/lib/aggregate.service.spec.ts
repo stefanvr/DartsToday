@@ -1,4 +1,4 @@
-import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, COMMMAND_DISABLED } from './testaggregate';
+import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, COMMMAND_DISABLED } from './aggregate.example';
 import { AggregateService } from './aggregate.service';
 import { Dispatcher } from '../lib/dispatcher'
 

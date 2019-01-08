@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GameService } from '../game.component'
 import { GameScoreComponent } from './game-score.component';
 
-import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1 } from '../../DartsToday/CricketGameExamples'
+import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1 } from '../../DartsToday/CricketGame.examples'
 import { Cricket } from 'src/app/DartsToday/Cricket';
 
 describe('GameScoreComponent', () => {

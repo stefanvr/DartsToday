@@ -91,6 +91,9 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+            ],
+            "codeCoverageExclude": [
+              "**/*.example.ts"
             ]
           }
         },

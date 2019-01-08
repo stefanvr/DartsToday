@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GameService } from '../game.component';
 import { TurnTrackerComponent } from './turn-tracker.component';
 
-import {GAME_STATES_GAME, GAME_STATES_GAME_ROUND } from '../../DartsToday/CricketGameExamples'
+import {GAME_STATES_GAME, GAME_STATES_GAME_ROUND } from '../../DartsToday/CricketGame.examples'
 import { Cricket } from '../../DartsToday/Cricket';
 
 describe('TurnTrackerComponent', () => {

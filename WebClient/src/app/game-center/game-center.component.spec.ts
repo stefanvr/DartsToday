@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { GameCenterComponent } from './game-center.component';
 
 import { GameService } from '../game/game.component';
-import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGameExamples';
+import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGame.examples';
 
 describe('GameCenterComponent', () => {
   let component: GameCenterComponent;

@@ -1,7 +1,7 @@
 import { Players , ActionsPlayers} from './players'
 
 import  * as DateTime from '../lib/datetime';
-import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGameExamples'
+import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGame.examples'
 
 // POC test without aggregate wrapper
 describe('Players', () => {

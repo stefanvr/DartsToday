@@ -2,7 +2,7 @@ import { GameConfiguration, ActionsGameConfig } from './GameConfiguration'
 
 import  * as DateTime from '../lib/datetime';
 
-import { PLAYER1, PLAYER2 } from './CricketGameExamples';
+import { PLAYER1, PLAYER2 } from './CricketGame.examples';
 
 
 describe('GameConfiguration', () => {

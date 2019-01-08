@@ -1,4 +1,4 @@
-import  * as DateTime from '../lib/datetime';
+import  * as DateTime from './datetime';
 import { ActionObject, CMD_UNDO } from './aggregate';
 
 export const CREATE_DATE = DateTime.now();

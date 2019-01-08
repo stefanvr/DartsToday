@@ -1,5 +1,5 @@
 import { Aggregate, CMD_UNDO } from './aggregate';
-import { TestAggregate, CREATE_DATE, PAYLOAD, COMMAND_TO_CONVERT, COMMMAND_ENABLED, COMMMAND_DISABLED, COMMMAND_UNKOWN } from './testaggregate';
+import { TestAggregate, CREATE_DATE, PAYLOAD, COMMAND_TO_CONVERT, COMMMAND_ENABLED, COMMMAND_DISABLED, COMMMAND_UNKOWN } from './aggregate.example';
 
 let es = { events: [{ action: "initialized", createdAt: CREATE_DATE}, {action: "enabledCommand"}]};
 

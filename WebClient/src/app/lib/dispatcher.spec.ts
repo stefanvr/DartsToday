@@ -1,6 +1,6 @@
 import { AggregateService } from './aggregate.service';
 import { Dispatcher } from './dispatcher';
-import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, PAYLOAD } from './testaggregate';
+import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, PAYLOAD } from './aggregate.example';
 
 describe('Dispatcher', () => {
   let serviceA: AggregateService;

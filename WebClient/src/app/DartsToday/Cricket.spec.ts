@@ -3,7 +3,7 @@ import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL } f
 import  * as DateTime from '../lib/datetime';
 import { Aggregate } from '../lib/aggregate';
 
-import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME } from './CricketGameExamples';
+import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME } from './CricketGame.examples';
 
 describe('Cricket', () => {
     let game: Aggregate;
