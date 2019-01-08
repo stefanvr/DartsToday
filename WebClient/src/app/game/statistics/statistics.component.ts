@@ -16,14 +16,8 @@ export class StatisticsComponent {
     this.statState = statisticsSevice.state;
    }
 
-  get NofPlayer() {
-    if(!this.statState || !this.statState.s) return -1;
-
-    return this.statState.s.players.length;
-  }
-
-  get players() {
-    if(!this.statState || !this.statState.s) return  [];
+  get players() {  
+    if (!this.statState || !this.statState.s) return [];
     
     return this.statState.s.players;
   }
