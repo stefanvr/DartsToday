@@ -67,7 +67,7 @@ describe('TurnControlCricketComponent', () => {
     it('Active player without closed score, controlsScoreState(19) css post fix', () => {
       gameService.execute({ action: ActionsCricket.endTurn});
       fixture.detectChanges();
-      expect(component.controlsScoreState(17)).toBe("open");
+      expect(component.controlsScoreState(17)).toBe("target");
     });
   });
 

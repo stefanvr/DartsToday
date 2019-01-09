@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService, GameState } from '../game.component'
-import { ActionsCricket, GameScore, CricketScore } from '../../DartsToday/Cricket'
+import { ActionsCricket, GameScore, DartScore, CricketScore } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-turn-control-cricket',
@@ -42,7 +42,7 @@ export class TurnControlCricketComponent {
     if (!this.gameState.s) return "";   
     if (this.gameState.s.gameScore(score) === GameScore.closed ) return "closed";
     if (this.gameState.s.gameScore(score) === GameScore.playerToScore) {
-      return this.gameState.s.activePlayer.score[score] === CricketScore.closed ?  "score" : "open";
+      return this.gameState.s.activePlayer.score[score] === CricketScore.closed ?  "score" : "target";
     }
     return "";
   }
@@ -56,18 +56,18 @@ export class TurnControlCricketComponent {
   }
 
   hitSingle(value) {
-    this.gameService.execute({action: ActionsCricket.score, score:value, multiplier:1});
+    this.gameService.execute({action: ActionsCricket.score, score:value, multiplier: DartScore.single});
   }
 
   hitDouble(value) {
-    this.gameService.execute({action: ActionsCricket.score, score:value, multiplier:2});
+    this.gameService.execute({action: ActionsCricket.score, score:value, multiplier: DartScore.double});
   }
 
   hitTriple(value) {
-   this.gameService.execute({action: ActionsCricket.score, score:value, multiplier:3});
+   this.gameService.execute({action: ActionsCricket.score, score:value, multiplier: DartScore.triple});
   }
 
   mis() {
-    this.gameService.execute({action: ActionsCricket.score, score:0});
+    this.gameService.execute({action: ActionsCricket.score, score: DartScore.miss});
   }
 }
