@@ -61,5 +61,12 @@ describe('Statistics', () => {
             expect(player.dartsThrown).toBe(1);
             expect(player.dartsHit).toBe(0);
         });
+
+        it('Score, after endTurn supplements dartsThrown', () => {  
+            let player = sut.state.players[0];
+            sut.eventHandler( {"action":"endTurn","noScore":3,playerId:PLAYER1.id});
+            expect(player.dartsThrown).toBe(3);
+            expect(player.dartsHit).toBe(0);
+        });
     });
 });
