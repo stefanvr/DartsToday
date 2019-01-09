@@ -1,9 +1,4 @@
-import  * as DateTime from '../lib/datetime';
-import { Aggregate, ActionObject } from '../lib/aggregate';
-import { AggregateService } from '../lib/aggregate.service'
-
-import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
-
+import { ActionObject } from '../lib/aggregate';
 export enum ActionsGameConfig { undo/*==CMD_UNDO*/, start }
 
 export class GameConfiguratieState {
@@ -23,9 +18,5 @@ export class GameConfiguration implements ActionObject {
     initialized(event) {  
         this.state.createdAt = event.createdAt;
         this.enabledActions = [ActionsGameConfig.start];
-    }
-
-    start(event) {
-
     }
 }

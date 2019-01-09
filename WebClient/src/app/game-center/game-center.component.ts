@@ -10,8 +10,6 @@ import { GameService } from '../game/game.component'
 import { GameConfiguration } from '../DartsToday/GameConfiguration';
 import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
 
-import {PLAYER1_WIN_GAME} from '../DartsToday/CricketGame.examples'
-
 @Injectable({
   providedIn: 'root',
 })

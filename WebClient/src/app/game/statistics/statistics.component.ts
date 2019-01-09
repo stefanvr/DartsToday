@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { StatisticsService } from '../game.component'
-import  * as DateTime from '../../lib/datetime';
-
-import { Statistics } from '../../DartsToday/Statistics'
 
 @Component({
   selector: 'app-statistics',
