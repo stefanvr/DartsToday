@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService, GameState } from '../game.component'
-import { ActionsCricket, GameScore, DartScore, CricketScore } from '../../DartsToday/Cricket'
+import { ActionsCricket, DartScore, PlayerScore } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-turn-control-cricket',
@@ -35,16 +35,12 @@ export class TurnControlCricketComponent {
 
   controlsScoreDisabled(score) {
     return this.controlsGenericScoreDisabled(ActionsCricket.score)
-      || this.controlsScoreState(score) == "closed";
+      || this.gameState.s.playerScoreState(score) == PlayerScore.closed;
   }
 
   controlsScoreState(score) {
     if (!this.gameState.s) return "";   
-    if (this.gameState.s.gameScore(score) === GameScore.closed ) return "closed";
-    if (this.gameState.s.gameScore(score) === GameScore.playerToScore) {
-      return this.gameState.s.activePlayer.score[score] === CricketScore.closed ?  "score" : "target";
-    }
-    return "";
+    return PlayerScore[this.gameState.s.playerScoreState(score)];
   }
 
   back() {

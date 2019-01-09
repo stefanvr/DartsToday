@@ -7,9 +7,10 @@ export const DARTS_IN_TURN = 3;
 export const BULL = 25; 
 export const SCORES_OPTIONS = [25, 20, 19, 18, 17, 16, 15];
 
-export enum DartScore { miss, single, double, triple };
+export enum DartScore { miss = 0 , single = 1, double = 2, triple = 3};
 export enum CricketScore { noHit, one, two, closed };
 export enum GameScore { open, playerToScore, closed };
+export enum PlayerScore { open, score, target, closed };
 
 export class CricketState
 {
@@ -45,7 +46,15 @@ export class CricketState
             case this.numberOfPlayers: { return GameScore.closed; }
             default: { return GameScore.playerToScore; }
         }
-    }   
+    }  
+    
+    playerScoreState(score: number) {
+        if (this.gameScore(score) === GameScore.closed ) return PlayerScore.closed;
+        if (this.gameScore(score) === GameScore.playerToScore) {
+          return this.isScoringPlayer(score) ?  PlayerScore.score : PlayerScore.target
+        }
+        return PlayerScore.open;
+    } 
 
     playerWon()
     {
@@ -79,6 +88,10 @@ export class CricketState
       });
 
       return winningBonus;
+    }
+
+    private isScoringPlayer(score) {
+        return (this.activePlayer.score[score] === CricketScore.closed);
     }
 }
 
