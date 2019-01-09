@@ -29,6 +29,6 @@ export class TurnTrackerComponent {
   get turnBonus() {
     if (!this.gameState.s)  return "";
 
-    return "Bonus: " + this.gameState.s.activePlayer.turnBonus;
+    return "Bonus: " + this.gameState.s.activeturn.turnBonus;
   }
 }
