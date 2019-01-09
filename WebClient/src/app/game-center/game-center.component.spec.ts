@@ -1,26 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { GameCenterComponent } from './game-center.component';
 
 import { GameService } from '../game/game.component';
 import { PLAYER1, PLAYER2 } from '../DartsToday/CricketGame.examples';
 
+import { Router } from '@angular/router';
+
 describe('GameCenterComponent', () => {
+  const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
   let component: GameCenterComponent;
   let fixture: ComponentFixture<GameCenterComponent>;
   let compiled: any;
   let aggregateService : GameService;
-
+  
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
       declarations: [ 
         GameCenterComponent
      ],
-     providers: [],
+     providers: [{ provide: Router,      useValue: routerSpy }],
     }).compileComponents();
   }));
 
@@ -48,10 +47,11 @@ describe('GameCenterComponent', () => {
       fixture.detectChanges();
     });
 
-    xit('Button endTurn', () => {
+    it('Button endTurn', () => {
       let button = fixture.debugElement.nativeElement.querySelector("#start");
       button.click();
       expect(aggregateService.execute).toHaveBeenCalledTimes(3);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['/game']);
     });
   });
 });
