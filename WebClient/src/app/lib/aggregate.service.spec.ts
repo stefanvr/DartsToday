@@ -1,4 +1,5 @@
-import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, COMMMAND_DISABLED } from './aggregate.example';
+import { TestAggregate, CREATE_DATE, COMMMAND_ENABLED, COMMMAND_DISABLED, EVENT_STREAM } from './aggregate.example';
+
 import { AggregateService } from './aggregate.service';
 import { Dispatcher } from '../lib/dispatcher'
 
@@ -42,4 +43,16 @@ describe('AggregateService', () => {
       expect(service.commandEnabled(COMMMAND_DISABLED.action)).toBe(false);
     });
   });
+
+  describe('executeScenario', () => {
+    beforeEach(() => {
+      service.executeScenario(EVENT_STREAM, TestAggregate);
+    });
+
+    it('Returns replayed state from aggegrate', () => {
+      service.execute(COMMMAND_ENABLED);
+  
+      expect(service.state.s.customData).toBe("enabled");
+    });
+  });  
 });

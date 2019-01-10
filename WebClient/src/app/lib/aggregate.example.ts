@@ -9,6 +9,11 @@ export const COMMMAND_ENABLED = { action: "enabledCommand", payload: PAYLOAD }
 export const COMMMAND_DISABLED = { action: "disabledCommand" }
 export const COMMMAND_UNKOWN = { action: "unkownHandler" }
 
+export const EVENT_STREAM = { events: [
+    {"action":"initialized","createdAt":"2018-12-30T20:00:24.299Z"},
+    COMMMAND_ENABLED
+]};
+
 export class TestAggregate implements  ActionObject
 {
     enabledActions: any[];
