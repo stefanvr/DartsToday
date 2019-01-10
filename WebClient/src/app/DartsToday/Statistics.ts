@@ -24,19 +24,11 @@ export class Statistics implements ActionObject {
     }
 
     initialized(event) {  
+        this.state = new StatisticsState();
+        this.mapPlayer = {};
+
         this.state.createdAt = event.createdAt;
         this.enabledActions = [];
-    }
-
-    eventHandler(event){
-      this.ApplyEventOnHandler(event.action, event)  
-    }
-
-    private ApplyEventOnHandler(methodName, event)
-    {
-        if(this["eventHandler_" + methodName]) {
-            this["eventHandler_" + methodName](event); 
-        }
     }
 
     eventHandler_addPlayer(event)
