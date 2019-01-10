@@ -1,9 +1,9 @@
-import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL } from "./Cricket";
+import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL, PlayerScore } from "./Cricket";
 
 import  * as DateTime from '../lib/datetime';
 import { Aggregate } from '../lib/aggregate';
 
-import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME } from './CricketGame.examples';
+import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME, GAME_STATES_GAME } from './CricketGame.examples';
 
 describe('Cricket', () => {
     let game: Aggregate;
@@ -241,4 +241,27 @@ describe('Cricket', () => {
             expect(game.state().playerWon()).toBe(false);
         });
     });
+
+    describe('Game Player has open, score, target and closed score:', () => {
+        beforeEach(() => {
+            game = Aggregate.CreateFromEs(GAME_STATES_GAME, Cricket);
+        });
+        
+        it('playerScoreState open', () => {
+            expect(game.state().playerScoreState(16)).toBe(PlayerScore.open);
+        });
+
+        it('playerScoreState score', () => {
+            expect(game.state().playerScoreState(17)).toBe(PlayerScore.score);
+        });
+
+        it('playerScoreState target', () => {
+            game.execute({ action: ActionsCricket.endTurn });
+            expect(game.state().playerScoreState(17)).toBe(PlayerScore.target);
+        });
+
+        it('playerScoreState closed', () => {
+            expect(game.state().playerScoreState(20)).toBe(PlayerScore.closed);
+        });
+    });    
 });
