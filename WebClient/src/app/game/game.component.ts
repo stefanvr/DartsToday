@@ -1,22 +1,4 @@
-import { Component, Injectable } from '@angular/core';
-import { Dispatcher } from '../lib/dispatcher'
-import { AggregateService, ServiceState } from '../lib/aggregate.service'
-
-export class GameState extends ServiceState { }
-
-@Injectable({
-  providedIn: 'root',
-})
-export class GameService extends AggregateService { 
-  constructor(dispatcher: Dispatcher) { super(dispatcher); }
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class StatisticsService extends AggregateService { 
-  constructor(dispatcher: Dispatcher) { super(dispatcher); }
-}
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-game',

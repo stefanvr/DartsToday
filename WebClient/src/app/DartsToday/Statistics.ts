@@ -1,5 +1,3 @@
-import { ActionObject } from '../lib/Aggregate'
-
 export enum ActionsStatistics  { undo/*==CMD_UNDO*/ }
 
 export class StatisticsState {
@@ -14,7 +12,7 @@ export class PlayerStatistics {
     dartsHit = 0;
 }
 
-export class Statistics implements ActionObject {
+export class Statistics {
     public enabledActions: any[] = [];
     public state = new StatisticsState();
     private mapPlayer = {};

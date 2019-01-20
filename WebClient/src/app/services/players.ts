@@ -1,5 +1,3 @@
-import { ActionObject } from '../lib/aggregate';
-
 export enum ActionsPlayers { undo/*==CMD_UNDO*/, newPlayer, deletePlayer }
 
 
@@ -8,7 +6,7 @@ export class PlayersState {
   uniquePlayers = [];
 }
 
-export class Players implements ActionObject {
+export class Players {
     public enabledActions: any[] = [];
     public state = new PlayersState();
 

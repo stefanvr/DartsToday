@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { GameService, GameState } from '../game.component'
-import { CricketScore } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-players-score',
@@ -10,20 +8,21 @@ import { CricketScore } from '../../DartsToday/Cricket'
 
 export class PlayersScoreComponent  {
 
-  gameState: GameState; 
+  //gameState: GameState; 
 
-  constructor(gameService: GameService) {
-    this.gameState = gameService.state;
+  constructor() {//gameService: GameService) {
+    //this.gameState = gameService.state;
   }
 
   get players() {
-    if (!this.gameState.s)  return [];
-    return this.gameState.s.players;
+    //if (!this.gameState.s)  return [];
+    return [];//this.gameState.s.players;
   }
 
   scoreState(scoreOption, player)
   {
-    let score = player.score[scoreOption];
+    return "";
+    /*let score = player.score[scoreOption];
     switch(score) {
       case CricketScore.one: { return "score-single"; }
       case CricketScore.two: { return "score-double"; }
@@ -33,10 +32,10 @@ export class PlayersScoreComponent  {
           console.log("Invalid score: '"+ score +"'") 
           return ""; 
         }
-      }
+      }*/
   }
 
   activePlayer(player) {
-    return this.gameState.s.activePlayer.name == player.name ? "active-player" : "";
+    return "None" //this.gameState.s.activePlayer.name == player.name ? "active-player" : "";
   }
 }

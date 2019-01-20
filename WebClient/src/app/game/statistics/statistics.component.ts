@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { StatisticsService } from '../game.component'
 
 @Component({
   selector: 'app-statistics',
@@ -7,15 +6,15 @@ import { StatisticsService } from '../game.component'
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent {
-  statState ;
+  //statState ;
 
-  constructor(public statisticsSevice: StatisticsService) {
-    this.statState = statisticsSevice.state;
+  constructor() {//public statisticsSevice: StatisticsService) {
+    //this.statState = statisticsSevice.state;
    }
 
   get players() {  
-    if (!this.statState || !this.statState.s) return [];
+    //if (!this.statState || !this.statState.s) return [];
     
-    return this.statState.s.players;
+    return [];//this.statState.s.players;
   }
 }

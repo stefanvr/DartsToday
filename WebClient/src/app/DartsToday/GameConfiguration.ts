@@ -1,4 +1,3 @@
-import { ActionObject } from '../lib/aggregate';
 export enum ActionsGameConfig { undo/*==CMD_UNDO*/, start }
 
 export class GameConfiguratieState {
@@ -7,7 +6,7 @@ export class GameConfiguratieState {
   selectedPlayers = [{ id:"1", name: 'player 1'}, { id:"2", name: 'player 2'}];
 }
 
-export class GameConfiguration implements ActionObject {
+export class GameConfiguration {
     public enabledActions: any[] = [];
     public state = new GameConfiguratieState();
 

@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GameCenterComponent, GameConfigService } from './game-center/game-center.component';
-import { GameComponent, GameService, StatisticsService } from './game/game.component';
 
 import { TurnTrackerComponent } from './game/turn-tracker/turn-tracker.component';
 import { TurnControlCricketComponent } from './game/turn-control-cricket/turn-control-cricket.component';
@@ -19,8 +17,6 @@ import { Statistics } from './DartsToday/Statistics';
 @NgModule({
   declarations: [
     AppComponent,
-    GameCenterComponent,
-    GameComponent,
     TurnTrackerComponent,
     TurnControlCricketComponent,
     PlayersScoreComponent,
@@ -36,8 +32,7 @@ import { Statistics } from './DartsToday/Statistics';
 })
 export class AppModule { 
 
-  constructor(statisticsService : StatisticsService, router: Router) {
-    statisticsService.intializeNew(DateTime.now() , Statistics);
+  constructor(router: Router) {
     router.navigate(['/game-center']);
   }
 }

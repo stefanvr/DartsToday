@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { GameService, GameState } from '../game.component'
-import { GameScore, BULL } from '../../DartsToday/Cricket'
 
 @Component({
   selector: 'app-game-score',
@@ -9,31 +7,35 @@ import { GameScore, BULL } from '../../DartsToday/Cricket'
 })
 export class GameScoreComponent {
 
-  gameState: GameState; 
+  //gameState: GameState; 
 
-  constructor(gameService: GameService) {
-    this.gameState = gameService.state;
+  constructor() {///gameService: GameService) {
+    //this.gameState = gameService.state;
   }
 
   scoreState(score) {
-    if(!this.gameState.s) return  "";
+    return "";
+    /*if(!this.gameState.s) return  "";
 
     return this.gameState.s.gameScore(score) === GameScore.closed 
                ? "closed"
-               : "";
+               : "";*/
   }
 
   scoreStateLabel(score) {
-    if(!this.gameState.s) return  "";
+    return "";
+    /*if(!this.gameState.s) return  "";
 
     return this.gameState.s.gameScore(score) === GameScore.closed 
                ? ""
-               : (score === BULL ? "Bull" : score) ;
+               : (score === BULL ? "Bull" : score) ;*/
   }
 
   playerwon() {
+    return "";
+    /*
     if(!this.gameState.s) return  "";
 
-    return this.gameState.s.playerWon() ? "Win: " + this.gameState.s.activePlayer.name : ""; 
+    return this.gameState.s.playerWon() ? "Win: " + this.gameState.s.activePlayer.name : ""; */
   }
 }
