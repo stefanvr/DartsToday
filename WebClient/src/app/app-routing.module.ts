@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { GameCenterComponent } from './game-center/game-center.component';
 import { GameComponent } from './game/game.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'game-center', component: GameCenterComponent },
   { path: 'game', component: GameComponent },
   { path: '',   redirectTo: '/game-center', pathMatch: 'full' },
