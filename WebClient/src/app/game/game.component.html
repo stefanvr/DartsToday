@@ -1,20 +1,20 @@
-<section id="topbar">
-<div class="split game" id="header">DartsToday</div>
-<app-turn-tracker class="split"></app-turn-tracker>
+<section id="topbar"> 
+  <div class="split game" id="header">DartsToday</div>
+  <app-turn-tracker [leg]="leg" class="split"></app-turn-tracker>
 </section>
 
 <section id="gamebar">
 <div id="playersscore">
-  <app-players-score ></app-players-score>
+  <app-players-score  [leg]="leg"></app-players-score>
 </div>
 <div id="gamescore">
-  <app-game-score></app-game-score>
+  <app-game-score [leg]="leg"></app-game-score>
 </div>
 <div id="statistics">
-  <app-statistics></app-statistics>
+  <app-statistics [legStatistics]="legStatistics" ></app-statistics>
 </div>
 </section>
 
 <section id="gamecontrols">
-<app-turn-control-cricket></app-turn-control-cricket>
-</section>
+<app-turn-control-cricket [leg]="leg" [dispatcher]="dispatcher"></app-turn-control-cricket>
+</section> 
