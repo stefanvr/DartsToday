@@ -1,56 +1,57 @@
-export enum ActionsStatistics  { undo/*==CMD_UNDO*/ }
+import { MAX_DART_IN_TURN } from './CricketGame';
 
 export class StatisticsState {
-   createdAt = null;
+   currentPLayer = 0;
    players = [];
-   public log = true;
+
+   dartsThrown = 0;
 }
 
 export class PlayerStatistics {
     constructor(public player) {}
+    
     dartsThrown = 0;
     dartsHit = 0;
+    avg = 0;
 }
 
-export class Statistics {
-    public enabledActions: any[] = [];
-    public state = new StatisticsState();
-    private mapPlayer = {};
+export class Statistics {   
 
-    convertAction(command) {
-        return ActionsStatistics[command];
-    }
+    constructor(public state: StatisticsState) { }
 
-    initialized(event) {  
-        this.state = new StatisticsState();
-        this.mapPlayer = {};
-
-        this.state.createdAt = event.createdAt;
-        this.enabledActions = [];
-    }
-
-    eventHandler_addPlayer(event)
+    startGame(gameConfiguration)
     {
-       let pstat =new PlayerStatistics(event.player);
-       this.state.players.push(pstat);
-       this.mapPlayer[event.player.id] =pstat
+      gameConfiguration.selectedPlayers.forEach(player => {
+        this.state.players.push(new PlayerStatistics(player));
+      });
     }
     
-    eventHandler_score(event)
+    score(dartHit)
     {
-        let pl = this.mapPlayer[event.playerId];
+        let currenPlayer = this.state.players[this.state.currentPLayer];
+ 
+        currenPlayer.dartsThrown += 1;
+    
+        if (dartHit.score > 0)
+        {
+          currenPlayer.dartsHit += 1;
+        }
 
-        pl.dartsThrown += 1;
-       
-       if (event.score > 0)
-       {
-        pl.dartsHit += 1;
-       }
+        currenPlayer.avg = this.average(currenPlayer.dartsHit, currenPlayer.dartsThrown);
+        this.state.dartsThrown++;
     }
 
-    eventHandler_endTurn(event)
+    endTurn()
     {
-       let pl = this.mapPlayer[event.playerId];
-       pl.dartsThrown += event.noScore;
+      let currenPlayer =  this.state.players[this.state.currentPLayer]
+      currenPlayer.dartsThrown += MAX_DART_IN_TURN - this.state.dartsThrown;
+      currenPlayer.avg = this.average(currenPlayer.dartsHit, currenPlayer.dartsThrown);
+
+      this.state.currentPLayer = (this.state.currentPLayer+1) % this.state.players.length;
+      this.state.dartsThrown = 0;
+    }
+
+    private average(dartsHit, dartsThrown) {
+      return Math.round((dartsHit / dartsThrown) * 100) / 100;
     }
 }

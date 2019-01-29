@@ -1,94 +1,107 @@
-import { Statistics, ActionsStatistics } from './Statistics'
+import { Statistics, StatisticsState } from './Statistics'
 
-import { PLAYER1, STARTED_AT } from './CricketGame.examples';
+import { SCORE_SINGLE_20, START_GAME_DATA, SCORE_NONE } from './CricketGame.examples';
 
 describe('Statistics', () => {
-    let sut: Statistics
+    let sut: Statistics;
+    let state = new StatisticsState();
 
     beforeEach(() => {
-        sut = new Statistics();
+        state = new StatisticsState();
+        sut = new Statistics(state);
     });
 
     describe('Inital state:', () => {   
-        it('convertAction, converts enum ActionsPlayers to string', () => {  
-            expect(sut.convertAction(ActionsStatistics.undo)).toEqual("undo");
-        });
-
-        it('createdAt,returns null', () => {  
-            expect(sut.state.createdAt).toEqual(null);
-        });
-
-        it('enabledActions: none', () => {  
-            expect(sut.enabledActions).toEqual([]);
-        });
-
-        it('players', () => {  
-            expect(sut.state.players).toEqual([]);
+        it('state', () => {  
+            expect(sut.state).toBe(state);
         });
     });
 
-    describe('State after initialize:', () => { 
+    describe('startGame:', () => { 
         beforeEach(() => {
-            sut.initialized({ action: "initialized", createdAt: STARTED_AT });
-        });
-
-        it('createdAt, returns ' + STARTED_AT, () => {  
-            expect(sut.state.createdAt).toEqual(STARTED_AT);
-        });
-
-        it('enabledActions: none', () => {  
-            expect(sut.enabledActions).toEqual([]);
-        });
-
-        it('players', () => {  
-            expect(sut.state.players).toEqual([]);
+            sut.startGame(START_GAME_DATA);
         });
     });
 
-    describe('Handle game events, with addPlayer event send:', () => {
-        beforeEach(() => {
-            sut.initialized({ action: "initialized", createdAt: STARTED_AT });
-            sut.eventHandler_addPlayer({ action: "addPlayer", player: PLAYER1 });
-        });
-
-        it('players, return Player1 ', () => {  
-            expect(sut.state.players.length).toBe(1);
-            expect(sut.state.players[0].player).toBe(PLAYER1);
-        });
-
-        it('Score, after hit', () => {  
-            let player = sut.state.players[0];
-
-            expect(player.dartsThrown).toBe(0);
-            expect(player.dartsHit).toBe(0);
-        });
-    
-        it('Score, after score', () => {  
-            let player = sut.state.players[0];
-            sut.eventHandler_score( {"action":"score","score":20,"multiplier":3,playerId:PLAYER1.id});
-            expect(player.dartsThrown).toBe(1);
-            expect(player.dartsHit).toBe(1);
-        });
-
-        it('Score, after mis', () => {  
-            let player = sut.state.players[0];
-            sut.eventHandler_score( {"action":"score","score":0,"multiplier":1,playerId:PLAYER1.id});
-            expect(player.dartsThrown).toBe(1);
-            expect(player.dartsHit).toBe(0);
-        });
-
-        it('Score, after endTurn supplements dartsThrown', () => {  
-            let player = sut.state.players[0];
-            sut.eventHandler_endTurn( {"action":"endTurn","noScore":3,playerId:PLAYER1.id});
-            expect(player.dartsThrown).toBe(3);
-            expect(player.dartsHit).toBe(0);
-        });
-
-
-        it('Reinit reset state', () => {  
-            sut.initialized({ action: "initialized", createdAt: STARTED_AT });
-            expect(sut.state.players).toEqual([]);
-        });
+    describe('dart score single 20:', () => { 
+        let player;
         
+        beforeEach(() => {
+            sut.startGame(START_GAME_DATA);
+            sut.score(SCORE_SINGLE_20);
+            player = sut.state.players[0];
+        });
+
+        it('dartsThrown, returns ' + 1, () => {  
+            expect(player.dartsThrown).toEqual(1);
+        });
+
+        it('dartsHit hit return 1', () => {  
+            expect(player.dartsHit).toEqual(1);
+        });
+
+        it('avg return 1', () => {  
+            expect(player.avg).toEqual(1);
+        });
     });
+
+    describe('dart score miss:', () => { 
+        let player;
+
+        beforeEach(() => {
+            sut.startGame(START_GAME_DATA);
+            sut.score(SCORE_NONE);
+            player = sut.state.players[0];
+        });
+
+        it('game dartsThrown, returns ' + 1, () => {  
+            expect(sut.state.dartsThrown).toEqual(1);
+        });
+
+        it('dartsThrown, returns ' + 1, () => {  
+            expect(player.dartsThrown).toEqual(1);
+        });
+
+        it('dartsHit hit returns 0', () => {  
+            expect(player.dartsHit).toEqual(0);
+        });
+
+        it('avg return 0', () => {  
+            expect(player.avg).toEqual(0);
+        });
+    });
+
+    describe('dart score:', () => { 
+        let player;
+        beforeEach(() => {
+            sut.startGame(START_GAME_DATA);
+            sut.score(SCORE_NONE);
+            sut.endTurn();
+            player = sut.state.players[0];
+        });
+
+        it('currentPLayer, returns ' + 1, () => {  
+            expect(sut.state.currentPLayer).toEqual(1);
+        });
+
+        it('dartsThrown returns 0', () => {  
+            expect(sut.state.dartsThrown).toEqual(0);
+        });
+
+        it('player.dartsThrown returns 3', () => {  
+            expect(player.dartsThrown).toEqual(3);
+        });
+    });
+
+    describe('Second round:', () => { 
+        beforeEach(() => {
+            sut.startGame(START_GAME_DATA);
+            sut.state.players.forEach( () => sut.endTurn());
+        });
+
+        it('currentPLayer, returns ' + 1, () => {  
+            expect(sut.state.currentPLayer).toEqual(0);
+        });
+    });
+
 });
