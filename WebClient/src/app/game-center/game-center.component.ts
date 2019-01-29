@@ -1,49 +1,50 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgRedux } from '@angular-redux/store';
+
+import { stubStoreProperty } from '../lib/reduxhelper.example';
 
 import  * as DateTime from '../lib/datetime';
 
-import { GameConfiguration } from '../DartsToday/GameConfiguration';
-import { ActionsCricket, Cricket } from '../DartsToday/Cricket'
+import { IAppState, createCommmand } from '../app.state'
 
-/*@Injectable({
-  providedIn: 'root',
-})
-export class GameConfigService extends AggregateService { 
-  constructor(dispatcher: Dispatcher) { super(dispatcher); }
-}*/ 
+import { GameConfiguratieState } from '../DartsToday/GameConfiguration'
+import { ActionsCricket, PlayerCricketScore } from '../DartsToday/CricketGame'
 
 @Component({
   selector: 'app-game-center',
   templateUrl: './game-center.component.html',
   styleUrls: ['./game-center.component.scss']
 })
-export class GameCenterComponent  {
-  //state: ServiceState;
+export class GameCenterComponent  implements OnDestroy {
 
-  constructor(//private gameService: GameService, 
-   //           private gameConfigService : GameConfigService,
-             private router: Router) {
-    //this.gameConfigService.intializeNew(DateTime.now(), GameConfiguration);
-    //this.state = this.gameConfigService.state;
+  gameConfig: GameConfiguratieState;
+  subGameConfig;
+  _selectedPlayers;
+
+  selectedPlayers(data) {
+    this._selectedPlayers = data;
   }
 
-  get selectedPlayers() {
-    return [];//this.state.s.selectedPlayers;
-  }
-
-  get selectedGameType() {
-    return "None";//this.state.s.selectedGameType;
-  }
+  constructor(
+    private router: Router, 
+    private store: NgRedux<IAppState>
+  ) {
+    this.subGameConfig = store.select<GameConfiguratieState>('gameConfig') 
+    .subscribe(gameConfig => this.gameConfig = gameConfig);
+   }
 
   start() {
-    /*this.gameService.intializeNew(DateTime.now(), Cricket);
-
-    this.selectedPlayers.forEach(player => {
-      this.gameService.execute({action: ActionsCricket.addPlayer, player: player});
-    });
-    this.gameService.execute({action: ActionsCricket.startGame, startedAt: DateTime.now()});*/
+    this.store.dispatch(createCommmand(
+      ActionsCricket.startGame, 
+      { ...this.gameConfig }
+    ));
    
     this.router.navigate(['/game']);
   }
- }
+
+  ngOnDestroy() {                   
+    this.subGameConfig.unsubscribe(); 
+  }  
+}
+ 

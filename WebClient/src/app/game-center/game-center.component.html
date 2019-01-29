@@ -3,18 +3,8 @@
     <div class="split game" id="header">DartsToday</div>
   </section>
   <div class="row">
-    <section class="col-sm">
-      <div>Game type:</div>
-      <div>{{selectedGameType}}</div>
-    </section>
-    <section class="col-sm">
-      <div>Players:</div>
-      <div class="player" *ngFor="let player of selectedPlayers">
-          <div>
-            <div class="playername ">{{player.name}}</div> 
-          </div>
-      </div>
-    </section>
+    <app-configure-game [gameConfig]='gameConfig'></app-configure-game>
+    <app-select-players [gameConfig]='gameConfig' (selectedPlayers)='selectedPlayers(data)'></app-select-players>
   </div>
   <section class="row">
     <button id="start" class="btn btn-primary" (click)="start()">Start</button>
