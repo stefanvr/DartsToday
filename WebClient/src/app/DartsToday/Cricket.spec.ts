@@ -1,267 +1,322 @@
-import { ActionsCricket, Cricket, DartScore, CricketScore, MAX_PLAYERS, BULL, PlayerScore } from "./Cricket";
+import { Leg, MAX_DART_IN_TURN, SCORES_OPTIONS, GameScore, CricketScore, DartScore } from "./CricketGame";
+import { Cricket } from '../DartsToday/CricketGameRules'
 
-import  * as DateTime from '../lib/datetime';
+import {
+    PLAYERS, PLAYER1, PLAYER2, NUMBER_OF_PLAYERS,
+    SCORE_OPTION_20, SCORE_SINGLE_20, SCORE_DOUBLE_20, SCORE_TRIPLE_20, SCORE_NONE, START_GAME_DATA 
+} from './CricketGame.examples';
 
+describe('Cricket leg, created with ' + NUMBER_OF_PLAYERS + ' of players - ', () => {
+    let sut: Cricket;
 
-import { STARTED_GAME, PLAYER1_WIN_GAME, PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME, GAME_STATES_GAME } from './CricketGame.examples';
-
-describe('Cricket', () => {
-    let game;//: Aggregate;
-    let createDate = DateTime.now();
+    function assertLegState(state) {
+        it('Turn (number) to be ' + state.turn, () => {
+           expect(sut.leg.turn).toEqual(state.turn);
+        });
     
-    xdescribe('For a new game:', () => {
-        beforeEach(() => {
-            //game = Aggregate.CreateNew(createDate, Cricket);
+        it('Round (number) to be ' + state.round, () => {
+            expect(sut.leg.round).toEqual(state.round);
+        });
+    
+        it('Current player to be player ' + state.currentPlayerName, () => {
+            expect(sut.leg.currentPlayer.name).toEqual(state.currentPlayerName);
+        });
+    
+        it('ActionScoreEnabled returns ' + state.actionScoreEnabled, () => {
+            expect(sut.leg.actionScoreEnabled).toEqual(state.actionScoreEnabled);
+        });
+    
+        it('ActionEndTurnEnabled returns ' + state.actionEndTurnEnabled, () => {
+            expect(sut.leg.actionEndTurnEnabled).toEqual(state.actionEndTurnEnabled);
         });
 
-        it('The game state, createAt is set', () => {
-            expect(game.state().createdAt).toBe(createDate);
+        it('ActionStartGameEnabled returns ' + state.actionStartGameEnabled, () => {
+            expect(sut.leg.actionStartGameEnabled).toEqual(state.actionStartGameEnabled);
+        });
+    }
+
+    beforeEach(() => {
+        sut = new Cricket(new Leg());        
+        sut.startGame(START_GAME_DATA);
+    });
+
+    it('A leg is created', () => {
+        expect(sut).toBeDefined(sut);
+    });
+
+    describe ('Starting a leg, first turn: ', () => {
+        it('Players returns ' + NUMBER_OF_PLAYERS + ' players', () => {
+            expect(sut.leg.players.length).toEqual(NUMBER_OF_PLAYERS);
         });
 
-        it('Possible action(s): addPlayer', () => {
-            expect(game.enabledActions()).toContain(ActionsCricket.addPlayer); 
-            expect(game.enabledActions().length).toBe(1); 
+        assertLegState({
+            turn:1,
+            round:1,
+            currentPlayerName: PLAYER1.name,
+            actionScoreEnabled:true,
+            actionEndTurnEnabled:true,
+            actionStartGameEnabled:false
         });
     });
 
-    xdescribe('New game adding a player:', () => {
-        let player1 = { name: 'player 1'};
-
+    describe ('Throw maximum darts (' + MAX_DART_IN_TURN + ') in a turn: ', () => {
         beforeEach(() => {
-            //game = Aggregate.CreateNew(createDate, Cricket);
-            game.execute({action: ActionsCricket.addPlayer, player: player1});
+            for(let i=0; i<MAX_DART_IN_TURN; i++) {
+                sut.score(SCORE_SINGLE_20);
+            };
         });
 
-        it('First player is player 1', () => {
-            expect(game.state().players[0].name).toBe(player1.name);
+        it('Additional score have no effect', () => {              
+            sut.score(SCORE_SINGLE_20);
+            expect(sut.leg.turnScore.dartsThrown.length).toEqual(MAX_DART_IN_TURN);
         });
 
-        it('Possible action(s): addPlayer', () => {
-            expect(game.enabledActions()).toContain(ActionsCricket.addPlayer); 
-            expect(game.enabledActions()).toContain(ActionsCricket.startGame); 
-            expect(game.enabledActions().length).toBe(2); 
+        it('End turn, to re-enblescore', () => {              
+            sut.endTurn()
+            expect(sut.leg.actionScoreEnabled).toEqual(true);
         });
 
-        it('After multiple players added, Possible action(s): addPlayer, startGame', () => {
-            game.execute({action: ActionsCricket.addPlayer, player: player1});
-            expect(game.enabledActions()).toContain(ActionsCricket.addPlayer); 
-            expect(game.enabledActions()).toContain(ActionsCricket.startGame); 
-            expect(game.enabledActions().length).toBe(2); 
+        assertLegState({
+            turn:1,
+            round:1,
+            currentPlayerName: PLAYER1.name,
+            actionScoreEnabled: false,
+            actionEndTurnEnabled:true,
+            actionStartGameEnabled:false
         });
 
-        it('After max (' + MAX_PLAYERS + ') players added, Possible action(s): addPlayer', () => {
-            game.execute({action: ActionsCricket.addPlayer, player: player1});
-            game.execute({action: ActionsCricket.addPlayer, player: player1});
-            expect(game.enabledActions()).toContain(ActionsCricket.startGame); 
-            expect(game.enabledActions().length).toBe(1); 
+    });
+
+    describe ('After first player ending turn: ', () => {
+        beforeEach(() => {
+            sut.endTurn();
         });
-    
-        it('The game state, createAt is set', () => {
-            let startDate = new Date(Date.now()).toISOString();
-            game.execute({action: ActionsCricket.addPlayer, player: player1});
-            game.execute({action: ActionsCricket.addPlayer, player: player1});
-            game.execute({action: ActionsCricket.startGame, startedAt: startDate });
-           
-            expect(game.state().startedAt).toBe(startDate);
+
+        assertLegState({
+            turn:2,
+            round:1,
+            currentPlayerName: PLAYER2.name,
+            actionScoreEnabled: true,
+            actionEndTurnEnabled:true,
+            actionStartGameEnabled:false
         });
     });
 
-    xdescribe('When game started:', () => {
-        let score = 20;
-
+    describe ('After all players ending a turn: ', () => {
         beforeEach(() => {
-           // game = Aggregate.CreateFromEs(STARTED_GAME, Cricket);
-        });
-
-        it('The game state, turn is 1', () => {
-            expect(game.state().turn).toBe(1);
-        });
-
-        it('Possible action(s): score and endTurn', () => {
-            expect(game.enabledActions()).toContain(ActionsCricket.score); 
-            expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
-            expect(game.enabledActions().length).toBe(2); 
-        });
-
-        it('Turn state, DartsRemaining 3', () => {
-            expect(game.state().activeturn.dartsremaining).toBe(3);
-            expect(game.state().activeturn.dartsThrown).toBe(0); 
-        });
-
-        it('Turn state, after score, DartsRemaining 2', () => {
-            game.execute({action: ActionsCricket.score, score: 0 });
-            expect(game.state().activeturn.dartsremaining).toBe(2); 
-            expect(game.state().activeturn.dartsThrown).toBe(1); 
-        });
-
-        it('Turn state, after score, DartsRemaining 2', () => {
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.endTurn });
-            expect(game.state().activeturn.dartsremaining).toBe(3);
-            expect(game.state().activeturn.dartsThrown).toBe(0); 
-        });
-
-        it('After score, Possible action(s): back, score, end turn', () => {
-            game.execute({action: ActionsCricket.score, score: 0 });
-
-            expect(game.enabledActions()).toContain(ActionsCricket.undo); 
-            expect(game.enabledActions()).toContain(ActionsCricket.score); 
-            expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
-            expect(game.enabledActions().length).toBe(3);
-        });
-
-        it('After 3 scores, Possible action(s): back, endturn', () => {
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.score, score: 0 });
-
-            expect(game.enabledActions()).toContain(ActionsCricket.undo);
-            expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
-            expect(game.enabledActions().length).toBe(2);
-        });
-
-        it('After 3 scores and endturn, possible action(s): back, score, endTurn', () => {
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.score, score: 0 });
-            game.execute({action: ActionsCricket.endTurn });
-
-            expect(game.enabledActions()).toContain(ActionsCricket.undo);
-            expect(game.enabledActions()).toContain(ActionsCricket.endTurn); 
-            expect(game.enabledActions()).toContain(ActionsCricket.score); 
-            expect(game.enabledActions().length).toBe(3);
-        });
-
-        [BULL,20,19,18,17,16,15].forEach(score => {
-            it('Player 1, at start, no score for: ' + score, () => {
-                expect(game.state().players[0].score[score]).toEqual(CricketScore.noHit);
-            });
-
-            it('Player 1, after single, sinle score for: ' + score, () => {
-                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.single  });
-                expect(game.state().players[0].score[score]).toEqual(CricketScore.one);
-            });
-
-            it('Player 1, after double, double score for: ' + score, () => {
-                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-                expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
-            });
-
-            it('Player 1, after triple, closed score for: ' + score, () => {
-                game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
-                expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+            PLAYERS.forEach( player => {
+              sut.endTurn();
             });
         });
 
-        it('Player 1, at start, no score for: ' + score, () => {
-            game.execute({action: ActionsCricket.score, score: 0, multiplier: 1});
-            expect(game.state().players[0].bonus).toEqual(0);
+        assertLegState({
+            turn:3,
+            round:2,
+            currentPlayerName: PLAYER1.name,
+            actionScoreEnabled: true,
+            actionEndTurnEnabled:true,
+            actionStartGameEnabled:false
         });
-        
-        it('Player 1, with score closed, stays close', () => {
+    });
+
+    describe ('Player score: ', () => {
+        describe ('Score option: ', () => {
+
+            SCORES_OPTIONS.forEach(score => {
+                it('Current player score option ' + score + ' at the start of a game returns no hits', () => {                
+                    expect(sut.leg.currentPlayer.score[score]).toEqual(CricketScore.noHit);
+                });
+            });
+    
+            it('Current player score option ' + SCORE_OPTION_20 + ' after ' + DartScore[DartScore.single] + ' ' + SCORE_OPTION_20 + ' returns ' + CricketScore[CricketScore.oneHit], () => {                
+                sut.score(SCORE_SINGLE_20);
+                expect(sut.leg.currentPlayer.score[SCORE_OPTION_20]).toEqual(CricketScore.oneHit);
+            });
+    
+            it('Current player score option ' + SCORE_OPTION_20 + ' after ' + DartScore[DartScore.double] + ' ' + SCORE_OPTION_20 + ' returns ' + CricketScore[CricketScore.twoHits], () => {                
+                sut.score(SCORE_DOUBLE_20);
+                expect(sut.leg.currentPlayer.score[SCORE_OPTION_20]).toEqual(CricketScore.twoHits);
+            });
+    
+            it('Current player score option ' + SCORE_OPTION_20 + ' after ' + DartScore[DartScore.triple] + ' ' + SCORE_OPTION_20 + ' returns ' + CricketScore[CricketScore.closed], () => {                
+                sut.score(SCORE_TRIPLE_20);
+                expect(sut.leg.currentPlayer.score[SCORE_OPTION_20]).toEqual(CricketScore.closed);
+            });
             
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
-            expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
-            expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+            it('Current player score option ' + SCORE_OPTION_20 + ' 2x ' + DartScore[DartScore.triple] + ' ' + SCORE_OPTION_20 + ' returns ' + CricketScore[CricketScore.closed], () => {                
+                sut.score(SCORE_TRIPLE_20);
+                sut.score(SCORE_TRIPLE_20);
+                expect(sut.leg.currentPlayer.score[SCORE_OPTION_20]).toEqual(CricketScore.closed);
+            });
         });
 
-        it('Player 1, with score double and score double, is closed', () => {
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            expect(game.state().players[0].score[score]).toEqual(CricketScore.two);
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            expect(game.state().players[0].score[score]).toEqual(CricketScore.closed);
+       describe ('All players close the score option ' + SCORE_OPTION_20, () => {
+            beforeEach(() => {
+                PLAYERS.forEach( player => {
+                    sut.score(SCORE_TRIPLE_20);
+                    sut.endTurn();
+                  });
+            });
+           
+            for(let i =0; i < PLAYERS.length; i++) {
+                it('for ' + PLAYERS[i].name + ' returns has CricketScore.closed', () => {                
+                    expect(sut.leg.players[i].score[SCORE_OPTION_20]).toEqual(CricketScore.closed);
+                });
+            };
         });
 
-        it('Player 1, with no score, bonus score is zero', () => {
-            expect(game.state().players[0].bonus).toEqual(0);
-        });
-
-        it('Player 1, with score double and score double, bonus score equals single score', () => {
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            expect(game.state().players[0].bonus).toEqual(score);
-        });
-
-        it('After Player 1 doesnot close score, Player 2 gets bonus', () => {
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            game.execute({action: ActionsCricket.endTurn});
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            expect(game.state().players[1].bonus).toEqual(score);
-            expect(game.state().activeturn.turnBonus).toEqual(score);
-        });
-
-        it('After Player 1 closes score, Player 2 get no bonus', () => {
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
-            game.execute({action: ActionsCricket.endTurn});
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.double });
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
-            expect(game.state().players[1].bonus).toEqual(0);
-        });
-
-        it('After Player 1 closes score, in next turn Player 1 gets additional bonus', () => {
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.triple });
-            game.execute({action: ActionsCricket.endTurn});
-            game.execute({action: ActionsCricket.endTurn});
-            game.execute({action: ActionsCricket.score, score: score, multiplier: DartScore.single });
-            expect(game.state().players[0].bonus).toEqual(score);
-        });
-
-        function playTripleturn(scores)
-        {
-            game.execute({action: ActionsCricket.score, score: scores[0], multiplier: DartScore.triple });
-            game.execute({action: ActionsCricket.score, score: scores[1], multiplier: DartScore.triple });
-            game.execute({action: ActionsCricket.score, score: scores[2], multiplier: DartScore.triple });
-            game.execute({action: ActionsCricket.endTurn});
-            game.execute({action: ActionsCricket.endTurn});
-        }
-    });
-
-    xdescribe('Game Player 1 wins:', () => {
-        beforeEach(() => {
-            //game = Aggregate.CreateFromEs(PLAYER1_WIN_GAME, Cricket);
-        });
-        
-        it('player won state is true', () => {
-            expect(game.state().playerWon()).toBe(true);
-        });
-
-        it('Possible action(s):  ', () => {
-            expect(game.enabledActions().length).toBe(0);
+        describe ('Single player closes all scores ', () => {
+            beforeEach(() => {
+                SCORES_OPTIONS.forEach(score => {
+                    sut.score({ score:score, multiplier: DartScore.triple });
+                    PLAYERS.forEach( player => {
+                      sut.endTurn();
+                    });
+                });
+            });
+    
+            SCORES_OPTIONS.forEach(score => {
+                it('for score option ' + score + ' returns CricketScore.closed', () => {                
+                    expect(sut.leg.currentPlayer.score[score]).toEqual(CricketScore.closed);
+                });
+            });
         });
     });
 
-    xdescribe('Game Player closed all scores, but bonus lower than opponent:', () => {
-        beforeEach(() => {
-            //game = Aggregate.CreateFromEs(PLAYER1_ALLCLOSED_NO_WIN_ON_BONUS_GAME, Cricket);
+    describe ('Game score (' + SCORE_OPTION_20 + '): ', () => {
+    
+        it('Game score option ' + SCORE_OPTION_20 + ' at start returns Open', () => {        
+            expect(sut.leg.game.score[SCORE_OPTION_20]).toEqual(GameScore.open);
         });
-        
-        it('player won state is false', () => {
-            expect(game.state().playerWon()).toBe(false);
+
+        it('Game score option when single player closes   ' + SCORE_OPTION_20 + ' returns playerToScore', () => {  
+            sut.score(SCORE_TRIPLE_20);      
+            expect(sut.leg.game.score[SCORE_OPTION_20]).toEqual(GameScore.playerToScore);
+        });
+
+        it('Game score option when all players closed ' + SCORE_OPTION_20 + ' returns Closed', () => { 
+            PLAYERS.forEach( player => {
+                sut.score(SCORE_TRIPLE_20);
+                sut.endTurn();
+            });
+
+            expect(sut.leg.game.score[SCORE_OPTION_20]).toEqual(GameScore.closed);
         });
     });
 
-    xdescribe('Game Player has open, score, target and closed score:', () => {
+    describe ('Player bonus: ', () => {
+    
+        it('Game score option noscore returns 0 bonus', () => { 
+            sut.score(SCORE_NONE); 
+            expect(sut.leg.turnScore.bonus).toEqual(0);      
+            expect(sut.leg.currentPlayer.bonus).toEqual(0);
+        });
+
+        it('Game score option triple ' + SCORE_OPTION_20 + ' return 0 bonus', () => { 
+            sut.score(SCORE_TRIPLE_20); 
+            expect(sut.leg.turnScore.bonus).toEqual(0);      
+            expect(sut.leg.currentPlayer.bonus).toEqual(0);
+        });
+
+        it('Game score option single & triple ' + SCORE_OPTION_20 + ' returns player bonus 20 and turn bonus 20', () => { 
+            sut.score(SCORE_SINGLE_20);       
+            sut.score(SCORE_TRIPLE_20);       
+            expect(sut.leg.currentPlayer.bonus).toEqual(20);
+            expect(sut.leg.turnScore.bonus).toEqual(20);  
+        });
+
+        it('Game score option triple & triple ' + SCORE_OPTION_20 + ' returns player bonus 60 and turn bonus 60', () => { 
+            sut.score(SCORE_TRIPLE_20);       
+            sut.score(SCORE_TRIPLE_20);       
+            expect(sut.leg.currentPlayer.bonus).toEqual(60);
+            expect(sut.leg.turnScore.bonus).toEqual(60);
+        });
+
+        it('Game score option after first turn triple & double and second turn triple ' + SCORE_OPTION_20 + ' returns player bonus 100 and turn bonus 60', () => { 
+            sut.score(SCORE_TRIPLE_20);       
+            sut.score({ score:SCORE_OPTION_20, multiplier: DartScore.double }); 
+            sut.endTurn();sut.endTurn();      
+            sut.endTurn();sut.endTurn();      
+            sut.score(SCORE_TRIPLE_20);       
+            expect(sut.leg.currentPlayer.bonus).toEqual(100);
+            expect(sut.leg.turnScore.bonus).toEqual(60);
+        });
+
+        it('Game score option closed, hitting triple & triple' + SCORE_OPTION_20 + ' return 0 bonus', () => { 
+            // closing score option
+            sut.score(SCORE_TRIPLE_20);
+            sut.score(SCORE_TRIPLE_20);  
+            sut.endTurn();
+            // determine bones
+            sut.score(SCORE_TRIPLE_20);
+            sut.score(SCORE_TRIPLE_20); 
+
+            expect(sut.leg.currentPlayer.bonus).toEqual(0);
+            expect(sut.leg.turnScore.bonus).toEqual(0);
+        });
+    });
+
+    describe ('The winner: ', () => {
         beforeEach(() => {
-            //game = Aggregate.CreateFromEs(GAME_STATES_GAME, Cricket);
-        });
-        
-        it('playerScoreState open', () => {
-            expect(game.state().playerScoreState(16)).toBe(PlayerScore.open);
-        });
-
-        it('playerScoreState score', () => {
-            expect(game.state().playerScoreState(17)).toBe(PlayerScore.score);
-        });
-
-        it('playerScoreState target', () => {
-            game.execute({ action: ActionsCricket.endTurn });
-            expect(game.state().playerScoreState(17)).toBe(PlayerScore.target);
+            SCORES_OPTIONS.forEach(score => {
+                if (score != SCORE_OPTION_20)
+                { 
+                    sut.score({ score:score, multiplier: DartScore.triple });
+                    PLAYERS.forEach( player => {
+                    sut.endTurn();
+                    });
+                }
+            });
         });
 
-        it('playerScoreState closed', () => {
-            expect(game.state().playerScoreState(20)).toBe(PlayerScore.closed);
+        it('Before last close, winnar returns none', () => { 
+            expect(sut.leg.winner).toEqual(null);
         });
-    });    
+
+        it('after last close, winner returns player 1', () => { 
+            sut.score(SCORE_TRIPLE_20);
+            sut.endTurn();
+                
+            expect(sut.leg.winner).toEqual(PLAYER1);
+        });
+
+        it('after last close, all game options disabled', () => { 
+            sut.score(SCORE_TRIPLE_20);
+            sut.endTurn();
+                
+            expect(sut.leg.actionEndTurnEnabled).toEqual(false);
+            expect(sut.leg.actionScoreEnabled).toEqual(false);
+            expect(sut.leg.actionStartGameEnabled).toEqual(false);
+        });
+
+        it('after last close, but lower bonus, winner is none', () => { 
+            sut.endTurn();
+            /// player 2 - bonus
+            sut.score(SCORE_TRIPLE_20);
+            sut.score(SCORE_TRIPLE_20);
+            sut.endTurn();
+            
+            sut.score(SCORE_TRIPLE_20);
+            sut.endTurn();
+                
+            expect(sut.leg.winner).toEqual(null);
+        });
+
+        it('after last close equal bonus, winner is player 1', () => { 
+            sut.endTurn();
+            // player 2 - bonus
+            sut.score(SCORE_TRIPLE_20);
+            sut.score(SCORE_TRIPLE_20);
+            sut.endTurn();
+           
+            // player 1 - closes
+            sut.score(SCORE_TRIPLE_20);
+            // player 1 - bonus
+            sut.score({ score:15, multiplier: DartScore.triple });
+            sut.score({ score:15, multiplier: DartScore.triple });
+            sut.endTurn();
+            
+            expect(sut.leg.winner).toEqual(PLAYER1);
+        });
+    });
 });
