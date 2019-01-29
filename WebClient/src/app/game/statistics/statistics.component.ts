@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { StatisticsState } from 'src/app/DartsToday/Statistics';
 
 @Component({
   selector: 'app-statistics',
@@ -6,15 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent {
-  //statState ;
+  @Input() legStatistics: StatisticsState;
 
-  constructor() {//public statisticsSevice: StatisticsService) {
-    //this.statState = statisticsSevice.state;
-   }
-
-  get players() {  
-    //if (!this.statState || !this.statState.s) return [];
-    
-    return [];//this.statState.s.players;
+  get players(){
+    return this.legStatistics.players;
   }
 }

@@ -1,4 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CricketScore, Leg } from 'src/app/DartsToday/CricketGame';
+
+export const CURRENT_PLAYER = "active-player";
+
+export const SCORE_SINGLE = "score-single";
+export const SCORE_DOUBLE = "score-double";
+export const SCORE_TRIPLE = "score-triple";
+export const SCORE_CLEAR = "";
 
 @Component({
   selector: 'app-players-score',
@@ -6,36 +14,29 @@ import { Component } from '@angular/core';
   styleUrls: ['./players-score.component.scss']
 })
 
-export class PlayersScoreComponent  {
-
-  //gameState: GameState; 
-
-  constructor() {//gameService: GameService) {
-    //this.gameState = gameService.state;
-  }
+export class PlayersScoreComponent {
+  @Input() leg: Leg;
 
   get players() {
-    //if (!this.gameState.s)  return [];
-    return [];//this.gameState.s.players;
+    return this.leg.players;
   }
 
   scoreState(scoreOption, player)
   {
-    return "";
-    /*let score = player.score[scoreOption];
+    let score = player.score[scoreOption];
     switch(score) {
-      case CricketScore.one: { return "score-single"; }
-      case CricketScore.two: { return "score-double"; }
-      case CricketScore.closed: { return "score-triple"; }
-      case CricketScore.noHit: { return ""; }
+      case CricketScore.oneHit: { return SCORE_SINGLE; }
+      case CricketScore.twoHits: { return SCORE_DOUBLE; }
+      case CricketScore.closed: { return SCORE_TRIPLE; }
+      case CricketScore.noHit: { return SCORE_CLEAR; }
       default: {
-          console.log("Invalid score: '"+ score +"'") 
-          return ""; 
+          console.log("Invalid score: '" + score + "'") 
+          return SCORE_CLEAR; 
         }
-      }*/
+      }
   }
 
   activePlayer(player) {
-    return "None" //this.gameState.s.activePlayer.name == player.name ? "active-player" : "";
-  }
+    return this.leg.currentPlayer.name == player.name ? "active-player" : "";
+  } 
 }

@@ -1,32 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Leg , DartThrown } from 'src/app/DartsToday/CricketGame';
+
+export const DART_HIT_ATTEMPT = "turn-attempt"
+export const DART_HIT = "turn-done"
+
+export function EnumDartThrown(constructor: Function) {
+  constructor.prototype.DartThrown = DartThrown;
+}
 
 @Component({
   selector: 'app-turn-tracker',
   templateUrl: './turn-tracker.component.html',
   styleUrls: ['./turn-tracker.component.scss']
 })
-export class TurnTrackerComponent {
-  //gameState: GameState; 
-
-  constructor() { //gameService: GameService) {
-    //this.gameState = gameService.state;
-  }
+@EnumDartThrown
+export class TurnTrackerComponent { 
+  @Input() leg: Leg;
+  
+  get dartsThrown() {
+    return this.leg.turnScore.dartsThrown.length
+  };
 
   get turn() {
-    //if (!this.gameState.s)  return "";
-
-    return "";//"Turn: " + this.gameState.s.round;
+    return "Turn: " + this.leg.turn;
   }
-
+   
   dartState(dart : number) {
-    //if (!this.gameState.s)  return "";
-
-    return "";// dart >= this.gameState.s.activeturn.dartsThrown  ? "turn-attempt" : "turn-done";
+    return dart >  this.dartsThrown  ? DART_HIT_ATTEMPT : DART_HIT;
   }
 
-  get turnBonus() {
-    //if (!this.gameState.s)  return "";
-
-    return ""; //this.gameState.s.activeturn.turnBonus;
+  get bonus() {
+    return this.leg.turnScore.bonus;
   }
 }

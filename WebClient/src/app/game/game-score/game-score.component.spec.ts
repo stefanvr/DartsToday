@@ -1,13 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameScoreComponent } from './game-score.component';
+import { GameScoreComponent, CLOSED_STATE, NONE_CLOSED_STATE, NO_LABEL } from './game-score.component';
+import { GameScore } from 'src/app/DartsToday/CricketGame';
 
-import {GAME_STATES_GAME, PLAYER1_WIN_GAME, PLAYER1 } from '../../DartsToday/CricketGame.examples'
-import { Cricket } from 'src/app/DartsToday/Cricket';
+import { createTestLeg, PLAYER1, SCORE_OPTION_20 } from '../../DartsToday/CricketGame.examples'
 
 describe('GameScoreComponent', () => {
   let component: GameScoreComponent;
   let fixture: ComponentFixture<GameScoreComponent>;
+  let compiled: any;
+  
+  let testLeg = createTestLeg();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -20,76 +23,55 @@ describe('GameScoreComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GameScoreComponent);
     component = fixture.componentInstance;
+    compiled = fixture.debugElement.nativeElement;  
+
+    component.leg = testLeg;
+
     fixture.detectChanges();
   });
 
-  describe('Initial state:', () => {
-    it('ScoreState class post fix to be: ""', () => {
-      expect(component.scoreState(20)).toBe("");
+  describe('scoreState:', () => {
+    it('for open score returns NONE_CLOSED_STATE', () => {
+      testLeg.game.score[SCORE_OPTION_20] = GameScore.open;
+      expect(component.scoreState(SCORE_OPTION_20)).toEqual(NONE_CLOSED_STATE);
     });
 
-    it('ScoreState class post fix to be: ""', () => {
-      expect(component.scoreStateLabel(20)).toBe("");
+    it('for playerToScore score returns NONE_CLOSED_STATE', () => {
+      testLeg.game.score[SCORE_OPTION_20] = GameScore.playerToScore;
+      expect(component.scoreState(SCORE_OPTION_20)).toEqual(NONE_CLOSED_STATE);
     });
 
-    it('playerwon test to be: ""', () => {
-      expect(component.playerwon()).toBe("");
+    it('for closed score returns CLOSED_STATE', () => {
+      testLeg.game.score[SCORE_OPTION_20] = GameScore.closed;
+      expect(component.scoreState(SCORE_OPTION_20)).toEqual(CLOSED_STATE);
     });
-  });  
+  });
 
-  xdescribe('With game state:', () => {
-    beforeEach(() => {
-      //let service = TestBed.get(GameService);
-      //service.executeScenario(GAME_STATES_GAME, Cricket);
-      fixture.detectChanges();
-    });
-
-    it('Open score, ScoreState class post fix to be: ""', () => {
-      expect(component.scoreState(18)).toBe("");
+  describe('scoreStateLabel:', () => {
+    it('for open score (' + SCORE_OPTION_20 + ') returns ' + SCORE_OPTION_20, () => {
+      testLeg.game.score[SCORE_OPTION_20] = GameScore.open;
+      expect(component.scoreStateLabel(SCORE_OPTION_20)).toEqual(SCORE_OPTION_20);
     });
 
-    it('Open score, ScoreState label fix to be: ""', () => {
-      expect(component.scoreStateLabel(18)).toBe("18");
+    it('for playerToScore (' + SCORE_OPTION_20 + ') returns ' + SCORE_OPTION_20, () => {
+      testLeg.game.score[SCORE_OPTION_20] = GameScore.playerToScore;
+      expect(component.scoreStateLabel(SCORE_OPTION_20)).toEqual(SCORE_OPTION_20);
     });
 
-    it('Player to score, ScoreState class post fix to be: ""', () => {
-      expect(component.scoreState(19)).toBe("");
+    it('for closed score returns CLOSED_STATE', () => {
+      testLeg.game.score[SCORE_OPTION_20] = GameScore.closed;
+      expect(component.scoreStateLabel(SCORE_OPTION_20)).toEqual(NO_LABEL);
+    });
+  });
+
+  describe('playerwon:', () => {
+    it('with no winner to return: ""', () => {
+      expect(component.playerwon).toEqual("");
     });
 
-    it('Player to score, ScoreState label to be: ""', () => {
-      expect(component.scoreStateLabel(19)).toBe("19");
-    });
-
-    it('Closed score, ScoreState class post fix to be: ""', () => {
-      expect(component.scoreState(20)).toBe("closed");
-    });
-
-    it('Closed score, ScoreState label to be: ""', () => {
-      expect(component.scoreStateLabel(20)).toBe("");
-    });
-
-    it('Opne score, ScoreState to be: "Bull"', () => {
-      expect(component.scoreStateLabel(25)).toBe("Bull");
-    });
-
-    it('playerwon test to be: ""', () => {
-      expect(component.playerwon()).toBe("");
-    });
-
-    it('playerwon test to be: ""', () => {
-      expect(component.playerwon()).toBe("");
-    }); 
-  });  
-
-  xdescribe('With player1 won game state:', () => {
-    beforeEach(() => {
-      //let service = TestBed.get(GameService);
-      //service.executeScenario(PLAYER1_WIN_GAME, Cricket);
-      fixture.detectChanges();
-    });
-
-    it('playerwon test to be: ""', () => {
-      expect(component.playerwon()).toEqual("Win: " + PLAYER1.name);
+    it('with winner to return: ""', () => {
+      testLeg.winner = PLAYER1;
+      expect(component.playerwon).toEqual("Win: " + PLAYER1.name);
     });
   });
 });

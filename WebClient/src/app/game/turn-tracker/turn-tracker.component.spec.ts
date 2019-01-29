@@ -1,14 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TurnTrackerComponent } from './turn-tracker.component';
+import { TurnTrackerComponent, DART_HIT_ATTEMPT, DART_HIT } from './turn-tracker.component';
+import { DartThrown } from 'src/app/DartsToday/CricketGame';
 
-import {GAME_STATES_GAME, GAME_STATES_GAME_ROUND } from '../../DartsToday/CricketGame.examples'
-import { Cricket } from '../../DartsToday/Cricket';
+import { createTestLeg } from '../../DartsToday/CricketGame.examples'
 
 describe('TurnTrackerComponent', () => {
   let component: TurnTrackerComponent;
   let fixture: ComponentFixture<TurnTrackerComponent>;
   let compiled: any;
+
+  let testLeg = createTestLeg();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,57 +23,54 @@ describe('TurnTrackerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TurnTrackerComponent);
     component = fixture.componentInstance;  
-    compiled = fixture.debugElement.nativeElement;  
+    compiled = fixture.debugElement.nativeElement; 
+    
+    component.leg = testLeg;
+
     fixture.detectChanges();
   });
 
-  xdescribe('Initial state', () => {
-    it('No dart state displayed', () => { 
-       expect(component.turn).toBe("");
+  describe('Component state - ', () => {
+    it('Turn returns: ' + testLeg.turn, () => { 
+       expect(component.turn).toEqual("Turn: " + testLeg.turn);
     });
 
-    it('No dart state displayed', () => { 
-      expect(component.dartState(1)).toBe("");
-      expect(component.dartState(2)).toBe("");
-      expect(component.dartState(3)).toBe("");
+    it('First dart returns: DART_HIT', () => { 
+      expect(component.dartState(DartThrown.first)).toEqual(DART_HIT);
     });
 
-    it('No Score displayed', () => { 
-      expect(component.turnBonus).toBe("");
+    it('Second dart returns: DART_HIT_ATTEMPT', () => { 
+      expect(component.dartState(DartThrown.second)).toEqual(DART_HIT_ATTEMPT);
+    });
+
+    it('Third dart returns: DART_HIT_ATTEMPT', () => { 
+      expect(component.dartState(DartThrown.third)).toEqual(DART_HIT_ATTEMPT);
+    });
+
+    it('Bonus to returns: ' + testLeg.turnScore.bonus, () => { 
+       expect(component.bonus).toBe(testLeg.turnScore.bonus);
     });
   });
 
-  xdescribe('With game state:', () => {
-    beforeEach(() => {
-      //let service = TestBed.get(GameService);
-      //service.executeScenario(GAME_STATES_GAME, Cricket);
-      fixture.detectChanges();
-    });
-
-    it('Turn number', () => {   
-      expect(component.turn).toEqual("Turn: " + GAME_STATES_GAME_ROUND);
-    });
-  
-    it('Turn number', () => {   
-      expect(component.dartState(0)).toEqual("turn-done");
-      expect(component.dartState(1)).toEqual("turn-done");
-      expect(component.dartState(2)).toEqual("turn-attempt");
-    });
-
-    it('Bonus displayed', () => { 
-      expect(component.turnBonus).toBe("Bonus: 51");
-    });
-
-    xdescribe('Template test:', () => {
+  describe('Template state:', () => {
       it('Turn number displayed', () => {   
-        expect(compiled.querySelector('#turn').textContent).toEqual("Turn: " + GAME_STATES_GAME_ROUND.toString());
+        expect(compiled.querySelector('#turn').textContent).toEqual("Turn: " + testLeg.turn);
       });
 
-      it('After two darts, Darts state displayed as scores for Dart1 & Dart2', () => {
+      it('First dart returns: DART_HIT', () => { 
         expect(compiled.querySelector('#dart1').getAttribute("class")).toContain("icon-dart-turn-done");
-        expect(compiled.querySelector('#dart2').getAttribute("class")).toContain("icon-dart-turn-done");
-        expect(compiled.querySelector('#dart3').getAttribute("class")).toContain("icon-dart-turn-attempt");
       });
-    });
+  
+      it('Second dart returns: DART_HIT_ATTEMPT', () => { 
+        expect(compiled.querySelector('#dart2').getAttribute("class")).toContain("icon-dart-turn-attempt");
+      });
+  
+      it('Third dart returns: DART_HIT_ATTEMPT', () => { 
+        expect(compiled.querySelector('#dart3').getAttribute("class")).toContain("icon-dart-turn-attempt");
+      });  
+      
+      it('Bonus to returns: ' + testLeg.turnScore.bonus, () => { 
+        expect(compiled.querySelector('#bonus').textContent).toEqual(testLeg.turnScore.bonus.toString());
+     });
   });    
 });

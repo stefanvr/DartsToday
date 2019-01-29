@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Dispatcher } from 'src/app/lib/dispatcher';
+
+import { createCommmand } from 'src/app/app.state';
+import { ActionsCricket, DartScore, Leg, PlayerScore } from 'src/app/DartsToday/CricketGame';
 
 @Component({
   selector: 'app-turn-control-cricket',
@@ -6,60 +10,51 @@ import { Component } from '@angular/core';
   styleUrls: ['./turn-control-cricket.component.scss']
 })
 export class TurnControlCricketComponent {
-  //gameState: GameState; 
 
-  constructor() { //private gameService: GameService) {
-    //this.gameState = gameService.state;
-  }
+  @Input() leg: Leg;
+  @Input() dispatcher: Dispatcher;
 
   get controlsDisabled() {
-    return true;// !this.gameState.s || this.gameState.s.playerWon();
-  }
-
-  private controlsGenericScoreDisabled(action) : boolean {
-    return true; //this.controlsDisabled 
-      //|| !this.gameService.commandEnabled(action);
+    return this.leg.actionStartGameEnabled;
   }
 
   get controlsBackDisabled() : boolean {
-    return true;//this.controlsGenericScoreDisabled(ActionsCricket.undo);
+    return true;
   }
 
   get controlsEnTurnDisabled() : boolean  {
-    return true;//this.controlsGenericScoreDisabled(ActionsCricket.endTurn);
+    return this.controlsDisabled || !this.leg.actionEndTurnEnabled;
   }
 
   controlsScoreDisabled(score) : boolean {
-    return true;////this.controlsGenericScoreDisabled(ActionsCricket.score)
-     // || this.gameState.s.playerScoreState(score) == PlayerScore.closed;
+    return this.controlsDisabled || !this.leg.actionScoreEnabled || this.leg.currentPlayer.state[score] === PlayerScore.closed;
   }
 
   controlsScoreState(score) {
-    //if (!this.gameState.s) return "";   
-    return "";//PlayerScore[this.gameState.s.playerScoreState(score)];
+    return PlayerScore[this.leg.currentPlayer.state[score]];
   }
 
-  back() {
-    //this.gameService.execute({action: ActionsCricket.undo});
-  }
+  /*back() {
+    this.dispatcher.dispatch(createCommmand(ActionsCricket.undo));
+  }*/
 
   endTurn() {
-    //this.gameService.execute({action: ActionsCricket.endTurn});
+    this.dispatcher.dispatch(createCommmand(ActionsCricket.endTurn));
   }
 
   hitSingle(value) {
-    //this.gameService.execute({action: ActionsCricket.score, score:value, multiplier: DartScore.single});
+    this.dispatcher.dispatch(createCommmand(ActionsCricket.score, { score:value, multiplier: DartScore.single}));
   }
 
   hitDouble(value) {
-    //this.gameService.execute({action: ActionsCricket.score, score:value, multiplier: DartScore.double});
+    this.dispatcher.dispatch(createCommmand(ActionsCricket.score, { score:value, multiplier: DartScore.double}));
   }
 
   hitTriple(value) {
-   //this.gameService.execute({action: ActionsCricket.score, score:value, multiplier: DartScore.triple});
+   this.dispatcher.dispatch(createCommmand(ActionsCricket.score, { score:value, multiplier: DartScore.triple}));
   }
 
   mis() {
-    //this.gameService.execute({action: ActionsCricket.score, score: DartScore.miss});
+    this.dispatcher.dispatch(createCommmand(ActionsCricket.score, { score: DartScore.miss}));
   }
 }

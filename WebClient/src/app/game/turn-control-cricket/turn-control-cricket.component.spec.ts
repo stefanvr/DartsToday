@@ -1,176 +1,165 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { createCommmand } from 'src/app/app.state';
 import { TurnControlCricketComponent } from './turn-control-cricket.component';
 
-import { STARTED_GAME, GAME_STATES_GAME, PLAYER1_WIN_GAME } from '../../DartsToday/CricketGame.examples'
-import { ActionsCricket, CricketState, Cricket, DartScore, BULL } from '../../DartsToday/Cricket'
+import {  createTestLeg, SCORE_OPTION_20 } from '../../DartsToday/CricketGame.examples'
+import { ActionsCricket, BULL, DartScore, PlayerScore } from 'src/app/DartsToday/CricketGame';
 
 describe('TurnControlCricketComponent', () => {
+  let dispatcher = { dispatch: (command) => { console.log('>');}}
+
   let component: TurnControlCricketComponent;
   let fixture: ComponentFixture<TurnControlCricketComponent>;
   let compiled: any;
-  //let gameService : GameService;
+
+  let testLeg = createTestLeg();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TurnControlCricketComponent ],
-      providers: []
+      imports: []
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    //gameService = TestBed.get(GameService);
     fixture = TestBed.createComponent(TurnControlCricketComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;  
+
+    component.leg = testLeg;
+    component.dispatcher = dispatcher;
+
     fixture.detectChanges();
   });
 
-  describe('Initial state', () => {
-    it('controlsDisabled is true', () => {
+  describe('controlsDisabled', () => {
+    it('When actionStartGameEnabled is true, returns true', () => {
+      testLeg.actionStartGameEnabled = true;
+      expect(component.controlsDisabled).toBe(true);
+    });
+
+    it('When actionStartGameEnabled is false, returns false', () => {
+      testLeg.actionStartGameEnabled = false;
+      fixture.detectChanges();
+      expect(component.controlsDisabled).toBe(false);
+    });
+  });
+
+  describe('controlsBackDisabled', () => {
+    it('Not implemented, returns true', () => {
       expect(component.controlsBackDisabled).toBe(true);
     });
+  });
 
-    it('controlsgenericScoreDisabled is true', () => {
-      expect(component.controlsEnTurnDisabled).toBe(true);
+  describe('controlsScoreDisabled', () => {
+    it('controlsEnTurnDisabled(), returns true', () => {
+      testLeg.actionStartGameEnabled = true;
+      testLeg.actionScoreEnabled = true;
+      testLeg.currentPlayer.state[SCORE_OPTION_20] === PlayerScore.open
+      expect(component.controlsScoreDisabled(SCORE_OPTION_20)).toBe(true);
     });
 
-    it('controlsScoreDisabled(BULL) is true', () => {
-      expect(component.controlsScoreDisabled(BULL)).toBe(true);
+    it('PlayerScore.closed, returns true', () => {
+      testLeg.actionStartGameEnabled = false;
+      testLeg.actionScoreEnabled = true;
+      testLeg.currentPlayer.state[SCORE_OPTION_20] = PlayerScore.closed
+      expect(component.controlsScoreDisabled(SCORE_OPTION_20)).toBe(true);
     });
 
-    it('controlsScoreState(BULL) css post fix', () => {
-      expect(component.controlsScoreState(BULL)).toBe("");
+    it('actionScoreEnabled = false, returns false', () => {
+      testLeg.actionStartGameEnabled = false;
+      testLeg.actionScoreEnabled = false;
+      testLeg.currentPlayer.state[SCORE_OPTION_20] = PlayerScore.open;
+      expect(component.controlsScoreDisabled(SCORE_OPTION_20)).toBe(true);
+    });
+
+    it('Game started/not closed/Score enabled, returns false', () => {
+      testLeg.actionStartGameEnabled = false;
+      testLeg.actionScoreEnabled = true;
+      testLeg.currentPlayer.state[SCORE_OPTION_20] = PlayerScore.open;
+      expect(component.controlsScoreDisabled(SCORE_OPTION_20)).toBe(false);
     });
   });
 
-  xdescribe('With game states:', () => {
-    beforeEach(() => {
-      //gameService.executeScenario(GAME_STATES_GAME, Cricket);
-      fixture.detectChanges();
-    });
-
-    it('controlsScoreDisabled(20) is true', () => {
-      expect(component.controlsScoreDisabled(20)).toBe(true);
-    });
-
-    it('controlsScoreState(20) css post fix', () => {
-      expect(component.controlsScoreState(20)).toBe("closed");
-    });
-
-    it('Active player with closed score, controlsScoreState(19) css post fix', () => {
-      expect(component.controlsScoreState(17)).toBe("score");
-    });
-
-    it('Active player without closed score, controlsScoreState(19) css post fix', () => {
-      // gameService.execute({ action: ActionsCricket.endTurn});
-      fixture.detectChanges();
-      expect(component.controlsScoreState(17)).toBe("target");
-    });
-  });
-
-  xdescribe('With started game:', () => {
-    beforeEach(() => {
-      //gameService.executeScenario(STARTED_GAME, Cricket);
-      fixture.detectChanges();
-    });
-
-    it('controlBackDisabled() is true', () => {
-      expect(component.controlsBackDisabled)  .toBe(true);
-    });
-
-  });
-
-  xdescribe('With  player1 won game state:', () => {
-    beforeEach(() => {
-      //let service = TestBed.get(GameService);
-      //service.executeScenario(PLAYER1_WIN_GAME,Cricket);
-      fixture.detectChanges();
-    });
-
-    it('controlsDisabled is true', () => {
-      expect(component.controlsDisabled).toBe(true);
+  describe('controlsScoreState', () => {
+    it('Return closed', () => {
+      testLeg.currentPlayer.state[SCORE_OPTION_20] = PlayerScore.closed;
+      expect(component.controlsScoreState(SCORE_OPTION_20)).toBe('closed');
     });
   });
 
   function assertButtonToCommand(buttonId : string, command: any)
   {
-    //spyOn(gameService, 'execute');
-    //let button = fixture.debugElement.nativeElement.querySelector(buttonId);
-    //button.click();
-    //expect(gameService.execute).toHaveBeenCalled();
+    spyOn(dispatcher, 'dispatch');
+    let button = fixture.debugElement.nativeElement.querySelector(buttonId);
+    button.click();
+    expect(dispatcher.dispatch).toHaveBeenCalled();
     // @ts-ignore
-    expect(gameService.execute.calls.mostRecent().args[0])
+    expect(dispatcher.dispatch.calls.mostRecent().args[0])
         .toEqual(command);
   }
 
-  function assertButtonNoCommand(buttonId : string)
-  {
-    //spyOn(gameService, 'execute');
-    //let button = fixture.debugElement.nativeElement.querySelector(buttonId);
-    //button.click();
-    //expect(gameService.execute).not.toHaveBeenCalled();
-  }
-
-  xdescribe('Button wiring', () => {
+  describe('Button wiring', () => {
     beforeEach(() => {
-      //component.gameState = { s: new CricketState() };
-      //spyOn(gameService, 'commandEnabled').and.returnValue(true);
+      testLeg.actionStartGameEnabled = false;
+      testLeg.actionScoreEnabled = true;
+      testLeg.actionEndTurnEnabled = true;
+      testLeg.currentPlayer.state[SCORE_OPTION_20] === PlayerScore.open;
       fixture.detectChanges();
     });
 
     it('Button endTurn', () => {
-      assertButtonToCommand("#btnDone", {action: ActionsCricket.endTurn});
+      assertButtonToCommand("#btnDone", createCommmand(ActionsCricket.endTurn));
     });
 
     it('Button missed', () => {
-      assertButtonToCommand("#btnMis", {action: ActionsCricket.score, score: DartScore.miss});
+      assertButtonToCommand("#btnMis", createCommmand(ActionsCricket.score, { score: DartScore.miss }));
     });
 
-    it('Button back', () => {
-      assertButtonToCommand("#btnBack", {action: ActionsCricket.undo});
-    });
-    
-    [20,19,18,17,16,15].forEach(element => {
+    // todo
+    /*it('Button back', () => {
+      assertButtonToCommand("#btnBack", createCommmand(ActionsCricket.undo));
+    });*/
+
+    // todo 20??
+    [19,18,17,16,15].forEach(element => {
       it('Buttons Single:' + element, () => {
-        assertButtonToCommand("#btnSingle" + element, {action: ActionsCricket.score, score:element, multiplier: DartScore.single});
+        assertButtonToCommand("#btnSingle" + element, createCommmand(ActionsCricket.score, { score:element, multiplier: DartScore.single}));
       });
 
       it('Buttons double:' + element, () => {
-        assertButtonToCommand("#btnDouble" + element, {action: ActionsCricket.score, score:element, multiplier: DartScore.double});
+        assertButtonToCommand("#btnDouble" + element, createCommmand(ActionsCricket.score, { score:element, multiplier: DartScore.double}));
       });
 
       it('Buttons Triple:' + element, () => {
-        assertButtonToCommand("#btnTriple" + element, {action: ActionsCricket.score, score:element, multiplier: DartScore.triple});
+        assertButtonToCommand("#btnTriple" + element, createCommmand(ActionsCricket.score, { score:element, multiplier: DartScore.triple}));
       });
     });
 
     it('Buttons Single: bull', () => {
-      assertButtonToCommand("#btnSingleBull", {action: ActionsCricket.score, score: BULL, multiplier: DartScore.single});
+      assertButtonToCommand("#btnSingleBull", createCommmand(ActionsCricket.score, { score: BULL, multiplier: DartScore.single}));
     });
 
     it('Buttons Double: bull', () => {
-      assertButtonToCommand("#btnDoubleBull", {action: ActionsCricket.score, score: BULL, multiplier:2});
+      assertButtonToCommand("#btnDoubleBull", createCommmand(ActionsCricket.score, { score: BULL, multiplier: DartScore.double}));
     });
   });
 
-  xdescribe('Button control state', () => {
-    it('When there is no game state, disable all buttons', () => {
-      //component.gameState = { s: null };
-      fixture.detectChanges();
-
-      assertButtonNoCommand("#btnDoubleBull")
-    });
-
-    it('When score command is not enabled, disable all score buttons', () => {
-      //component.gameState = { s: new CricketState() };
-      //spyOn(gameService, 'commandEnabled').and.returnValue(false);
-      fixture.detectChanges();
-      
+  describe('Button control state', () => {
+    function assertButtonNoCommand(buttonId : string)
+    {
+      spyOn(dispatcher, 'dispatch');
+      let button = fixture.debugElement.nativeElement.querySelector(buttonId);
+      button.click();
+      expect(dispatcher.dispatch).not.toHaveBeenCalled();
+    }
+    
+    it('When score command is not enabled, disable all score buttons', () => { 
+      testLeg.actionStartGameEnabled = true;   
+      fixture.detectChanges(); 
       assertButtonNoCommand("#btnDoubleBull")
     });
   });
-});
-
-
+}); 
