@@ -94,7 +94,8 @@
             ],
             "codeCoverage": true,
             "codeCoverageExclude": [
-              "**/*.example.ts"
+              "**/*.example.ts",
+              "**/*.examples.ts"
             ]
           }
         },
